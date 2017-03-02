@@ -1,0 +1,9 @@
+<%= text_f f, :url, :label => _('Client ID'), :required => true %>
+<%= password_f f, :password, :label => _('Client Secret'), :required => true %>
+<%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
+<%= text_f f, :uuid, :label => _('Tenant ID'), :required => true,
+    :help_inline => link_to_function(
+    _("Test Connection"), "testConnection(this)",
+    :class => "btn btn-default",
+    :'data-url' => test_connection_compute_resources_path) +
+    hidden_spinner('', :id => 'test_connection_indicator').html_safe  %>
