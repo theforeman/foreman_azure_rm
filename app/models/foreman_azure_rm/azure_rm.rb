@@ -34,8 +34,18 @@ module ForemanAzureRM
     end
 
     def locations
-      []
+      [
+          'Central US',
+          'South Central US',
+          'North Central US',
+          'West Central US',
+          'East US',
+          'East US 2',
+          'West US',
+          'West US 2'
+      ]
     end
+
     def test_connection(options = {})
       puts "#{sub_id}", "#{app_ident}", "#{secret_key}", "#{tenant}"
       rg_client.resource_groups.each do |rg|
@@ -56,9 +66,17 @@ module ForemanAzureRM
       container
     end
 
+    def vm_sizes(location)
+      client.list_available_sizes(location)
+    end
+
     def find_vm_by_uuid(uuid)
       # TODO Find a better way to handle this than loading and sorting through all VMs, which also requires that names be globally unique, instead of unique within a resource group
       vms.all.find { |vm| vm.name == uuid }
+    end
+
+    def create_vm(args ={})
+      puts args
     end
 
     protected

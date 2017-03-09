@@ -1,0 +1,48 @@
+<!-- TODO move all of this nonsense to a helper file -->
+
+<%
+  def spinner_indicator
+    content_tag(:span,
+                content_tag(:div, '',
+                            :id => 'azure_rm_size_spinner',
+                            :class => 'hide spinner spinner-xs'),
+                :class => 'help-block').html_safe
+  end
+
+  def refresh_button
+    link_to_function(icon_text('refresh', ''),
+                     'azure_rm_get_size_from_location();')
+  end
+%>
+
+<%= selectable_f f, :location, compute_resource.locations,
+                 {},
+                 { :label => _('Location'),
+                   :required => true,
+                   :id => 'azure_rm_location',
+                   :label_size => "col-md-2",
+                   :onchange => 'azure_rm_get_size_from_location();'
+                 } %>
+
+<% arch ||= nil ; os ||= nil
+  images = possible_images(compute_resource, arch, os) %>
+
+<%=
+  selectable_f f, :vm_size, [],
+               { :include_blank => _('Please select an Azure region') },
+               { :label => _('VM Size'),
+                 :required => true,
+                 :id => 'azure_rm_size',
+                 :help_inline => refresh_button + spinner_indicator
+               }
+%>
+
+<div id="image_selection">
+  <%= select_f f, :custom_data, images, :uuid, :name,
+    { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },
+    { :disabled => images.empty?,
+      :label => _('Image'),
+      :required => true,
+      :label_size => "col-md-2"
+    } %>
+</div>
