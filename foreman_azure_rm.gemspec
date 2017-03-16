@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.summary = 'Azure Resource Manager as a compute resource for The Foreman'
   s.files   = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'fog-azure-rm', '0.2.7'
+  s.add_dependency 'fog-azure-rm', '0.3.0'
   s.add_dependency 'deface', '< 2.0'
 end

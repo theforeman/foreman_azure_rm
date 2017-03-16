@@ -1,48 +1,235 @@
 <!-- TODO move all of this nonsense to a helper file -->
 
-<%
-  def spinner_indicator
-    content_tag(:span,
-                content_tag(:div, '',
-                            :id => 'azure_rm_size_spinner',
-                            :class => 'hide spinner spinner-xs'),
-                :class => 'help-block').html_safe
-  end
-
-  def refresh_button
-    link_to_function(icon_text('refresh', ''),
-                     'azure_rm_get_size_from_location();')
-  end
+<% arch ||= nil
+   os ||= nil
+   images = possible_images(compute_resource, arch, os)
+   resource_groups = compute_resource.resource_groups
 %>
 
+<script>
+    function azure_rm_subnet_from_vnet() {
+        var vnet = $('#azure_rm_vnet').val();
+        var imageId = $('#host_compute_attributes_custom_data').val();
+        var subnets = $('#azure_rm_subnet');
+        if (typeof tfm == 'undefined') {  // earlier than 1.13
+            foreman.tools.showSpinner();
+        } else {
+            tfm.tools.showSpinner();
+        }
+        $.ajax({
+            data: { "image_id": imageId, "vnet": vnet },
+            type: "get",
+            url: "/azure_rm/subnets",
+            complete: function() {
+                reloadOnAjaxComplete('#azure_rm_subnet');
+                if (typeof tfm == 'undefined') {  // earlier than 1.13
+                    foreman.tools.hideSpinner();
+                } else {
+                    tfm.tools.hideSpinner();
+                }
+            },
+            error: function(request, status, error) {
+                console.log(status);
+                console.log(request);
+                console.log(error);
+            },
+            success: function(request_subnets) {
+                subnets.empty();
+                $.each(request_subnets, function() {
+                    subnets.append($("<option />").val(this.id).text(this.name));
+                });
+            }
+        });
+    }
+    function azure_rm_get_size_from_location() {
+        var location = $('#azure_rm_location').val();
+        var size_spinner = $('#azure_rm_size_spinner');
+        var sizes = $('#azure_rm_size');
+        var imageId = $('#host_compute_attributes_custom_data').val();
+        if (typeof tfm == 'undefined') {  // earlier than 1.13
+            foreman.tools.showSpinner();
+        } else {
+            tfm.tools.showSpinner();
+        }
+        size_spinner.removeClass('hide');
+        $.ajax({
+            data: {"location_string": location, "image_id": imageId},
+            type: 'get',
+            url: '/azure_rm/sizes',
+            complete: function() {
+                reloadOnAjaxComplete('#azure_rm_size');
+                size_spinner.addClass('hide');
+                if (typeof tfm == 'undefined') {  // earlier than 1.13
+                    foreman.tools.hideSpinner();
+                } else {
+                    tfm.tools.hideSpinner();
+                }
+            },
+            error: function(request, status, error) {
+                console.log(request);
+                console.log(error);
+            },
+            success: function(request_sizes) {
+                sizes.empty();
+                $.each(request_sizes, function() {
+                    sizes.append($("<option />").val(this).text(this));
+                });
+            }
+        });
+    }
+
+    function azure_rm_storage_accts_from_location() {
+        var imageId = $('#host_compute_attributes_custom_data').val();
+        var storage_accts = $('#azure_rm_storage_acct');
+        var location = $('#azure_rm_location').val();
+        if (typeof tfm == 'undefined') {  // earlier than 1.13
+            foreman.tools.showSpinner();
+        } else {
+            tfm.tools.showSpinner();
+        }
+        $.ajax({
+            data: { "image_id": imageId, "location": location },
+            type: "get",
+            url: "/azure_rm/storage_accts",
+            complete: function() {
+                reloadOnAjaxComplete('#azure_rm_storage_acct');
+                if (typeof tfm == 'undefined') {  // earlier than 1.13
+                    foreman.tools.hideSpinner();
+                } else {
+                    tfm.tools.hideSpinner();
+                }
+            },
+            error: function(request, status, error) {
+                console.log(status);
+                console.log(request);
+                console.log(error);
+            },
+            success: function(request_accts) {
+                storage_accts.empty();
+                $.each(request_accts, function() {
+                    storage_accts.append($("<option />").val(this).text(this));
+                });
+            }
+        });
+    }
+
+    function azure_rm_vnets_from_location() {
+        var imageId = $('#host_compute_attributes_custom_data').val();
+        var vnets = $('#azure_rm_vnet');
+        var location = $('#azure_rm_location').val();
+        if (typeof tfm == 'undefined') {  // earlier than 1.13
+            foreman.tools.showSpinner();
+        } else {
+            tfm.tools.showSpinner();
+        }
+        $.ajax({
+            data: { "image_id": imageId, "location": location },
+            type: "get",
+            url: "/azure_rm/vnets",
+            complete: function() {
+                reloadOnAjaxComplete('#azure_rm_storage_acct');
+                if (typeof tfm == 'undefined') {  // earlier than 1.13
+                    foreman.tools.hideSpinner();
+                } else {
+                    tfm.tools.hideSpinner();
+                }
+            },
+            error: function(request, status, error) {
+                console.log(status);
+                console.log(request);
+                console.log(error);
+            },
+            success: function(request_vnets) {
+                vnets.empty();
+                $.each(request_vnets, function() {
+                    vnets.append($("<option />").val(this.id).text(this.name));
+                });
+            }
+        });
+    }
+</script>
+
 <%= selectable_f f, :location, compute_resource.locations,
-                 {},
-                 { :label => _('Location'),
+                 { :include_blank => _('Please select an Azure region') },
+                 {
+                   :label => _('Azure Region'),
                    :required => true,
                    :id => 'azure_rm_location',
                    :label_size => "col-md-2",
-                   :onchange => 'azure_rm_get_size_from_location();'
-                 } %>
+                   :onchange => 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();azure_rm_storage_accts_from_location()',
+                   :help_inline => spinner_button_f(f, _('Reload Storage, Sizes, vNets'), 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();azure_rm_storage_accts_from_location()',
+                                                    {
+                                                        :id => 'load_subnets_btn',
+                                                        :spinner_id => 'load_subnets_indicator',
+                                                        :class => 'btn-success',
+                                                        :spinner_class => 'spinner-inverse'
+                                                    })
+                 }
+%>
 
-<% arch ||= nil ; os ||= nil
-  images = possible_images(compute_resource, arch, os) %>
+<%= selectable_f f, :resource_group, resource_groups,
+                 { :include_blank => true },
+                 {
+                   :disabled => resource_groups.empty?,
+                   :label => _('Resource Group'),
+                   :required => true,
+                   :id => 'azure_rm_rg'
+                 }
+%>
 
-<%=
-  selectable_f f, :vm_size, [],
-               { :include_blank => _('Please select an Azure region') },
-               { :label => _('VM Size'),
-                 :required => true,
-                 :id => 'azure_rm_size',
-                 :help_inline => refresh_button + spinner_indicator
+<%= selectable_f f, :storage_account_name, [],
+                 { :include_blank => _('Please select a storage account') },
+                 {
+                   :label => _('Storage Account'),
+                   :required => true,
+                   :id => 'azure_rm_storage_acct'
+                 }
+
+%>
+
+<%= selectable_f f, :vm_size, [],
+                 { :include_blank => _('Please first select an Azure region') },
+                 {
+                   :label => _('VM Size'),
+                   :required => true,
+                   :id => 'azure_rm_size'
+                 }
+%>
+
+<%= selectable_f f, :platform, ['Linux', 'Windows'],
+                 {},
+                 {
+                     :label => 'Platform',
+                     :required => true
+                 }
+%>
+
+<%= text_f f, :username,
+           {
+               :label => _('Username')
+           }
+%>
+
+<%= password_f :password,
+               {
+                   :label => _('Password')
+               }
+%>
+
+<%= textarea_f f, :ssh_key_data,
+               {
+                   :label => _('SSH Key')
                }
 %>
 
 <div id="image_selection">
   <%= select_f f, :custom_data, images, :uuid, :name,
-    { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },
-    { :disabled => images.empty?,
-      :label => _('Image'),
-      :required => true,
-      :label_size => "col-md-2"
-    } %>
+               { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },
+               {
+                 :disabled => images.empty?,
+                 :label => _('Image'),
+                 :required => true,
+                 :label_size => "col-md-2"
+               }
+  %>
 </div>

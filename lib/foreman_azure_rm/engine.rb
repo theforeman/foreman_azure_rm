@@ -16,11 +16,15 @@ module ForemanAzureRM
     end
 
     initializer 'foreman_azure_rm.assets.precompile' do |app|
-      app.config.assets.precompile += %w(foreman_azure_rm/azure_rm_size_from_location.js)
+      app.config.assets.precompile += %w(foreman_azure_rm/azure_rm_size_from_location.js
+                                         foreman_azure_rm/azure_rm_subnet_from_vnet.js
+                                         foreman_azure_rm/azure_rm_location_callbacks.js)
     end
 
     initializer 'foreman_azure_rm.configure_assets', :group => :assets do
-      SETTINGS[:foreman_azure_rm] = { :assets => { :precompile => ['foreman_azure_rm/azure_rm_size_from_location.js']}}
+      SETTINGS[:foreman_azure_rm] = { :assets => { :precompile => %w(foreman_azure_rm/azure_rm_size_from_location.js
+                                                                   foreman_azure_rm/azure_rm_subnet_from_vnet.js
+                                                                   foreman_azure_rm/azure_rm_location_callbacks.js)}}
     end
 
     config.to_prepare do
@@ -48,6 +52,14 @@ module ForemanAzureRM
       Fog::Compute::AzureRM::Real.send(:include, FogExtensions::AzureRM::Compute)
 
       ::HostsController.send(:include, ForemanAzureRM::Concerns::HostsControllerExtensions)
+
+      require 'fog/azurerm/models/network/network_interface'
+      require 'fog/azurerm/models/network/network_interfaces'
+      require File.expand_path(
+          '../../../app/models/concerns/fog_extensions/azurerm/network_interfaces',
+          __FILE__
+      )
+      Fog::Network::AzureRM::NetworkInterfaces.send(:include, FogExtensions::AzureRM::NetworkInterfaces)
     end
   end
 end
