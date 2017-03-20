@@ -9,7 +9,7 @@
 <script>
     function azure_rm_subnet_from_vnet() {
         var vnet = $('#azure_rm_vnet').val();
-        var imageId = $('#host_compute_attributes_custom_data').val();
+        var imageId = $('#azure_rm_image_id').val();
         var subnets = $('#azure_rm_subnet');
         if (typeof tfm == 'undefined') {  // earlier than 1.13
             foreman.tools.showSpinner();
@@ -45,7 +45,7 @@
         var location = $('#azure_rm_location').val();
         var size_spinner = $('#azure_rm_size_spinner');
         var sizes = $('#azure_rm_size');
-        var imageId = $('#host_compute_attributes_custom_data').val();
+        var imageId = $('#azure_rm_image_id').val();
         if (typeof tfm == 'undefined') {  // earlier than 1.13
             foreman.tools.showSpinner();
         } else {
@@ -79,7 +79,7 @@
     }
 
     function azure_rm_storage_accts_from_location() {
-        var imageId = $('#host_compute_attributes_custom_data').val();
+        var imageId = $('#azure_rm_image_id').val();
         var storage_accts = $('#azure_rm_storage_acct');
         var location = $('#azure_rm_location').val();
         if (typeof tfm == 'undefined') {  // earlier than 1.13
@@ -114,7 +114,7 @@
     }
 
     function azure_rm_vnets_from_location() {
-        var imageId = $('#host_compute_attributes_custom_data').val();
+        var imageId = $('#azure_rm_image_id').val();
         var vnets = $('#azure_rm_vnet');
         var location = $('#azure_rm_location').val();
         if (typeof tfm == 'undefined') {  // earlier than 1.13
@@ -206,14 +206,14 @@
 
 <%= text_f f, :username,
            {
-               :label => _('Username')
+               :label => _('Username'),
+               :required => true
            }
 %>
-
-<%= password_f :password,
-               {
-                   :label => _('Password')
-               }
+<%= text_f f, :password,
+           {
+               :label => _('Password')
+           }
 %>
 
 <%= textarea_f f, :ssh_key_data,
@@ -223,13 +223,14 @@
 %>
 
 <div id="image_selection">
-  <%= select_f f, :custom_data, images, :uuid, :name,
+  <%= select_f f, :vhd_path, images, :uuid, :name,
                { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },
                {
                  :disabled => images.empty?,
                  :label => _('Image'),
                  :required => true,
-                 :label_size => "col-md-2"
+                 :label_size => "col-md-2",
+                 :id => 'azure_rm_image_id'
                }
   %>
 </div>

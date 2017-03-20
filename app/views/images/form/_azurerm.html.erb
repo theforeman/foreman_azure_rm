@@ -1,4 +1,4 @@
 <%= text_f f, :username, :value => @image.username || "root",
     :help_inline => _("The user that will be used to SSH into the VM for completion") %>
-<%= image_field(f, :label => _("Image URI"), :help_inline => _("Image's source BLOB URI")) %>
+<%= image_field(f, :label => _("Managed Image ID")) %>
 <%= checkbox_f f, :user_data, :help_inline => _("Does this image support user data input?") %>

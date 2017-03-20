@@ -173,18 +173,19 @@ module ForemanAzureRM
       args[:vm_name] = args[:name].split('.')[0]
       puts "\n\nARGS: #{args}\n\n"
       nic_ids = create_nics(args)
-      client.servers.create(
+      client.create_managed_virtual_machine(
                         name: args[:vm_name],
                         location: args[:location],
                         resource_group: args[:resource_group],
                         vm_size: args[:vm_size],
                         storage_account_name: args[:storage_account_name],
-                        username: 'tgregory',
-                        password: 'Solalingua1066!',
+                        username: args[:username],
+                        password: args[:password],
+                        ssh_key_data: args[:ssh_key_data],
                         disable_password_authentication: false,
                         network_interface_card_ids: nic_ids,
                         platform: args[:platform],
-                        vhd_path: args[:custom_data],
+                        vhd_path: args[:vhd_path],
                         os_disk_caching: Fog::ARM::Compute::Models::CachingTypes::ReadWrite
       )
     end
