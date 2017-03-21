@@ -222,6 +222,12 @@
                }
 %>
 
+<%= checkbox_f f, :premium_os_disk, {
+    :label => _("Premium OS Disk"), :label_size => "col-md-2"},
+               'true',
+               'false'
+%>
+
 <div id="image_selection">
   <%= select_f f, :vhd_path, images, :uuid, :name,
                { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },

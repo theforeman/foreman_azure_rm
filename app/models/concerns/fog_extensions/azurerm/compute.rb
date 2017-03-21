@@ -11,16 +11,16 @@ module FogExtensions
         sizes
       end
 
-      def define_managed_storage_profile(vm_name, vhd_path, os_disk_caching, platform)
+      def define_managed_storage_profile(vm_name, vhd_path, os_disk_caching, platform, premium_os_disk, data_disks = nil)
         storage_profile = Azure::ARM::Compute::Models::StorageProfile.new
         os_disk = Azure::ARM::Compute::Models::OSDisk.new
         image_ref = Azure::ARM::Compute::Models::ImageReference.new
         managed_disk_params = Azure::ARM::Compute::Models::ManagedDiskParameters.new
 
+        # Not actually the VHD path, instead is managed image ID
         image_ref.id = vhd_path
 
-
-        os_disk.name = "#{vm_name}_os_disk"
+        os_disk.name = "#{vm_name}-osdisk"
         os_disk.os_type = (platform == 'Windows') ?
             Azure::ARM::Compute::Models::OperatingSystemTypes::Windows :
             Azure::ARM::Compute::Models::OperatingSystemTypes::Linux
@@ -36,10 +36,34 @@ module FogExtensions
                             end
                           end
         os_disk.disk_size_gb = 128
-        managed_disk_params.storage_account_type = Azure::ARM::Compute::Models::StorageAccountTypes::StandardLRS
+        managed_disk_params.storage_account_type = (premium_os_disk == 'true') ?
+            Azure::ARM::Compute::Models::StorageAccountTypes::PremiumLRS :
+            Azure::ARM::Compute::Models::StorageAccountTypes::StandardLRS
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
         storage_profile.image_reference = image_ref
+
+        # Create data disks
+        unless data_disks.nil?
+          disks = []
+          disk_count = 0
+          data_disks.each do |disk_num, attrs|
+            managed_data_disk = Azure::ARM::Compute::Models::ManagedDiskParameters.new
+            managed_data_disk.storage_account_type = (attrs[:account_type] == 'true') ?
+              Azure::ARM::Compute::Models::StorageAccountTypes::PremiumLRS :
+              Azure::ARM::Compute::Models::StorageAccountTypes::StandardLRS
+            disk = Azure::ARM::Compute::Models::DataDisk.new
+            disk.name = "#{vm_name}-disk#{disk_count}"
+            disk.caching = Azure::ARM::Compute::Models::CachingTypes::None
+            disk.disk_size_gb = attrs[:disk_size_gb]
+            disk.create_option = Azure::ARM::Compute::Models::DiskCreateOption::Empty
+            disk.lun = disk_count + 1
+            disk.managed_disk = managed_data_disk
+            disk_count += 1
+            disks << disk
+          end
+          storage_profile.data_disks = disks
+        end
         storage_profile
       end
 
@@ -61,7 +85,9 @@ module FogExtensions
         virtual_machine.storage_profile = define_managed_storage_profile(vm_hash[:name],
                                                                  vm_hash[:vhd_path],
                                                                  vm_hash[:os_disk_caching],
-                                                                 vm_hash[:platform])
+                                                                 vm_hash[:platform],
+                                                                 vm_hash[:premium_os_disk],
+                                                                 vm_hash[:data_disks])
         virtual_machine.os_profile = if vm_hash[:platform].casecmp(WINDOWS).zero?
                                        define_windows_os_profile(vm_hash[:name],
                                                                  vm_hash[:username],

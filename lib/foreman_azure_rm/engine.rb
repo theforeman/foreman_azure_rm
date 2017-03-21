@@ -60,6 +60,14 @@ module ForemanAzureRM
           __FILE__
       )
       Fog::Network::AzureRM::NetworkInterfaces.send(:include, FogExtensions::AzureRM::NetworkInterfaces)
+
+      require 'fog/azurerm/models/compute/managed_disk'
+      require 'fog/azurerm/models/compute/managed_disks'
+      require File.expand_path(
+          '../../../app/models/concerns/fog_extensions/azurerm/managed_disks',
+          __FILE__
+      )
+      Fog::Compute::AzureRM::ManagedDisks.send(:include, FogExtensions::AzureRM::ManagedDisks)
     end
   end
 end

@@ -112,7 +112,7 @@ module ForemanAzureRM
     end
 
     def new_volume(attr = {})
-      #client.create_or_update_managed_disk(attr)
+      client.managed_disks.new(attr)
     end
 
     def vms
@@ -173,7 +173,7 @@ module ForemanAzureRM
       args[:vm_name] = args[:name].split('.')[0]
       puts "\n\nARGS: #{args}\n\n"
       nic_ids = create_nics(args)
-      client.create_managed_virtual_machine(
+      vm = client.create_managed_virtual_machine(
                         name: args[:vm_name],
                         location: args[:location],
                         resource_group: args[:resource_group],
@@ -182,12 +182,16 @@ module ForemanAzureRM
                         username: args[:username],
                         password: args[:password],
                         ssh_key_data: args[:ssh_key_data],
+                        ssh_key_path: "/home/#{args[:username]}/.ssh/authorized_keys",
                         disable_password_authentication: false,
                         network_interface_card_ids: nic_ids,
                         platform: args[:platform],
                         vhd_path: args[:vhd_path],
-                        os_disk_caching: Fog::ARM::Compute::Models::CachingTypes::ReadWrite
+                        os_disk_caching: Fog::ARM::Compute::Models::CachingTypes::ReadWrite,
+                        data_disks: args[:volumes_attributes],
+                        premium_os_disk: args[:premium_os_disk]
       )
+      Fog::Compute::AzureRM::Server.new(Fog::Compute::AzureRM::Server.parse(vm))
     end
 
     protected

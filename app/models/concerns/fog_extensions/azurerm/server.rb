@@ -3,6 +3,8 @@ module FogExtensions
     module Server
       extend ActiveSupport::Concern
 
+      attr_accessor :premium_os_disk
+
       def ready?
         vm_status == 'running'
       end
@@ -26,6 +28,16 @@ module FogExtensions
       end
 
       def volumes_attributes=(attrs); end
+
+      def volumes
+        volumes = []
+        unless attributes[:data_disks].nil?
+          attributes[:data_disks].each do |disk|
+            volumes << disk
+          end
+        end
+        volumes
+      end
 
       def stop
         power_off
