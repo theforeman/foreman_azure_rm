@@ -78,41 +78,6 @@
         });
     }
 
-    function azure_rm_storage_accts_from_location() {
-        var imageId = $('#azure_rm_image_id').val();
-        var storage_accts = $('#azure_rm_storage_acct');
-        var location = $('#azure_rm_location').val();
-        if (typeof tfm == 'undefined') {  // earlier than 1.13
-            foreman.tools.showSpinner();
-        } else {
-            tfm.tools.showSpinner();
-        }
-        $.ajax({
-            data: { "image_id": imageId, "location": location },
-            type: "get",
-            url: "/azure_rm/storage_accts",
-            complete: function() {
-                reloadOnAjaxComplete('#azure_rm_storage_acct');
-                if (typeof tfm == 'undefined') {  // earlier than 1.13
-                    foreman.tools.hideSpinner();
-                } else {
-                    tfm.tools.hideSpinner();
-                }
-            },
-            error: function(request, status, error) {
-                console.log(status);
-                console.log(request);
-                console.log(error);
-            },
-            success: function(request_accts) {
-                storage_accts.empty();
-                $.each(request_accts, function() {
-                    storage_accts.append($("<option />").val(this).text(this));
-                });
-            }
-        });
-    }
-
     function azure_rm_vnets_from_location() {
         var imageId = $('#azure_rm_image_id').val();
         var vnets = $('#azure_rm_vnet');
@@ -157,7 +122,7 @@
                    :id => 'azure_rm_location',
                    :label_size => "col-md-2",
                    :onchange => 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();azure_rm_storage_accts_from_location()',
-                   :help_inline => spinner_button_f(f, _('Reload Storage, Sizes, vNets'), 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();azure_rm_storage_accts_from_location()',
+                   :help_inline => spinner_button_f(f, _('Reload Storage, Sizes, vNets'), 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();',
                                                     {
                                                         :id => 'load_subnets_btn',
                                                         :spinner_id => 'load_subnets_indicator',
@@ -175,16 +140,6 @@
                    :required => true,
                    :id => 'azure_rm_rg'
                  }
-%>
-
-<%= selectable_f f, :storage_account_name, [],
-                 { :include_blank => _('Please select a storage account') },
-                 {
-                   :label => _('Storage Account'),
-                   :required => true,
-                   :id => 'azure_rm_storage_acct'
-                 }
-
 %>
 
 <%= selectable_f f, :vm_size, [],
@@ -220,6 +175,11 @@
                {
                    :label => _('SSH Key')
                }
+%>
+
+<%= number_f f, :os_disk_size,
+             :class       => "col-md-2",
+             :label => _("OS Disk Size (GB)"), :label_size => "col-md-2"
 %>
 
 <%= checkbox_f f, :premium_os_disk, {

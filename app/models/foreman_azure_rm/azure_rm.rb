@@ -134,7 +134,11 @@ module ForemanAzureRM
 
     def find_vm_by_uuid(uuid)
       # TODO Find a better way to handle this than loading and sorting through all VMs, which also requires that names be globally unique, instead of unique within a resource group
-      vms.all.find { |vm| vm.name == uuid }
+      vm = vms.all.find { |vm| vm.name == uuid }
+      unless vm.present?
+        fail ActiveRecord::RecordNotFound
+      end
+      vm
     end
 
     def create_nics(args = {})
@@ -178,7 +182,6 @@ module ForemanAzureRM
                         location: args[:location],
                         resource_group: args[:resource_group],
                         vm_size: args[:vm_size],
-                        storage_account_name: args[:storage_account_name],
                         username: args[:username],
                         password: args[:password],
                         ssh_key_data: args[:ssh_key_data],
@@ -189,9 +192,22 @@ module ForemanAzureRM
                         vhd_path: args[:vhd_path],
                         os_disk_caching: Fog::ARM::Compute::Models::CachingTypes::ReadWrite,
                         data_disks: args[:volumes_attributes],
+                        os_disk_size: args[:os_disk_size],
                         premium_os_disk: args[:premium_os_disk]
       )
       Fog::Compute::AzureRM::Server.new(Fog::Compute::AzureRM::Server.parse(vm))
+    end
+
+    def destroy_vm(uuid)
+      vm = find_vm_by_uuid(uuid)
+      raw_model = client.get_virtual_machine(vm.resource_group, vm.name)
+      os_disk_name = raw_model.storage_profile.os_disk.name
+      data_disks = raw_model.storage_profile.data_disks
+      nic_ids = raw_model.network_profile.network_interfaces
+      vm.destroy
+    rescue ActiveRecord::RecordNotFound
+      # If the VM does not exist, we don't really care.
+      true
     end
 
     protected

@@ -3,6 +3,7 @@ module FogExtensions
     module Server
       extend ActiveSupport::Concern
 
+      attr_accessor :os_disk_size
       attr_accessor :premium_os_disk
 
       def ready?

@@ -11,7 +11,7 @@ module FogExtensions
         sizes
       end
 
-      def define_managed_storage_profile(vm_name, vhd_path, os_disk_caching, platform, premium_os_disk, data_disks = nil)
+      def define_managed_storage_profile(vm_name, vhd_path, os_disk_caching, platform, os_disk_size, premium_os_disk, data_disks = nil)
         storage_profile = Azure::ARM::Compute::Models::StorageProfile.new
         os_disk = Azure::ARM::Compute::Models::OSDisk.new
         image_ref = Azure::ARM::Compute::Models::ImageReference.new
@@ -35,7 +35,7 @@ module FogExtensions
                                 Azure::ARM::Compute::Models::CachingTypes::ReadWrite
                             end
                           end
-        os_disk.disk_size_gb = 128
+        os_disk.disk_size_gb = os_disk_size
         managed_disk_params.storage_account_type = (premium_os_disk == 'true') ?
             Azure::ARM::Compute::Models::StorageAccountTypes::PremiumLRS :
             Azure::ARM::Compute::Models::StorageAccountTypes::StandardLRS
@@ -86,6 +86,7 @@ module FogExtensions
                                                                  vm_hash[:vhd_path],
                                                                  vm_hash[:os_disk_caching],
                                                                  vm_hash[:platform],
+                                                                 vm_hash[:os_disk_size],
                                                                  vm_hash[:premium_os_disk],
                                                                  vm_hash[:data_disks])
         virtual_machine.os_profile = if vm_hash[:platform].casecmp(WINDOWS).zero?
