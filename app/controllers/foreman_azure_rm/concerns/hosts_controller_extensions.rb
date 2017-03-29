@@ -7,7 +7,7 @@ module ForemanAzureRM
           resource = azure_rm_resource.compute_resource
           render :json => resource.vm_sizes(params[:location_string])
         else
-          no_sizes = ('The location you selected has no sizes associated with it')
+          no_sizes = _('The location you selected has no sizes associated with it')
           render :json => "[\"#{no_sizes}\"]"
         end
       end
@@ -22,7 +22,7 @@ module ForemanAzureRM
           resource = azure_rm_resource.compute_resource
           render :json => resource.storage_accts(params[:location])
         else
-          no_storage = ('The location you selected has no storage accounts')
+          no_storage = _('The location you selected has no storage accounts')
           render :json => "[\"#{no_storage}\"]"
         end
       end
@@ -32,7 +32,7 @@ module ForemanAzureRM
           resource = azure_rm_resource.compute_resource
           render :json => resource.virtual_networks(params[:location])
         else
-          no_vnets = ('The location you selected has no vNets')
+          no_vnets = _('The location you selected has no vNets')
           render :json => "[\"#{no_vnets}\"]"
         end
       end

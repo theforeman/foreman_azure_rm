@@ -133,11 +133,11 @@ module ForemanAzureRM
     end
 
     def find_vm_by_uuid(uuid)
-      # TODO Find a better way to handle this than loading and sorting through all VMs, which also requires that names be globally unique, instead of unique within a resource group
+      # TODO: Find a better way to handle this than loading and sorting through
+      # all VMs, which also requires that names be globally unique, instead of
+      # unique within a resource group
       vm = vms.all.find { |vm| vm.name == uuid }
-      unless vm.present?
-        fail ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound unless vm.present?
       vm
     end
 
@@ -177,6 +177,13 @@ module ForemanAzureRM
       args[:vm_name] = args[:name].split('.')[0]
       puts "\n\nARGS: #{args}\n\n"
       nic_ids = create_nics(args)
+      if args[:ssh_key_data].present?
+        disable_password_auth = true
+        ssh_key_path = "/home/#{args[:username]}/.ssh/authorized_keys"
+      else
+        disable_password_auth = false
+        ssh_key_path = nil
+      end
       vm = client.create_managed_virtual_machine(
                         name: args[:vm_name],
                         location: args[:location],
@@ -185,8 +192,8 @@ module ForemanAzureRM
                         username: args[:username],
                         password: args[:password],
                         ssh_key_data: args[:ssh_key_data],
-                        ssh_key_path: "/home/#{args[:username]}/.ssh/authorized_keys",
-                        disable_password_authentication: false,
+                        ssh_key_path: ssh_key_path,
+                        disable_password_authentication: disable_password_auth,
                         network_interface_card_ids: nic_ids,
                         platform: args[:platform],
                         vhd_path: args[:vhd_path],

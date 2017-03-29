@@ -7,6 +7,11 @@
 %>
 
 <script>
+    function azure_rm_location_callback() {
+        azure_rm_get_size_from_location();
+        azure_rm_vnets_from_location();
+    }
+
     function azure_rm_subnet_from_vnet() {
         var vnet = $('#azure_rm_vnet').val();
         var imageId = $('#azure_rm_image_id').val();
@@ -92,7 +97,7 @@
             type: "get",
             url: "/azure_rm/vnets",
             complete: function() {
-                reloadOnAjaxComplete('#azure_rm_storage_acct');
+                reloadOnAjaxComplete('#azure_rm_vnet');
                 if (typeof tfm == 'undefined') {  // earlier than 1.13
                     foreman.tools.hideSpinner();
                 } else {
@@ -121,13 +126,14 @@
                    :required => true,
                    :id => 'azure_rm_location',
                    :label_size => "col-md-2",
-                   :onchange => 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();azure_rm_storage_accts_from_location()',
-                   :help_inline => spinner_button_f(f, _('Reload Storage, Sizes, vNets'), 'azure_rm_get_size_from_location();azure_rm_vnets_from_location();',
+                   :onchange => 'azure_rm_location_callback();',
+                   :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
+                                                    'azure_rm_location_callback();',
                                                     {
-                                                        :id => 'load_subnets_btn',
-                                                        :spinner_id => 'load_subnets_indicator',
-                                                        :class => 'btn-success',
-                                                        :spinner_class => 'spinner-inverse'
+                                                      :id => 'load_subnets_btn',
+                                                      :spinner_id => 'load_subnets_indicator',
+                                                      :class => 'btn-success',
+                                                      :spinner_class => 'spinner-inverse'
                                                     })
                  }
 %>
@@ -151,7 +157,7 @@
                  }
 %>
 
-<%= selectable_f f, :platform, ['Linux', 'Windows'],
+<%= selectable_f f, :platform, %w(Linux Windows),
                  {},
                  {
                      :label => 'Platform',
@@ -161,29 +167,36 @@
 
 <%= text_f f, :username,
            {
-               :label => _('Username'),
-               :required => true
+             :label    => _('Username'),
+             :required => true,
+             :value    => 'superadmin'
            }
 %>
 <%= text_f f, :password,
            {
-               :label => _('Password')
+             :label => _('Password'),
+             :value => '&uM229CrVE'
            }
 %>
 
 <%= textarea_f f, :ssh_key_data,
                {
-                   :label => _('SSH Key')
+                 :label => _('SSH Key')
                }
 %>
 
 <%= number_f f, :os_disk_size,
-             :class       => "col-md-2",
-             :label => _("OS Disk Size (GB)"), :label_size => "col-md-2"
+             {
+               :class    => "col-md-2",
+               :label    => _("OS Disk Size (GB)"), :label_size => "col-md-2",
+               :required => true
+             }
 %>
 
-<%= checkbox_f f, :premium_os_disk, {
-    :label => _("Premium OS Disk"), :label_size => "col-md-2"},
+<%= checkbox_f f, :premium_os_disk,
+               {
+                 :label => _("Premium OS Disk"), :label_size => "col-md-2"
+               },
                'true',
                'false'
 %>
