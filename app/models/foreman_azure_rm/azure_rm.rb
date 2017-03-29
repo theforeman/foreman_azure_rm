@@ -85,11 +85,14 @@ module ForemanAzureRM
       end
     end
 
-    def subnets(vnet)
-      split_vnet = vnet.split('/')
-      vnet_rg = split_vnet[4]
-      vnet_name = split_vnet[-1]
-      azure_network_service.subnets(resource_group: vnet_rg, virtual_network_name: vnet_name)
+    def subnets(location)
+      vnets = virtual_networks(location)
+      subnets = []
+      vnets.each do |vnet|
+        subnets.concat(azure_network_service.subnets(resource_group: vnet.resource_group,
+                                                    virtual_network_name: vnet.name).all)
+      end
+      subnets
     end
 
     def test_connection(options = {})

@@ -1,26 +1,10 @@
-<%= selectable_f f, :type, [],
-                 { :include_blank => _('Please first select an Azure region') },
-                 {
-                   :label => _('vNets'),
-                   :required => true,
-                   :id => 'azure_rm_vnet',
-                   :onchange => 'azure_rm_subnet_from_vnet();'
-                 }
-%>
-
 <%= selectable_f f, :network, [],
-                 { :include_blank => _('Please first select a vNet, image, and Azure region')},
+                 { :include_blank => _('Please first select an image and an Azure region')},
                  {
                    :label => _('Azure Subnet'),
                    :required => true,
                    :id => 'azure_rm_subnet',
-                   :help_inline => spinner_button_f(f, _('Load Subnets (must reopen)'), 'azure_rm_subnet_from_vnet()',
-                                                    {
-                                                        :id => 'load_subnets_btn',
-                                                        :spinner_id => 'load_subnets_indicator',
-                                                        :class => 'btn-success',
-                                                        :spinner_class => 'spinner-inverse'
-                                                    })
+                   :class => "col-lg-8"
                  }
 %>
 

@@ -14,7 +14,7 @@ module ForemanAzureRM
 
       def subnets
         azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id]).compute_resource
-        render :json => azure_rm_resource.subnets(params[:vnet])
+        render :json => azure_rm_resource.subnets(params[:location])
       end
 
       def storage_accts

@@ -9,43 +9,9 @@
 <script>
     function azure_rm_location_callback() {
         azure_rm_get_size_from_location();
-        azure_rm_vnets_from_location();
+        azure_rm_subnets_from_location();
     }
 
-    function azure_rm_subnet_from_vnet() {
-        var vnet = $('#azure_rm_vnet').val();
-        var imageId = $('#azure_rm_image_id').val();
-        var subnets = $('#azure_rm_subnet');
-        if (typeof tfm == 'undefined') {  // earlier than 1.13
-            foreman.tools.showSpinner();
-        } else {
-            tfm.tools.showSpinner();
-        }
-        $.ajax({
-            data: { "image_id": imageId, "vnet": vnet },
-            type: "get",
-            url: "/azure_rm/subnets",
-            complete: function() {
-                reloadOnAjaxComplete('#azure_rm_subnet');
-                if (typeof tfm == 'undefined') {  // earlier than 1.13
-                    foreman.tools.hideSpinner();
-                } else {
-                    tfm.tools.hideSpinner();
-                }
-            },
-            error: function(request, status, error) {
-                console.log(status);
-                console.log(request);
-                console.log(error);
-            },
-            success: function(request_subnets) {
-                subnets.empty();
-                $.each(request_subnets, function() {
-                    subnets.append($("<option />").val(this.id).text(this.name));
-                });
-            }
-        });
-    }
     function azure_rm_get_size_from_location() {
         var location = $('#azure_rm_location').val();
         var size_spinner = $('#azure_rm_size_spinner');
@@ -83,9 +49,9 @@
         });
     }
 
-    function azure_rm_vnets_from_location() {
+    function azure_rm_subnets_from_location() {
         var imageId = $('#azure_rm_image_id').val();
-        var vnets = $('#azure_rm_vnet');
+        var subnets = $('#azure_rm_subnet');
         var location = $('#azure_rm_location').val();
         if (typeof tfm == 'undefined') {  // earlier than 1.13
             foreman.tools.showSpinner();
@@ -95,9 +61,9 @@
         $.ajax({
             data: { "image_id": imageId, "location": location },
             type: "get",
-            url: "/azure_rm/vnets",
+            url: "/azure_rm/subnets",
             complete: function() {
-                reloadOnAjaxComplete('#azure_rm_vnet');
+                reloadOnAjaxComplete('#azure_rm_subnet');
                 if (typeof tfm == 'undefined') {  // earlier than 1.13
                     foreman.tools.hideSpinner();
                 } else {
@@ -109,10 +75,11 @@
                 console.log(request);
                 console.log(error);
             },
-            success: function(request_vnets) {
-                vnets.empty();
-                $.each(request_vnets, function() {
-                    vnets.append($("<option />").val(this.id).text(this.name));
+            success: function(request_subnets) {
+                subnets.empty();
+                $.each(request_subnets, function() {
+                    //noinspection JSAnnotator
+                    subnets.append($("<option />").val(this.id).text(`${this.virtual_network_name} - ${this.name} (${this.address_prefix})`));
                 });
             }
         });
