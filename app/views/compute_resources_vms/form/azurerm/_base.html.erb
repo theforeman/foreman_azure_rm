@@ -1,5 +1,3 @@
-<!-- TODO move all of this nonsense to a helper file -->
-
 <% arch ||= nil
    os ||= nil
    images = possible_images(compute_resource, arch, os)
@@ -27,7 +25,7 @@
             data: {"location_string": location, "image_id": imageId},
             type: 'get',
             url: '/azure_rm/sizes',
-            complete: function() {
+            complete: function () {
                 reloadOnAjaxComplete('#azure_rm_size');
                 size_spinner.addClass('hide');
                 if (typeof tfm == 'undefined') {  // earlier than 1.13
@@ -36,13 +34,13 @@
                     tfm.tools.hideSpinner();
                 }
             },
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 console.log(request);
                 console.log(error);
             },
-            success: function(request_sizes) {
+            success: function (request_sizes) {
                 sizes.empty();
-                $.each(request_sizes, function() {
+                $.each(request_sizes, function () {
                     sizes.append($("<option />").val(this).text(this));
                 });
             }
@@ -59,10 +57,10 @@
             tfm.tools.showSpinner();
         }
         $.ajax({
-            data: { "image_id": imageId, "location": location },
+            data: {"image_id": imageId, "location": location},
             type: "get",
             url: "/azure_rm/subnets",
-            complete: function() {
+            complete: function () {
                 reloadOnAjaxComplete('#azure_rm_subnet');
                 if (typeof tfm == 'undefined') {  // earlier than 1.13
                     foreman.tools.hideSpinner();
@@ -70,14 +68,14 @@
                     tfm.tools.hideSpinner();
                 }
             },
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 console.log(status);
                 console.log(request);
                 console.log(error);
             },
-            success: function(request_subnets) {
+            success: function (request_subnets) {
                 subnets.empty();
-                $.each(request_subnets, function() {
+                $.each(request_subnets, function () {
                     //noinspection JSAnnotator
                     subnets.append($("<option />").val(this.id).text(`${this.virtual_network_name} - ${this.name} (${this.address_prefix})`));
                 });
@@ -89,94 +87,104 @@
 <%= selectable_f f, :location, compute_resource.locations,
                  { :include_blank => _('Please select an Azure region') },
                  {
-                   :label => _('Azure Region'),
-                   :required => true,
-                   :id => 'azure_rm_location',
-                   :label_size => "col-md-2",
-                   :onchange => 'azure_rm_location_callback();',
-                   :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
-                                                    'azure_rm_location_callback();',
-                                                    {
-                                                      :id => 'load_subnets_btn',
-                                                      :spinner_id => 'load_subnets_indicator',
-                                                      :class => 'btn-success',
-                                                      :spinner_class => 'spinner-inverse'
-                                                    })
+                     :label       => _('Azure Region'),
+                     :required    => true,
+                     :id          => 'azure_rm_location',
+                     :label_size  => "col-md-2",
+                     :onchange    => 'azure_rm_location_callback();',
+                     :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
+                                                      'azure_rm_location_callback();',
+                                                      {
+                                                          :id            => 'load_subnets_btn',
+                                                          :spinner_id    => 'load_subnets_indicator',
+                                                          :class         => 'btn-success',
+                                                          :spinner_class => 'spinner-inverse'
+                                                      })
                  }
 %>
 
 <%= selectable_f f, :resource_group, resource_groups,
                  { :include_blank => true },
                  {
-                   :disabled => resource_groups.empty?,
-                   :label => _('Resource Group'),
-                   :required => true,
-                   :id => 'azure_rm_rg'
+                     :disabled => resource_groups.empty?,
+                     :label    => _('Resource Group'),
+                     :required => true,
+                     :id       => 'azure_rm_rg'
                  }
 %>
 
 <%= selectable_f f, :vm_size, [],
                  { :include_blank => _('Please first select an Azure region') },
                  {
-                   :label => _('VM Size'),
-                   :required => true,
-                   :id => 'azure_rm_size'
+                     :label    => _('VM Size'),
+                     :required => true,
+                     :id       => 'azure_rm_size'
                  }
 %>
 
 <%= selectable_f f, :platform, %w(Linux Windows),
                  {},
                  {
-                     :label => 'Platform',
+                     :label    => _('Platform'),
                      :required => true
                  }
 %>
 
 <%= text_f f, :username,
            {
-             :label    => _('Username'),
-             :required => true,
-             :value    => 'superadmin'
+               :label    => _('Username'),
+               :required => true,
+               :value    => 'superadmin'
            }
 %>
 <%= text_f f, :password,
            {
-             :label => _('Password'),
-             :value => '&uM229CrVE'
+               :label    => _('Password'),
+               :required => true,
+               :value    => '&uM229CrVE'
            }
 %>
 
 <%= textarea_f f, :ssh_key_data,
                {
-                 :label => _('SSH Key')
+                   :label => _('SSH Key')
                }
 %>
 
 <%= number_f f, :os_disk_size,
              {
-               :class    => "col-md-2",
-               :label    => _("OS Disk Size (GB)"), :label_size => "col-md-2",
-               :required => true
+                 :class    => "col-md-2",
+                 :label    => _('OS Disk Size (GB)'), :label_size => "col-md-2",
+                 :required => true
              }
 %>
 
 <%= checkbox_f f, :premium_os_disk,
                {
-                 :label => _("Premium OS Disk"), :label_size => "col-md-2"
+                   :label => _('Premium OS Disk'), :label_size => "col-md-2"
                },
                'true',
                'false'
 %>
 
+<%= selectable_f f, :os_disk_caching, %w(None ReadOnly ReadWrite),
+                 {},
+                 {
+                     :label    => _('OS Disk Caching'),
+                     :required => true,
+                     :class    => "col-md-2"
+                 }
+%>
+
 <div id="image_selection">
-  <%= select_f f, :vhd_path, images, :uuid, :name,
+  <%= select_f f, :image_id, images, :uuid, :name,
                { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },
                {
-                 :disabled => images.empty?,
-                 :label => _('Image'),
-                 :required => true,
-                 :label_size => "col-md-2",
-                 :id => 'azure_rm_image_id'
+                   :disabled   => images.empty?,
+                   :label      => _('Image'),
+                   :required   => true,
+                   :label_size => "col-md-2",
+                   :id         => 'azure_rm_image_id'
                }
   %>
 </div>

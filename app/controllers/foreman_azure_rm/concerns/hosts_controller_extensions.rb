@@ -13,27 +13,19 @@ module ForemanAzureRM
       end
 
       def subnets
-        azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id]).compute_resource
-        render :json => azure_rm_resource.subnets(params[:location])
-      end
-
-      def storage_accts
-        if (azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id])).present?
-          resource = azure_rm_resource.compute_resource
-          render :json => resource.storage_accts(params[:location])
+        azure_rm_image = Image.unscoped.find_by_uuid(params[:image_id])
+        if azure_rm_image.present?
+          azure_rm_resource = azure_rm_image.compute_resource
+          subnets = azure_rm_resource.subnets(params[:location])
+          if subnets.present?
+            render :json => azure_rm_resource.subnets(params[:location])
+          else
+            no_subnets = _('The selected location has no subnets')
+            render :json => "[\"#{no_subnets}\"]"
+          end
         else
-          no_storage = _('The location you selected has no storage accounts')
-          render :json => "[\"#{no_storage}\"]"
-        end
-      end
-
-      def vnets
-        if (azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id])).present?
-          resource = azure_rm_resource.compute_resource
-          render :json => resource.virtual_networks(params[:location])
-        else
-          no_vnets = _('The location you selected has no vNets')
-          render :json => "[\"#{no_vnets}\"]"
+          no_compute = _('The selected image has no associated compute resource')
+          render :json => "[\"#{no_compute}\"]"
         end
       end
     end

@@ -9,9 +9,11 @@ module ForemanAzureRM
 
     class VMContainer
       attr_accessor :virtualmachines
+
       def initialize
         @virtualmachines = []
       end
+
       def all(_options = {})
         @virtualmachines
       end
@@ -47,7 +49,7 @@ module ForemanAzureRM
     end
 
     def resource_groups
-      rgs = rg_client.list_resource_groups
+      rgs      = rg_client.list_resource_groups
       rg_names = []
       rgs.each do |rg|
         rg_names << rg.name
@@ -57,17 +59,21 @@ module ForemanAzureRM
 
     def storage_accts(location = nil)
       stripped_location = location.gsub(/\s+/, '').downcase
-      acct_names = []
+      acct_names        = []
       if location.nil?
         storage_client.list_storage_accounts.each do |acct|
           acct_names << acct.name
         end
       else
-        (storage_client.list_storage_accounts.select { |acct| acct.location == stripped_location}).each do |acct|
+        (storage_client.list_storage_accounts.select { |acct| acct.location == stripped_location }).each do |acct|
           acct_names << acct.name
         end
       end
       acct_names
+    end
+
+    def provided_attributes
+      super.merge({ :ip => :provisioning_ip_address })
     end
 
     def host_interfaces_attrs(host)
@@ -81,16 +87,16 @@ module ForemanAzureRM
         azure_network_service.virtual_networks
       else
         stripped_location = location.gsub(/\s+/, '').downcase
-        azure_network_service.virtual_networks.select { |vnet| vnet.location == stripped_location}
+        azure_network_service.virtual_networks.select { |vnet| vnet.location == stripped_location }
       end
     end
 
     def subnets(location)
-      vnets = virtual_networks(location)
+      vnets   = virtual_networks(location)
       subnets = []
       vnets.each do |vnet|
-        subnets.concat(azure_network_service.subnets(resource_group: vnet.resource_group,
-                                                    virtual_network_name: vnet.name).all)
+        subnets.concat(azure_network_service.subnets(resource_group:       vnet.resource_group,
+                                                     virtual_network_name: vnet.name).all)
       end
       subnets
     end
@@ -103,7 +109,7 @@ module ForemanAzureRM
     end
 
     def networks
-      subnets  = []
+      subnets = []
       virtual_networks.each do |vnet|
         subnets << subnets(vnet.id)
       end
@@ -145,75 +151,85 @@ module ForemanAzureRM
     end
 
     def create_nics(args = {})
-      nic_ids = []
-      formatted_location = args[:location].gsub(/\s+/,'').downcase
+      nics = []
+      formatted_location = args[:location].gsub(/\s+/, '').downcase
       args[:interfaces_attributes].each do |nic, attrs|
         attrs[:pubip_alloc] = (attrs[:bridge] == 'false') ? false : true
         attrs[:privip_alloc] = (attrs[:name] == 'false') ? false : true
-        pip_alloc =  (attrs[:pubip_alloc]) ?
-                        Fog::ARM::Network::Models::IPAllocationMethod::Static :
-                        Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
-        priv_ip_alloc = (attrs[:priv_ip_alloc]) ?
-            Fog::ARM::Network::Models::IPAllocationMethod::Static :
-            Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+        pip_alloc = if attrs[:pubip_alloc]
+                      Fog::ARM::Network::Models::IPAllocationMethod::Static
+                    else
+                      Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+                    end
+        priv_ip_alloc = if attrs[:priv_ip_alloc]
+                          Fog::ARM::Network::Models::IPAllocationMethod::Static
+                        else
+                          Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+                        end
         pip = azure_network_service.public_ips.create(
-                                             name: "#{args[:vm_name]}-pip#{nic}",
-                                             resource_group: args[:resource_group],
-                                             location: formatted_location,
-                                             public_ip_allocation_method: pip_alloc
+            name:                        "#{args[:vm_name]}-pip#{nic}",
+            resource_group:              args[:resource_group],
+            location:                    formatted_location,
+            public_ip_allocation_method: pip_alloc
         )
         new_nic = azure_network_service.network_interfaces.create(
-                                                       name: "#{args[:vm_name]}-nic#{nic}",
-                                                       resource_group: args[:resource_group],
-                                                       location: formatted_location,
-                                                       subnet_id: attrs[:network],
-                                                       public_ip_address_id: pip.id,
-                                                       ip_configuration_name: 'ForemanIPConfiguration',
-                                                       private_ip_allocation_method: priv_ip_alloc
+            name:                         "#{args[:vm_name]}-nic#{nic}",
+            resource_group:               args[:resource_group],
+            location:                     formatted_location,
+            subnet_id:                    attrs[:network],
+            public_ip_address_id:         pip.id,
+            ip_configuration_name:        'ForemanIPConfiguration',
+            private_ip_allocation_method: priv_ip_alloc
         )
-        nic_ids << new_nic.id
+        nics << new_nic
       end
-      nic_ids
+      nics
     end
 
+    # Preferred behavior is to utilize Fog but Fog Azure RM
+    # does not currently support creating managed VMs
     def create_vm(args = {})
       args[:vm_name] = args[:name].split('.')[0]
       puts "\n\nARGS: #{args}\n\n"
-      nic_ids = create_nics(args)
+      nics = create_nics(args)
       if args[:ssh_key_data].present?
         disable_password_auth = true
-        ssh_key_path = "/home/#{args[:username]}/.ssh/authorized_keys"
+        ssh_key_path          = "/home/#{args[:username]}/.ssh/authorized_keys"
       else
         disable_password_auth = false
-        ssh_key_path = nil
+        ssh_key_path          = nil
       end
       vm = client.create_managed_virtual_machine(
-                        name: args[:vm_name],
-                        location: args[:location],
-                        resource_group: args[:resource_group],
-                        vm_size: args[:vm_size],
-                        username: args[:username],
-                        password: args[:password],
-                        ssh_key_data: args[:ssh_key_data],
-                        ssh_key_path: ssh_key_path,
-                        disable_password_authentication: disable_password_auth,
-                        network_interface_card_ids: nic_ids,
-                        platform: args[:platform],
-                        vhd_path: args[:vhd_path],
-                        os_disk_caching: Fog::ARM::Compute::Models::CachingTypes::ReadWrite,
-                        data_disks: args[:volumes_attributes],
-                        os_disk_size: args[:os_disk_size],
-                        premium_os_disk: args[:premium_os_disk]
+          name:                            args[:vm_name],
+          location:                        args[:location],
+          resource_group:                  args[:resource_group],
+          vm_size:                         args[:vm_size],
+          username:                        args[:username],
+          password:                        args[:password],
+          ssh_key_data:                    args[:ssh_key_data],
+          ssh_key_path:                    ssh_key_path,
+          disable_password_authentication: disable_password_auth,
+          network_interface_card_ids:      nics.map(&:id),
+          platform:                        args[:platform],
+          vhd_path:                        args[:image_id],
+          os_disk_caching:                 args[:os_disk_caching],
+          data_disks:                      args[:volumes_attributes],
+          os_disk_size:                    args[:os_disk_size],
+          premium_os_disk:                 args[:premium_os_disk]
       )
-      Fog::Compute::AzureRM::Server.new(Fog::Compute::AzureRM::Server.parse(vm))
+      vm_hash = Fog::Compute::AzureRM::Server.parse(vm)
+      vm_hash[:network_interfaces] = nics
+      vm_hash[:password] = args[:password]
+      vm_hash[:platform] = args[:platform]
+      client.servers.new vm_hash
     end
 
     def destroy_vm(uuid)
-      vm = find_vm_by_uuid(uuid)
-      raw_model = client.get_virtual_machine(vm.resource_group, vm.name)
+      vm           = find_vm_by_uuid(uuid)
+      raw_model    = client.get_virtual_machine(vm.resource_group, vm.name)
       os_disk_name = raw_model.storage_profile.os_disk.name
-      data_disks = raw_model.storage_profile.data_disks
-      nic_ids = raw_model.network_profile.network_interfaces
+      data_disks   = raw_model.storage_profile.data_disks
+      nic_ids      = raw_model.network_profile.network_interfaces
       vm.destroy
     rescue ActiveRecord::RecordNotFound
       # If the VM does not exist, we don't really care.
@@ -224,42 +240,45 @@ module ForemanAzureRM
 
     def client
       @client ||= Fog::Compute.new(
-                                  :provider => 'AzureRM',
-                                  :tenant_id => tenant,
-                                  :client_id => app_ident,
-                                  :client_secret => secret_key,
-                                  :subscription_id => sub_id,
-                                  :environment => 'AzureCloud'
+          :provider        => 'AzureRM',
+          :tenant_id       => tenant,
+          :client_id       => app_ident,
+          :client_secret   => secret_key,
+          :subscription_id => sub_id,
+          :environment     => 'AzureCloud'
       )
     end
+
     def rg_client
       # noinspection RubyArgCount
       @rg_client ||= Fog::Resources::AzureRM.new(
-                                                tenant_id: tenant,
-                                                client_id: app_ident,
-                                                client_secret: secret_key,
-                                                subscription_id: sub_id,
-                                                :environment => 'AzureCloud'
+          tenant_id:       tenant,
+          client_id:       app_ident,
+          client_secret:   secret_key,
+          subscription_id: sub_id,
+          :environment     => 'AzureCloud'
       )
     end
+
     def storage_client
       @storage_client ||= Fog::Storage.new(
-                                          :provider => 'AzureRM',
-                                          :tenant_id => tenant,
-                                          :client_id => app_ident,
-                                          :client_secret => secret_key,
-                                          :subscription_id => sub_id,
-                                          :environment => 'AzureCloud'
+          :provider        => 'AzureRM',
+          :tenant_id       => tenant,
+          :client_id       => app_ident,
+          :client_secret   => secret_key,
+          :subscription_id => sub_id,
+          :environment     => 'AzureCloud'
       )
     end
+
     def azure_network_service
       # noinspection RubyArgCount
       @azure_network_service ||= Fog::Network::AzureRM.new(
-                                                   :tenant_id => tenant,
-                                                   :client_id => app_ident,
-                                                   :client_secret => secret_key,
-                                                   :subscription_id => sub_id,
-                                                   :environment => 'AzureCloud'
+          :tenant_id       => tenant,
+          :client_id       => app_ident,
+          :client_secret   => secret_key,
+          :subscription_id => sub_id,
+          :environment     => 'AzureCloud'
       )
     end
   end

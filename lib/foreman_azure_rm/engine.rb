@@ -10,7 +10,7 @@ module ForemanAzureRM
     end
 
     initializer 'foreman_azure_rm.register_gettext', after: :load_config_initializers do
-      locale_dir = File.join(File.expand_path('../../../', __FILE__), 'locale')
+      locale_dir    = File.join(File.expand_path('../../../', __FILE__), 'locale')
       locale_domain = 'foreman_azure_rm'
       Foreman::Gettext::Support.add_text_domain locale_domain, locale_dir
     end
@@ -24,7 +24,7 @@ module ForemanAzureRM
     initializer 'foreman_azure_rm.configure_assets', :group => :assets do
       SETTINGS[:foreman_azure_rm] = { :assets => { :precompile => %w(foreman_azure_rm/azure_rm_size_from_location.js
                                                                    foreman_azure_rm/azure_rm_subnet_from_vnet.js
-                                                                   foreman_azure_rm/azure_rm_location_callbacks.js)}}
+                                                                   foreman_azure_rm/azure_rm_location_callbacks.js) } }
     end
 
     config.to_prepare do
@@ -49,7 +49,7 @@ module ForemanAzureRM
           '../../../app/models/concerns/fog_extensions/azurerm/compute',
           __FILE__
       )
-      Fog::Compute::AzureRM::Real.send(:include, FogExtensions::AzureRM::Compute)
+      Fog::Compute::AzureRM::Real.send(:prepend, FogExtensions::AzureRM::Compute)
 
       ::HostsController.send(:include, ForemanAzureRM::Concerns::HostsControllerExtensions)
 
@@ -62,6 +62,12 @@ module ForemanAzureRM
       Fog::Network::AzureRM::NetworkInterfaces.send(:include, FogExtensions::AzureRM::NetworkInterfaces)
 
       require 'fog/azurerm/models/compute/managed_disk'
+      require File.expand_path(
+          '../../../app/models/concerns/fog_extensions/azurerm/managed_disk',
+          __FILE__
+      )
+      Fog::Compute::AzureRM::ManagedDisk.send(:include, FogExtensions::AzureRM::ManagedDisk)
+
       require 'fog/azurerm/models/compute/managed_disks'
       require File.expand_path(
           '../../../app/models/concerns/fog_extensions/azurerm/managed_disks',

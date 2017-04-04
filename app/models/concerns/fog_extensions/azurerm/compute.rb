@@ -3,12 +3,51 @@ module FogExtensions
     module Compute
       extend ActiveSupport::Concern
 
+      def initialize(options)
+        begin
+          require 'azure_mgmt_compute'
+          require 'azure_mgmt_storage'
+          require 'azure_mgmt_network'
+          require 'azure/storage'
+        rescue LoadError => e
+          retry if require('rubygems')
+          raise e.message
+        end
+
+        options[:environment] = 'AzureCloud' if options[:environment].nil?
+
+        telemetry = "fog-azure-rm/#{Fog::AzureRM::VERSION}"
+        credentials = Fog::Credentials::AzureRM.get_credentials(options[:tenant_id], options[:client_id], options[:client_secret], options[:environment])
+        @compute_mgmt_client = ::Azure::ARM::Compute::ComputeManagementClient.new(credentials, resource_manager_endpoint_url(options[:environment]))
+        @compute_mgmt_client.subscription_id = options[:subscription_id]
+        @compute_mgmt_client.add_user_agent_information(telemetry)
+        @storage_mgmt_client = ::Azure::ARM::Storage::StorageManagementClient.new(credentials, resource_manager_endpoint_url(options[:environment]))
+        @storage_mgmt_client.subscription_id = options[:subscription_id]
+        @storage_mgmt_client.add_user_agent_information(telemetry)
+        @storage_service = Fog::Storage::AzureRM.new(tenant_id: options[:tenant_id], client_id: options[:client_id], client_secret: options[:client_secret], subscription_id: options[:subscription_id], environment: options[:environment])
+        @network_client = ::Azure::ARM::Network::NetworkManagementClient.new(credentials, resource_manager_endpoint_url(options[:environment]))
+        @network_client.subscription_id = options[:subscription_id]
+        @network_client.add_user_agent_information(telemetry)
+      end
+
       def list_available_sizes(location)
         sizes = []
         @compute_mgmt_client.virtual_machine_sizes.list(location).value().each do |vmsize|
           sizes << vmsize.name
         end
         sizes
+      end
+
+      def list_all_vms
+        @compute_mgmt_client.virtual_machines.list_all
+      end
+
+      def get_vm_nic(nic_rg, nic_name)
+        @network_client.network_interfaces.get(nic_rg, nic_name)
+      end
+
+      def get_public_ip(ip_rg, ip_name)
+        @network_client.public_ipaddresses.get(ip_rg, ip_name)
       end
 
       def define_managed_storage_profile(vm_name, vhd_path, publisher, offer, sku, version,
@@ -26,7 +65,7 @@ module FogExtensions
                             Azure::ARM::Compute::Models::OperatingSystemTypes::Linux
                           end
         os_disk.create_option = Azure::ARM::Compute::Models::DiskCreateOptionTypes::FromImage
-        os_disk.caching = unless os_disk_caching.nil?
+        os_disk.caching = if os_disk_caching.present?
                             case os_disk_caching
                               when 'None'
                                 Azure::ARM::Compute::Models::CachingTypes::None
@@ -61,7 +100,19 @@ module FogExtensions
                                                      end
             disk = Azure::ARM::Compute::Models::DataDisk.new
             disk.name = "#{vm_name}-disk#{disk_count}"
-            disk.caching = Azure::ARM::Compute::Models::CachingTypes::None
+            disk.caching = if attrs[:data_disk_caching].present?
+                             case attrs[:data_disk_caching]
+                               when 'None'
+                                 Azure::ARM::Compute::Models::CachingTypes::None
+                               when 'ReadOnly'
+                                 Azure::ARM::Compute::Models::CachingTypes::ReadOnly
+                               when 'ReadWrite'
+                                 Azure::ARM::Compute::Models::CachingTypes::ReadWrite
+                               else
+                                 # ARM best practices stipulate no caching on data disks by default
+                                 Azure::ARM::Compute::Models::CachingTypes::None
+                             end
+                           end
             disk.disk_size_gb = attrs[:disk_size_gb]
             disk.create_option = Azure::ARM::Compute::Models::DiskCreateOption::Empty
             disk.lun = disk_count + 1
