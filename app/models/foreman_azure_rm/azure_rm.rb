@@ -221,7 +221,7 @@ module ForemanAzureRM
       vm_hash[:script_uris]        = args[:script_uris]
       client.create_vm_extension(vm_hash)
       client.servers.new vm_hash
-    rescue Fog::Errors::Error  => e
+    rescue Fog::Errors::Error, RuntimeError  => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
       raise e

@@ -137,24 +137,23 @@ module FogExtensions
       end
 
       def create_vm_extension(vm)
-        if vm[:platform] == 'Linux'
-          if vm[:script_command].present? && vm[:script_uris].present?
-            extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
-            extension.publisher = 'Microsoft.Azure.Extensions'
-            extension.virtual_machine_extension_type = 'CustomScript'
-            extension.type_handler_version = '2.0'
-            extension.auto_upgrade_minor_version = true
-            extension.location = vm['location'].gsub(/\s+/, '').downcase
-            extension.settings = {
-                'commandToExecute' => vm[:script_command],
-                'fileUris'         => vm[:script_uris].split(',')
-            }
-            @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
-                                                                             vm['name'],
-                                                                             'installpuppet',
-                                                                             extension).value
-          end
-        elsif vm[:platform] == 'Windows'
+        if vm[:script_command].present? && vm[:script_uris].present?
+          extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
+          extension.publisher = 'Microsoft.Azure.Extensions'
+          extension.virtual_machine_extension_type = 'CustomScript'
+          extension.type_handler_version = '2.0'
+          extension.auto_upgrade_minor_version = true
+          extension.location = vm['location'].gsub(/\s+/, '').downcase
+          extension.settings = {
+              'commandToExecute' => vm[:script_command],
+              'fileUris'         => vm[:script_uris].split(',')
+          }
+          @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
+                                                                           vm['name'],
+                                                                           'ForemanCustomScript',
+                                                                           extension).value
+        end
+        if vm[:platform] == 'Windows'
           if vm[:puppet_master].present?
             extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
             extension.publisher = 'PuppetLabs'
@@ -167,7 +166,7 @@ module FogExtensions
             }
             @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
                                                                              vm['name'],
-                                                                             'installpuppet',
+                                                                             'InstallPuppet',
                                                                              extension).value
           end
         end
