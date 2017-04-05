@@ -151,30 +151,35 @@ module ForemanAzureRM
       nics = []
       formatted_location = args[:location].gsub(/\s+/, '').downcase
       args[:interfaces_attributes].each do |nic, attrs|
-        attrs[:pubip_alloc] = (attrs[:bridge] == 'false') ? false : true
+        attrs[:pubip_alloc] = attrs[:bridge]
         attrs[:privip_alloc] = (attrs[:name] == 'false') ? false : true
-        pip_alloc = if attrs[:pubip_alloc]
+        pip_alloc = case attrs[:pubip_alloc]
+                    when 'Static'
                       Fog::ARM::Network::Models::IPAllocationMethod::Static
-                    else
+                    when 'Dynamic'
                       Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+                    when 'None'
+                      nil
                     end
         priv_ip_alloc = if attrs[:priv_ip_alloc]
                           Fog::ARM::Network::Models::IPAllocationMethod::Static
                         else
                           Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
                         end
-        pip = azure_network_service.public_ips.create(
-            name:                        "#{args[:vm_name]}-pip#{nic}",
-            resource_group:              args[:resource_group],
-            location:                    formatted_location,
-            public_ip_allocation_method: pip_alloc
-        )
+        if pip_alloc.present?
+          pip = azure_network_service.public_ips.create(
+              name:                        "#{args[:vm_name]}-pip#{nic}",
+              resource_group:              args[:resource_group],
+              location:                    formatted_location,
+              public_ip_allocation_method: pip_alloc
+          )
+        end
         new_nic = azure_network_service.network_interfaces.create(
             name:                         "#{args[:vm_name]}-nic#{nic}",
             resource_group:               args[:resource_group],
             location:                     formatted_location,
             subnet_id:                    attrs[:network],
-            public_ip_address_id:         pip.id,
+            public_ip_address_id:         pip.present? ? pip.id : nil,
             ip_configuration_name:        'ForemanIPConfiguration',
             private_ip_allocation_method: priv_ip_alloc
         )
@@ -221,7 +226,8 @@ module ForemanAzureRM
       vm_hash[:script_uris]        = args[:script_uris]
       client.create_vm_extension(vm_hash)
       client.servers.new vm_hash
-    rescue Fog::Errors::Error, RuntimeError  => e
+    # fog-azure-rm raises all ARM errors as RuntimeError
+    rescue Fog::Errors::Error, RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
       raise e

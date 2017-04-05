@@ -151,7 +151,7 @@ module FogExtensions
           @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
                                                                            vm['name'],
                                                                            'ForemanCustomScript',
-                                                                           extension).value
+                                                                           extension)
         end
         if vm[:platform] == 'Windows'
           if vm[:puppet_master].present?
@@ -167,7 +167,7 @@ module FogExtensions
             @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
                                                                              vm['name'],
                                                                              'InstallPuppet',
-                                                                             extension).value
+                                                                             extension)
           end
         end
       end

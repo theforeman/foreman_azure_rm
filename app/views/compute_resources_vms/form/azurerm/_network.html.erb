@@ -8,11 +8,14 @@
                  }
 %>
 
-<%= checkbox_f f, :bridge,
-               { :label => _("Static Public IP"), :label_size => "col-md-2" },
-               'true',
-               'false'
+<%= selectable_f f, :bridge, ['None', 'Dynamic', 'Static'],
+                 {},
+                 {
+                     :label => _("Public IP"),
+                     :label_size => "col-md-2"
+                 }
 %>
+
 <%= checkbox_f f, :name,
                { :label => _("Static Private IP"), :label_size => "col-md-2" },
                'true',
