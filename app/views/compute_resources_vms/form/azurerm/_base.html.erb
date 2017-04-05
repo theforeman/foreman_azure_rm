@@ -133,15 +133,13 @@
 <%= text_f f, :username,
            {
                :label    => _('Username'),
-               :required => true,
-               :value    => 'superadmin'
+               :required => true
            }
 %>
 <%= text_f f, :password,
            {
                :label    => _('Password'),
-               :required => true,
-               :value    => '&uM229CrVE'
+               :required => true
            }
 %>
 
@@ -174,6 +172,25 @@
                      :required => true,
                      :class    => "col-md-2"
                  }
+%>
+
+<%= text_f f, :puppet_master,
+           {
+               :label => _('Puppet Master'),
+               :help_inline => _('For the Azure Puppet extension for Windows')
+           }
+%>
+
+<%= text_f f, :script_command,
+           {
+               :label => _('Custom Script Command')
+           }
+%>
+
+<%= text_f f, :script_uris,
+           {
+               :label => _('Comma seperated file URIs')
+           }
 %>
 
 <div id="image_selection">

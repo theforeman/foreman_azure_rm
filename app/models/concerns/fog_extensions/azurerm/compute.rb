@@ -136,6 +136,43 @@ module FogExtensions
         storage_profile
       end
 
+      def create_vm_extension(vm)
+        if vm[:platform] == 'Linux'
+          if vm[:script_command].present? && vm[:script_uris].present?
+            extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
+            extension.publisher = 'Microsoft.Azure.Extensions'
+            extension.virtual_machine_extension_type = 'CustomScript'
+            extension.type_handler_version = '2.0'
+            extension.auto_upgrade_minor_version = true
+            extension.location = vm['location'].gsub(/\s+/, '').downcase
+            extension.settings = {
+                'commandToExecute' => vm[:script_command],
+                'fileUris'         => vm[:script_uris].split(',')
+            }
+            @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
+                                                                             vm['name'],
+                                                                             'installpuppet',
+                                                                             extension).value
+          end
+        elsif vm[:platform] == 'Windows'
+          if vm[:puppet_master].present?
+            extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
+            extension.publisher = 'PuppetLabs'
+            extension.virtual_machine_extension_type = 'PuppetEnterpriseAgent'
+            extension.type_handler_version = '3.8'
+            extension.auto_upgrade_minor_version = true
+            extension.location = vm['location'].gsub(/\s+/, '').downcase
+            extension.settings = {
+                'puppet_master_service' => vm[:puppet_master]
+            }
+            @compute_mgmt_client.virtual_machine_extensions.create_or_update(vm['resource_group'],
+                                                                             vm['name'],
+                                                                             'installpuppet',
+                                                                             extension).value
+          end
+        end
+      end
+
       def create_managed_virtual_machine(vm_hash, async = false)
         msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{vm_hash[:resource_group]}."
         Fog::Logger.debug msg
@@ -191,6 +228,7 @@ module FogExtensions
                                      end
         virtual_machine.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
         virtual_machine.location = vm_hash[:location]
+
         begin
           response = if async
                        @compute_mgmt_client.virtual_machines.create_or_update_async(vm_hash[:resource_group], vm_hash[:name], virtual_machine)

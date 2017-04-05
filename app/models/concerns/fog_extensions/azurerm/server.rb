@@ -7,8 +7,10 @@ module FogExtensions
       attr_accessor :premium_os_disk
       attr_accessor :data_disk_caching
       attr_accessor :os_disk_caching
-      attr_accessor :network_interfaces
       attr_accessor :image_id
+      attr_accessor :puppet_master
+      attr_accessor :script_command
+      attr_accessor :script_uris
 
       def ready?
         vm_status == 'running'

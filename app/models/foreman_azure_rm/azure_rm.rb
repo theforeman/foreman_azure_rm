@@ -125,12 +125,9 @@ module ForemanAzureRM
     end
 
     def vms
-      puts 'Listing all VMs'
       container = VMContainer.new
       rg_client.resource_groups.each do |rg|
-        puts "#{rg.name}"
         client.servers(resource_group: rg.name).each do |vm|
-          puts "#{vm.name}"
           container.virtualmachines << vm
         end
       end
@@ -190,7 +187,6 @@ module ForemanAzureRM
     # does not currently support creating managed VMs
     def create_vm(args = {})
       args[:vm_name] = args[:name].split('.')[0]
-      puts "\n\nARGS: #{args}\n\n"
       nics = create_nics(args)
       if args[:ssh_key_data].present?
         disable_password_auth = true
@@ -215,13 +211,20 @@ module ForemanAzureRM
           os_disk_caching:                 args[:os_disk_caching],
           data_disks:                      args[:volumes_attributes],
           os_disk_size:                    args[:os_disk_size],
-          premium_os_disk:                 args[:premium_os_disk]
+          premium_os_disk:                 args[:premium_os_disk],
       )
-      vm_hash = Fog::Compute::AzureRM::Server.parse(vm)
-      vm_hash[:network_interfaces] = nics
-      vm_hash[:password] = args[:password]
-      vm_hash[:platform] = args[:platform]
+      vm_hash                      = Fog::Compute::AzureRM::Server.parse(vm)
+      vm_hash[:password]           = args[:password]
+      vm_hash[:platform]           = args[:platform]
+      vm_hash[:puppet_master]      = args[:puppet_master]
+      vm_hash[:script_command]     = args[:script_command]
+      vm_hash[:script_uris]        = args[:script_uris]
+      client.create_vm_extension(vm_hash)
       client.servers.new vm_hash
+    rescue Fog::Errors::Error  => e
+      Foreman::Logging.exception('Unhandled Azure RM error', e)
+      destroy_vm vm.id if vm
+      raise e
     end
 
     def destroy_vm(uuid)
@@ -229,8 +232,24 @@ module ForemanAzureRM
       raw_model    = client.get_virtual_machine(vm.resource_group, vm.name)
       os_disk_name = raw_model.storage_profile.os_disk.name
       data_disks   = raw_model.storage_profile.data_disks
-      nic_ids      = raw_model.network_profile.network_interfaces
+      nic_ids      = vm.network_interface_card_ids
+      # In ARM things must be deleted in order
       vm.destroy
+      nic_ids.each do |id|
+        nic = azure_network_service.network_interfaces.get(id.split('/')[4],
+                                                           id.split('/')[-1])
+        ip_id = nic.public_ip_address_id
+        nic.destroy
+        if ip_id.present?
+          azure_network_service.public_ips.get(ip_id.split('/')[4],
+                                               ip_id.split('/')[-1]).destroy
+        end
+      end
+      client.managed_disks.get(vm.resource_group, os_disk_name).destroy
+      data_disks.each do |disk|
+        client.managed_disks.get(vm.resource_group, disk.name).destroy
+      end
+
     rescue ActiveRecord::RecordNotFound
       # If the VM does not exist, we don't really care.
       true
