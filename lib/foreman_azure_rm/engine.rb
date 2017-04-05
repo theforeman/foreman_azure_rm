@@ -35,7 +35,7 @@ module ForemanAzureRM
           '../../../app/models/concerns/fog_extensions/azurerm/server',
           __FILE__
       )
-      Fog::Compute::AzureRM::Server.send(:include, FogExtensions::AzureRM::Server)
+      Fog::Compute::AzureRM::Server.send(:prepend, FogExtensions::AzureRM::Server)
 
       require 'fog/azurerm/models/compute/servers'
       require File.expand_path(
@@ -43,6 +43,13 @@ module ForemanAzureRM
           __FILE__
       )
       Fog::Compute::AzureRM::Servers.send(:include, FogExtensions::AzureRM::Servers)
+
+      require 'fog/azurerm/models/storage/data_disk'
+      require File.expand_path(
+                      '../../../app/models/concerns/fog_extensions/azurerm/data_disk',
+                      __FILE__
+      )
+      Fog::Storage::AzureRM::DataDisk.send(:prepend, FogExtensions::AzureRM::DataDisk)
 
       require 'fog/azurerm/compute'
       require File.expand_path(
