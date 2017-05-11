@@ -23,32 +23,42 @@ module FogExtensions
       def self.prepended base
         base.instance_eval do
           def parse(vm)
-            hash = {}
-            hash['id'] = vm.id
-            hash['name'] = vm.name
-            hash['location'] = vm.location
+            hash                   = {}
+            hash['id']             = vm.id
+            hash['name']           = vm.name
+            hash['location']       = vm.location
             hash['resource_group'] = get_resource_group_from_id(vm.id)
-            hash['vm_size'] = vm.hardware_profile.vm_size unless vm.hardware_profile.vm_size.nil?
+            hash['vm_size']        = vm.hardware_profile.vm_size unless vm.hardware_profile.vm_size.nil?
             unless vm.storage_profile.nil?
-              hash['os_disk_name'] = vm.storage_profile.os_disk.name
+              hash['os_disk_name']    = vm.storage_profile.os_disk.name
               hash['os_disk_caching'] = vm.storage_profile.os_disk.caching
               unless vm.storage_profile.os_disk.vhd.nil?
-                hash['os_disk_vhd_uri'] = vm.storage_profile.os_disk.vhd.uri
+                hash['os_disk_vhd_uri']      = vm.storage_profile.os_disk.vhd.uri
                 hash['storage_account_name'] = hash['os_disk_vhd_uri'].split('/')[2].split('.')[0]
               end
               unless vm.storage_profile.image_reference.nil?
                 unless vm.storage_profile.image_reference.publisher.nil?
                   hash['publisher'] = vm.storage_profile.image_reference.publisher
-                  hash['offer'] = vm.storage_profile.image_reference.offer
-                  hash['sku'] = vm.storage_profile.image_reference.sku
-                  hash['version'] = vm.storage_profile.image_reference.version
+                  hash['offer']     = vm.storage_profile.image_reference.offer
+                  hash['sku']       = vm.storage_profile.image_reference.sku
+                  hash['version']   = vm.storage_profile.image_reference.version
                 end
               end
             end
-            hash['username'] = vm.os_profile.admin_username
-            hash['custom_data'] = vm.os_profile.custom_data
-            hash['data_disks'] = []
 
+            hash['disable_password_authentication'] = false
+
+            unless vm.os_profile.nil?
+              hash['username']    = vm.os_profile.admin_username
+              hash['custom_data'] = vm.os_profile.custom_data
+              hash['disable_password_authentication'] = vm.os_profile.linux_configuration.disable_password_authentication unless vm.os_profile.linux_configuration.nil?
+              if vm.os_profile.windows_configuration
+                hash['provision_vm_agent']       = vm.os_profile.windows_configuration.provision_vmagent
+                hash['enable_automatic_updates'] = vm.os_profile.windows_configuration.enable_automatic_updates
+              end
+            end
+
+            hash['data_disks'] = []
             unless vm.storage_profile.data_disks.nil?
               vm.storage_profile.data_disks.each do |disk|
                 data_disk = Fog::Storage::AzureRM::DataDisk.new
@@ -56,30 +66,26 @@ module FogExtensions
               end
             end
 
-            hash['disable_password_authentication'] = false
-            hash['disable_password_authentication'] = vm.os_profile.linux_configuration.disable_password_authentication unless vm.os_profile.linux_configuration.nil?
-            if vm.os_profile.windows_configuration
-              hash['provision_vm_agent'] = vm.os_profile.windows_configuration.provision_vmagent
-              hash['enable_automatic_updates'] = vm.os_profile.windows_configuration.enable_automatic_updates
-            end
             hash['network_interface_card_ids'] = vm.network_profile.network_interfaces.map(&:id)
-            hash['availability_set_id'] = vm.availability_set.id unless vm.availability_set.nil?
+            hash['availability_set_id']        = vm.availability_set.id unless vm.availability_set.nil?
 
             hash
           end
         end
       end
 
-      def interfaces_attributes=(attrs); end
+      def interfaces_attributes=(attrs)
+        ;
+      end
 
       def provisioning_ip_address
         interfaces.each do |nic|
           nic.ip_configurations.each do |configuration|
             next unless configuration.primary
             if configuration.public_ipaddress.present?
-              ip_id = configuration.public_ipaddress.id
-              ip_rg = ip_id.split('/')[4]
-              ip_name = ip_id.split('/')[-1]
+              ip_id     = configuration.public_ipaddress.id
+              ip_rg     = ip_id.split('/')[4]
+              ip_name   = ip_id.split('/')[-1]
               public_ip = service.get_public_ip(ip_rg, ip_name)
               return public_ip.ip_address
             else
@@ -101,7 +107,9 @@ module FogExtensions
         interfaces
       end
 
-      def volumes_attributes=(attrs); end
+      def volumes_attributes=(attrs)
+        ;
+      end
 
       def volumes
         volumes = []
