@@ -82,6 +82,14 @@ module ForemanAzureRM
       end
     end
 
+    def available_networks(attr = {})
+      networks
+    end
+
+    def networks
+      subnets
+    end
+
     def virtual_networks(location = nil)
       if location.nil?
         azure_network_service.virtual_networks
@@ -91,7 +99,7 @@ module ForemanAzureRM
       end
     end
 
-    def subnets(location)
+    def subnets(location = nil)
       vnets   = virtual_networks(location)
       subnets = []
       vnets.each do |vnet|
@@ -106,14 +114,6 @@ module ForemanAzureRM
         puts "#{rg.name}"
       end
       super(options)
-    end
-
-    def networks
-      subnets = []
-      virtual_networks.each do |vnet|
-        subnets << subnets(vnet.id)
-      end
-      subnets
     end
 
     def new_interface(attr = {})
