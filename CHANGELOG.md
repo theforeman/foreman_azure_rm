@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - This changelog
 - RABL template for API compute resource view
+- available_networks api endpoint
 ### Fixed
 - This changelog
 - Use correct custom script extension for Windows hosts
