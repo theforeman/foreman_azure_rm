@@ -140,9 +140,16 @@ module FogExtensions
       def create_vm_extension(vm)
         if vm[:script_command].present? && vm[:script_uris].present?
           extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
-          extension.publisher = 'Microsoft.Azure.Extensions'
-          extension.virtual_machine_extension_type = 'CustomScript'
-          extension.type_handler_version = '2.0'
+          if vm[:platform] == 'Linux'
+            extension.publisher = 'Microsoft.Azure.Extensions'
+            extension.virtual_machine_extension_type = 'CustomScript'
+            extension.type_handler_version = '2.0'
+          elsif vm[:platform] == 'Windows'
+            extension.publisher = 'Microsoft.Compute'
+            extension.virtual_machine_extension_type = 'CustomScriptExtension'
+            extension.type_handler_version = '1.7'
+          end
+
           extension.auto_upgrade_minor_version = true
           extension.location = vm['location'].gsub(/\s+/, '').downcase
           extension.settings = {

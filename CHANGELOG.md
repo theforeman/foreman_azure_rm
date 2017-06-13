@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - RABL template for API compute resource view
 ### Fixed
 - This changelog
+- Use correct custom script extension for Windows hosts
 
 ## [1.1.1] - 2017-05-11
 ### Fixed
