@@ -1,1 +1,1 @@
-attributes :user
+attributes :user, :uuid
