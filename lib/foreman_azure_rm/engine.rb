@@ -60,6 +60,8 @@ module ForemanAzureRM
 
       ::HostsController.send(:include, ForemanAzureRM::Concerns::HostsControllerExtensions)
 
+      Api::V2::ComputeResourcesController.send(:include, ForemanAzureRM::Concerns::ComputeResourcesControllerExtensions)
+
       require 'fog/azurerm/models/network/network_interface'
       require File.expand_path(
           '../../../app/models/concerns/fog_extensions/azurerm/network_interface',

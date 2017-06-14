@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - RABL template for API compute resource view
 - available_networks api endpoint
 - UUID to GET compute_resources/:id endpoint
+- Added an API call (/compute_resources/:id/available_resource_groups) to retrieve resource groups
+- Available_networks API endpoint now returns all subnets in the subscription
 ### Fixed
 - This changelog
 - Use correct custom script extension for Windows hosts

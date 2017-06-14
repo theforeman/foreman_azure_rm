@@ -57,6 +57,10 @@ module ForemanAzureRM
       rg_names
     end
 
+    def available_resource_groups
+      rg_client.list_resource_groups
+    end
+
     def storage_accts(location = nil)
       stripped_location = location.gsub(/\s+/, '').downcase
       acct_names        = []
@@ -148,24 +152,24 @@ module ForemanAzureRM
     end
 
     def create_nics(args = {})
-      nics = []
+      nics               = []
       formatted_location = args[:location].gsub(/\s+/, '').downcase
       args[:interfaces_attributes].each do |nic, attrs|
-        attrs[:pubip_alloc] = attrs[:bridge]
+        attrs[:pubip_alloc]  = attrs[:bridge]
         attrs[:privip_alloc] = (attrs[:name] == 'false') ? false : true
-        pip_alloc = case attrs[:pubip_alloc]
-                    when 'Static'
-                      Fog::ARM::Network::Models::IPAllocationMethod::Static
-                    when 'Dynamic'
-                      Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
-                    when 'None'
-                      nil
-                    end
-        priv_ip_alloc = if attrs[:priv_ip_alloc]
-                          Fog::ARM::Network::Models::IPAllocationMethod::Static
-                        else
-                          Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
-                        end
+        pip_alloc            = case attrs[:pubip_alloc]
+                                 when 'Static'
+                                   Fog::ARM::Network::Models::IPAllocationMethod::Static
+                                 when 'Dynamic'
+                                   Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+                                 when 'None'
+                                   nil
+                               end
+        priv_ip_alloc        = if attrs[:priv_ip_alloc]
+                                 Fog::ARM::Network::Models::IPAllocationMethod::Static
+                               else
+                                 Fog::ARM::Network::Models::IPAllocationMethod::Dynamic
+                               end
         if pip_alloc.present?
           pip = azure_network_service.public_ips.create(
               name:                        "#{args[:vm_name]}-pip#{nic}",
@@ -192,7 +196,7 @@ module ForemanAzureRM
     # does not currently support creating managed VMs
     def create_vm(args = {})
       args[:vm_name] = args[:name].split('.')[0]
-      nics = create_nics(args)
+      nics           = create_nics(args)
       if args[:ssh_key_data].present?
         disable_password_auth = true
         ssh_key_path          = "/home/#{args[:username]}/.ssh/authorized_keys"
@@ -200,7 +204,7 @@ module ForemanAzureRM
         disable_password_auth = false
         ssh_key_path          = nil
       end
-      vm = client.create_managed_virtual_machine(
+      vm                       = client.create_managed_virtual_machine(
           name:                            args[:vm_name],
           location:                        args[:location],
           resource_group:                  args[:resource_group],
@@ -218,15 +222,15 @@ module ForemanAzureRM
           os_disk_size:                    args[:os_disk_size],
           premium_os_disk:                 args[:premium_os_disk],
       )
-      vm_hash                      = Fog::Compute::AzureRM::Server.parse(vm)
-      vm_hash[:password]           = args[:password]
-      vm_hash[:platform]           = args[:platform]
-      vm_hash[:puppet_master]      = args[:puppet_master]
-      vm_hash[:script_command]     = args[:script_command]
-      vm_hash[:script_uris]        = args[:script_uris]
+      vm_hash                  = Fog::Compute::AzureRM::Server.parse(vm)
+      vm_hash[:password]       = args[:password]
+      vm_hash[:platform]       = args[:platform]
+      vm_hash[:puppet_master]  = args[:puppet_master]
+      vm_hash[:script_command] = args[:script_command]
+      vm_hash[:script_uris]    = args[:script_uris]
       client.create_vm_extension(vm_hash)
       client.servers.new vm_hash
-    # fog-azure-rm raises all ARM errors as RuntimeError
+        # fog-azure-rm raises all ARM errors as RuntimeError
     rescue Fog::Errors::Error, RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
@@ -242,8 +246,8 @@ module ForemanAzureRM
       # In ARM things must be deleted in order
       vm.destroy
       nic_ids.each do |id|
-        nic = azure_network_service.network_interfaces.get(id.split('/')[4],
-                                                           id.split('/')[-1])
+        nic   = azure_network_service.network_interfaces.get(id.split('/')[4],
+                                                             id.split('/')[-1])
         ip_id = nic.public_ip_address_id
         nic.destroy
         if ip_id.present?
