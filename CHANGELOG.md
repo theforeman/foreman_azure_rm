@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
+### Added
+### Fixed
+- Apply .freeze to version constant
+- Changelog hyperlink for to compare v1.1.1 to v1.2.0
 ## [1.2.0]
 ### Added
 - This changelog
@@ -34,6 +37,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 [Unreleased]: https://github.com/01100010011001010110010101110000/foreman_azure_rm/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/01100010011001010110010101110000/foreman_azure_rm/compare/v1.1.1...1.2.0
+[1.2.0]: https://github.com/01100010011001010110010101110000/foreman_azure_rm/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/01100010011001010110010101110000/foreman_azure_rm/compare/v1.0.0...v1.1.1
 [1.0.0]: https://github.com/01100010011001010110010101110000/foreman_azure_rm/compare/v0.1.0...v1.0.0
