@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- /compute_resources/:id/:region_id/available_sizes endpoint to list all sizes in an Azure region
 ### Fixed
 - Apply .freeze to version constant
 - Changelog hyperlink for to compare v1.1.1 to v1.2.0

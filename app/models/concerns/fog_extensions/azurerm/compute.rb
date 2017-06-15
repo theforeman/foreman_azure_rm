@@ -32,11 +32,7 @@ module FogExtensions
       end
 
       def list_available_sizes(location)
-        sizes = []
-        @compute_mgmt_client.virtual_machine_sizes.list(location).value().each do |vmsize|
-          sizes << vmsize.name
-        end
-        sizes
+        @compute_mgmt_client.virtual_machine_sizes.list(location).value()
       end
 
       def list_all_vms
