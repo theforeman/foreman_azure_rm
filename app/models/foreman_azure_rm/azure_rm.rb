@@ -86,10 +86,19 @@ module ForemanAzureRM
       end
     end
 
-    def available_networks(attr = {})
-      networks
+    def available_vnets(attr = {})
+      virtual_networks
     end
 
+    def available_networks(attr = {})
+      subnets
+    end
+
+    def available_subnets
+      subnets
+    end
+
+    # TODO Delete this
     def networks
       subnets
     end
