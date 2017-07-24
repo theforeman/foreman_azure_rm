@@ -15,18 +15,6 @@ module ForemanAzureRM
       Foreman::Gettext::Support.add_text_domain locale_domain, locale_dir
     end
 
-    initializer 'foreman_azure_rm.assets.precompile' do |app|
-      app.config.assets.precompile += %w(foreman_azure_rm/azure_rm_size_from_location.js
-                                         foreman_azure_rm/azure_rm_subnet_from_vnet.js
-                                         foreman_azure_rm/azure_rm_location_callbacks.js)
-    end
-
-    initializer 'foreman_azure_rm.configure_assets', :group => :assets do
-      SETTINGS[:foreman_azure_rm] = { :assets => { :precompile => %w(foreman_azure_rm/azure_rm_size_from_location.js
-                                                                   foreman_azure_rm/azure_rm_subnet_from_vnet.js
-                                                                   foreman_azure_rm/azure_rm_location_callbacks.js) } }
-    end
-
     config.to_prepare do
       require 'fog/azurerm'
 
