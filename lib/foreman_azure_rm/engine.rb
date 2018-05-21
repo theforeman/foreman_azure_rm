@@ -4,7 +4,7 @@ module ForemanAzureRM
 
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
       Foreman::Plugin.register :foreman_azure_rm do
-        requires_foreman '>= 1.14'
+        requires_foreman '>= 1.17'
         compute_resource ForemanAzureRM::AzureRM
       end
     end
