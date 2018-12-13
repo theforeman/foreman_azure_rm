@@ -5,13 +5,13 @@
 %>
 
 <script>
-    function azure_rm_location_callback() {
-        azure_rm_get_size_from_location();
-        azure_rm_subnets_from_location();
+    function azure_rm_region_callback() {
+        azure_rm_get_size_from_region();
+        azure_rm_subnets_from_region();
     }
 
-    function azure_rm_get_size_from_location() {
-        var location = $('#azure_rm_location').val();
+    function azure_rm_get_size_from_region() {
+        var region = $('#azure_rm_region').val();
         var size_spinner = $('#azure_rm_size_spinner');
         var sizes = $('#azure_rm_size');
         var imageId = $('#azure_rm_image_id').val();
@@ -22,7 +22,7 @@
         }
         size_spinner.removeClass('hide');
         $.ajax({
-            data: {"location_string": location, "image_id": imageId},
+            data: {"region_string": region, "image_id": imageId},
             type: 'get',
             url: '/azure_rm/sizes',
             complete: function () {
@@ -47,19 +47,19 @@
         });
     }
 
-    function azure_rm_subnets_from_location() {
+    function azure_rm_subnets_from_region() {
         var imageId = $('#azure_rm_image_id').val();
         var subnets = $('#azure_rm_subnet');
-        var location = $('#azure_rm_location').val();
+        var region = $('#azure_rm_region').val();
         if (typeof tfm == 'undefined') {  // earlier than 1.13
             foreman.tools.showSpinner();
         } else {
             tfm.tools.showSpinner();
         }
         $.ajax({
-            data: {"image_id": imageId, "location": location},
-            type: "get",
-            url: "/azure_rm/subnets",
+            data: {"image_id": imageId, "region": region},
+            type: 'get',
+            url: '/azure_rm/subnets',
             complete: function () {
                 reloadOnAjaxComplete('#azure_rm_subnet');
                 if (typeof tfm == 'undefined') {  // earlier than 1.13
@@ -84,16 +84,16 @@
     }
 </script>
 
-<%= selectable_f f, :location, compute_resource.locations,
+<%= selectable_f f, :location, compute_resource.regions,
                  { :include_blank => _('Please select an Azure region') },
                  {
                      :label       => _('Azure Region'),
                      :required    => true,
-                     :id          => 'azure_rm_location',
+                     :id          => 'azure_rm_region',
                      :label_size  => "col-md-2",
-                     :onchange    => 'azure_rm_location_callback();',
+                     :onchange    => 'azure_rm_region_callback();',
                      :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
-                                                      'azure_rm_location_callback();',
+                                                      'azure_rm_region_callback();',
                                                       {
                                                           :id            => 'load_subnets_btn',
                                                           :spinner_id    => 'load_subnets_indicator',

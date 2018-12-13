@@ -35,7 +35,7 @@ module ForemanAzureRM
       [:image]
     end
 
-    def locations
+    def regions
       [
           'Central US',
           'South Central US',
@@ -61,15 +61,15 @@ module ForemanAzureRM
       rg_client.list_resource_groups
     end
 
-    def storage_accts(location = nil)
-      stripped_location = location.gsub(/\s+/, '').downcase
+    def storage_accts(region = nil)
+      stripped_region = region.gsub(/\s+/, '').downcase
       acct_names        = []
-      if location.nil?
+      if region.nil?
         storage_client.list_storage_accounts.each do |acct|
           acct_names << acct.name
         end
       else
-        (storage_client.list_storage_accounts.select { |acct| acct.location == stripped_location }).each do |acct|
+        (storage_client.list_storage_accounts.select { |acct| acct.region == stripped_region }).each do |acct|
           acct_names << acct.name
         end
       end
@@ -147,8 +147,12 @@ module ForemanAzureRM
       container
     end
 
-    def vm_sizes(location)
-      client.list_available_sizes(location)
+    def vm_sizes(region)
+      client.list_available_sizes(region)
+    end
+
+    def vm_instance_defaults
+      ActiveSupport::HashWithIndifferentAccess.new
     end
 
     def find_vm_by_uuid(uuid)
@@ -162,7 +166,7 @@ module ForemanAzureRM
 
     def create_nics(args = {})
       nics               = []
-      formatted_location = args[:location].gsub(/\s+/, '').downcase
+      formatted_region = args[:location].gsub(/\s+/, '').downcase
       args[:interfaces_attributes].each do |nic, attrs|
         attrs[:pubip_alloc]  = attrs[:bridge]
         attrs[:privip_alloc] = (attrs[:name] == 'false') ? false : true
@@ -183,14 +187,14 @@ module ForemanAzureRM
           pip = azure_network_service.public_ips.create(
               name:                        "#{args[:vm_name]}-pip#{nic}",
               resource_group:              args[:resource_group],
-              location:                    formatted_location,
+              location:                    formatted_region,
               public_ip_allocation_method: pip_alloc
           )
         end
         new_nic = azure_network_service.network_interfaces.create(
             name:                         "#{args[:vm_name]}-nic#{nic}",
             resource_group:               args[:resource_group],
-            location:                     formatted_location,
+            location:                     formatted_region,
             subnet_id:                    attrs[:network],
             public_ip_address_id:         pip.present? ? pip.id : nil,
             ip_configuration_name:        'ForemanIPConfiguration',
