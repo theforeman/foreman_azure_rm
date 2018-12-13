@@ -31,8 +31,8 @@ module FogExtensions
         @network_client.add_user_agent_information(telemetry)
       end
 
-      def list_available_sizes(location)
-        @compute_mgmt_client.virtual_machine_sizes.list(location).value()
+      def list_available_sizes(region)
+        @compute_mgmt_client.virtual_machine_sizes.list(region).value()
       end
 
       def list_all_vms

@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'deface', '< 2.0'
 
   s.add_development_dependency "rubocop"
+  s.add_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end
