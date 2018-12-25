@@ -15,4 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'fog-azure-rm-downgraded', '0.3.1'
   s.add_dependency 'deface', '< 2.0'
+
+  s.add_development_dependency "rubocop"
 end
