@@ -1,0 +1,8 @@
+AllCops:
+  Exclude:
+    # ignore fog extensions
+    - 'app/models/concerns/fog_extensions/**/*'
+
+Metrics/MethodLength:
+  Max: 20
+

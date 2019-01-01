@@ -1,4 +1,4 @@
-require File.expand_path('../lib/foreman_azure_rm/version', __FILE__)
+require_relative 'lib/foreman_azure_rm/version'
 require 'date'
 
 Gem::Specification.new do |s|
@@ -8,13 +8,17 @@ Gem::Specification.new do |s|
   s.authors = ['Tyler Gregory']
   s.email   = ['tdgregory@protonmail.com']
   s.summary = 'Azure Resource Manager as a compute resource for The Foreman'
-  s.homepage = 'https://github.com/01100010011001010110010101110000/foreman_azure_rm'
+  s.homepage = 'https://github.com/theforeman/foreman_azure_rm'
   s.license = 'GPL-3.0'
-  s.files   = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
-  s.description = 'This gem provides Azure Resource Manager as a compute resource for The Foreman'
+  s.files   =
+    Dir['{app,config,db,lib,locale}/**/*'] +
+    ['LICENSE', 'Rakefile', 'README.md']
+  s.description = <<DESC
+   This gem provides Azure Resource Manager as a compute resource for The Foreman
+DESC
 
-  s.add_dependency 'fog-azure-rm-downgraded', '0.3.1'
   s.add_dependency 'deface', '< 2.0'
+  s.add_dependency 'fog-azure-rm-downgraded', '0.3.1'
 
-  s.add_development_dependency "rubocop"
+  s.add_development_dependency 'rubocop', '~> 0.61.1'
 end
