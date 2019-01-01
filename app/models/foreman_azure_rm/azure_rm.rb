@@ -5,6 +5,11 @@ module ForemanAzureRM
     alias_attribute :app_ident, :url
     alias_attribute :tenant, :uuid
 
+    validates :user, :presence => true
+    validates :password, :presence => true
+    validates :url, :presence => true
+    validates :uuid, :presence => true
+
     before_create :test_connection
 
     class VMContainer
