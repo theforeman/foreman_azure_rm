@@ -78,5 +78,9 @@ module ForemanAzureRM
       )
       Fog::Compute::AzureRM::ManagedDisks.send(:include, FogExtensions::AzureRM::ManagedDisks)
     end
+
+    rake_tasks do
+      load "foreman_azure_rm.rake"
+    end
   end
 end
