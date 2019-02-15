@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ['Tyler Gregory']
   s.email   = ['tdgregory@protonmail.com']
   s.summary = 'Azure Resource Manager as a compute resource for The Foreman'
-  s.homepage = 'https://github.com/01100010011001010110010101110000/foreman_azure_rm'
+  s.homepage = 'https://github.com/theforeman/foreman_azure_rm'
   s.license = 'GPL-3.0'
   s.files   = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
   s.description = 'This gem provides Azure Resource Manager as a compute resource for The Foreman'
