@@ -37,6 +37,7 @@ module ForemanAzureRM
 
     def locations
       [
+          'West Europe',
           'Central US',
           'South Central US',
           'North Central US',
