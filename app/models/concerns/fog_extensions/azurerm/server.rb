@@ -16,6 +16,10 @@ module FogExtensions
         vm_status == 'running'
       end
 
+      def persisted?
+        !!identity && !!id
+      end
+
       def state
         vm_status
       end
