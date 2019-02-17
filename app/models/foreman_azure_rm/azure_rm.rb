@@ -35,7 +35,7 @@ module ForemanAzureRM
       [:image]
     end
 
-    def locations
+    def az_locations
       [
           'Central US',
           'South Central US',

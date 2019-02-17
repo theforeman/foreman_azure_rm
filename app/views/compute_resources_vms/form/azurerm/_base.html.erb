@@ -84,7 +84,7 @@
     }
 </script>
 
-<%= selectable_f f, :location, compute_resource.locations,
+<%= selectable_f f, :location, compute_resource.az_locations,
                  { :include_blank => _('Please select an Azure region') },
                  {
                      :label       => _('Azure Region'),
