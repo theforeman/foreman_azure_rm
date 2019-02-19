@@ -5,7 +5,7 @@ sudo: false
 dist: trusty
 
 script:
-  # not yet set up: - bundle exec rake rubocop
+  - bundle exec rake rubocop
   - bundle exec rake test
 
 rvm:

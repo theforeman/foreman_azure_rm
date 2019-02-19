@@ -10,3 +10,5 @@ locale/*/*.edit.po
 locale/*/*.po.time_stamp
 Gemfile.lock
 .idea/
+.ruby-*
+.tags*
