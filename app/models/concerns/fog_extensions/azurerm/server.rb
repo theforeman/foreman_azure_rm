@@ -61,8 +61,8 @@ module FogExtensions
             hash['data_disks'] = []
             unless vm.storage_profile.data_disks.nil?
               vm.storage_profile.data_disks.each do |disk|
-                data_disk = Fog::Storage::AzureRM::DataDisk.new
-                hash['data_disks'] << data_disk.merge_attributes(Fog::Storage::AzureRM::DataDisk.parse(disk))
+                data_disk = Fog::Compute::AzureRM::DataDisk.new
+                hash['data_disks'] << data_disk.merge_attributes(Fog::Compute::AzureRM::DataDisk.parse(disk))
               end
             end
 
