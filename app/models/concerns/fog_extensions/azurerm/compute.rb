@@ -201,7 +201,7 @@ module FogExtensions
         string_data = vm_hash[:custom_data]
         string_data = WHITE_SPACE if string_data.nil?
         encoded_data = Base64.strict_encode64(string_data)
-        virtual_machine.hardware_profile = define_hardware_profile(vm_hash[:vm_size])
+        virtual_machine.hardware_profile = get_hardware_profile(vm_hash[:vm_size])
         virtual_machine.storage_profile = define_managed_storage_profile(vm_hash[:name],
                                                                          vm_hash[:vhd_path],
                                                                          vm_hash[:publisher],
@@ -213,23 +213,8 @@ module FogExtensions
                                                                          vm_hash[:os_disk_size],
                                                                          vm_hash[:premium_os_disk],
                                                                          vm_hash[:data_disks])
-        virtual_machine.os_profile = if vm_hash[:platform].casecmp(WINDOWS).zero?
-                                       define_windows_os_profile(vm_hash[:name],
-                                                                 vm_hash[:username],
-                                                                 vm_hash[:password],
-                                                                 vm_hash[:provision_vm_agent],
-                                                                 vm_hash[:enable_automatic_updates],
-                                                                 encoded_data)
-                                     else
-                                       define_linux_os_profile(vm_hash[:name],
-                                                               vm_hash[:username],
-                                                               vm_hash[:password],
-                                                               vm_hash[:disable_password_authentication],
-                                                               vm_hash[:ssh_key_path],
-                                                               vm_hash[:ssh_key_data],
-                                                               encoded_data)
-                                     end
-        virtual_machine.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
+        virtual_machine.os_profile = get_os_profile(vm_hash)
+        virtual_machine.network_profile = get_network_profile(vm_hash[:network_interface_card_ids])
         virtual_machine.location = vm_hash[:location]
 
         begin
