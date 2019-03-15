@@ -18,6 +18,9 @@ module ForemanAzureRM
     config.to_prepare do
       require 'fog/azurerm'
 
+      # Use excon as default so that HTTP Proxy settings of foreman works
+      Faraday::default_adapter=:excon
+
       require 'fog/azurerm/models/compute/server'
       require File.expand_path(
           '../../../app/models/concerns/fog_extensions/azurerm/server',
