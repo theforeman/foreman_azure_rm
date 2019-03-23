@@ -134,7 +134,7 @@ module FogExtensions
       end
 
       def create_vm_extension(vm)
-        if vm[:script_command].present? && vm[:script_uris].present?
+        if vm[:script_command].present? || vm[:script_uris].present?
           extension = Azure::ARM::Compute::Models::VirtualMachineExtension.new
           if vm[:platform] == 'Linux'
             extension.publisher = 'Microsoft.Azure.Extensions'
@@ -198,9 +198,6 @@ module FogExtensions
           vm_hash[:vhd_path] = nil
         end
 
-        string_data = vm_hash[:custom_data]
-        string_data = WHITE_SPACE if string_data.nil?
-        encoded_data = Base64.strict_encode64(string_data)
         virtual_machine.hardware_profile = define_hardware_profile(vm_hash[:vm_size])
         virtual_machine.storage_profile = define_managed_storage_profile(vm_hash[:name],
                                                                          vm_hash[:vhd_path],
