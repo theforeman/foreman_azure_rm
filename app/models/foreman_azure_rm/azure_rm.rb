@@ -240,6 +240,7 @@ module ForemanAzureRM
           data_disks:                      args[:volumes_attributes],
           os_disk_size:                    args[:os_disk_size],
           premium_os_disk:                 args[:premium_os_disk],
+          custom_data:                     args[:user_data]
       )
       vm_hash                  = Fog::Compute::AzureRM::Server.parse(vm)
       vm_hash[:password]       = args[:password]
@@ -254,6 +255,10 @@ module ForemanAzureRM
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
       raise e
+    end
+
+    def user_data_supported?
+      true
     end
 
     def destroy_vm(uuid)
