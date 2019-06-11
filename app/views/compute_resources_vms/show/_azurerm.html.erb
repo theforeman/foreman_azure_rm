@@ -1,14 +1,26 @@
-<% title @vm.name %>
+<% title @vm.azure_vm.name %>
 <div class='col-md-12'>
   <table class="<%= table_css_classes %>">
     <thead>
     <tr><th colspan="2"><%=_('Properties') %></th></tr>
     </thead>
     <tbody>
-      <%= prop :id %>
-      <%= prop :location %>
-      <%= prop :vm_size %>
-      <%= prop :platform %>
+      <tr>
+        <td>Id</td>
+        <td><%=@vm.id%></td>
+      </tr>
+      <tr>
+        <td>Location</td>
+        <td><%=@vm.azure_vm.location%></td>
+      </tr>
+      <tr>
+        <td>VM Size</td>
+        <td><%=@vm.vm_size%></td>
+      </tr>
+      <tr>
+        <td>Platform</td>
+        <td><%=@vm.azure_vm.storage_profile.os_disk.os_type%></td>
+      </tr>
     </tbody>
   </table>
 </div>

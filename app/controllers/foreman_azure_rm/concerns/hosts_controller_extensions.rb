@@ -7,7 +7,7 @@ module ForemanAzureRM
           resource = azure_rm_resource.compute_resource
           render :json => resource.vm_sizes(params[:region_string]).map { |size| size.name }
         else
-          no_sizes = _('The location you selected has no sizes associated with it')
+          no_sizes = _('The region you selected has no sizes associated with it')
           render :json => "[\"#{no_sizes}\"]"
         end
       end
