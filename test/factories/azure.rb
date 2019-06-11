@@ -1,9 +1,8 @@
 FactoryBot.define do
-    factory :azure_cr, :parent => :compute_resource, :class => ForemanAzureRM::AzureRM do
-      provider 'AzureRM'
-      user 'azurermuser'
-      password 'azurermpassword'
-      url 'http://azurerm.example.com'
-      uuid 'azurermuuid'
-    end
+  factory :azure_rm, :parent => :compute_resource, :class => ForemanAzureRM::AzureRM do
+    add_attribute(:user) { 'azurermuser' }
+    add_attribute(:password) { 'azurermpassword' }
+    add_attribute(:url) { 'http://azurerm.example.com' }
+    add_attribute(:uuid) { 'azurermuuid' }
+  end
 end

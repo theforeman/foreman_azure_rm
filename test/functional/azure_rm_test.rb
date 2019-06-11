@@ -4,21 +4,16 @@ module ForemanAzureRM
   class ComputeResourcesControllerTest < ActionController::TestCase
     tests ::ComputeResourcesController
 
-    setup { Fog.mock! }
-    teardown { Fog.unmock! }
+    setup do
+      @test_sdk = mock('test_sdk') #creates an empty object
+      ForemanAzureRM::AzureRM.any_instance.stubs(:sdk).returns(@test_sdk)
+      @test_resource_client = mock('resource_client')
+      @test_sdk.stubs(:resource_client).returns(@test_resource_client)
+    end
 
-    test "should create a compute resource and return edit page" do
-      test_client = Fog::Resources::AzureRM.new(
-        tenant_id:       '',
-        client_id:       '',
-        client_secret:   '',
-        subscription_id: '',
-        :environment     => 'AzureCloud')
-
-      ForemanAzureRM::AzureRM.any_instance.stubs(:rg_client).returns(test_client)
-      test_client.stubs(:list_resource_groups).returns([])
-      @compute_resource =  FactoryBot.create(:azure_cr)
-
+    test "should return compute resource edit page" do
+      @test_sdk.stubs(:rgs).returns(['a', 'b', 'c'])
+      @compute_resource = FactoryBot.create(:azure_rm)
       get :edit, params: { :id => @compute_resource.to_param }, session: set_session_user
       assert_response :success
       assert_template 'edit'

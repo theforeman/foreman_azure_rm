@@ -77,33 +77,39 @@
                 subnets.empty();
                 $.each(request_subnets, function () {
                     //noinspection JSAnnotator
-                    subnets.append($("<option />").val(this.id).text(`${this.virtual_network_name} - ${this.name} (${this.address_prefix})`));
+                    subnets.append($("<option />").val(this.id).text(`${this.id.split('/')[8]} - ${this.name} (${this.address_prefix})`));
                 });
             }
         });
     }
 </script>
 
-<%= selectable_f f, :location, compute_resource.regions,
-                 { :include_blank => _('Please select an Azure region') },
-                 {
-                     :label       => _('Azure Region'),
-                     :required    => true,
-                     :id          => 'azure_rm_region',
-                     :label_size  => "col-md-2",
-                     :onchange    => 'azure_rm_region_callback();',
-                     :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
-                                                      'azure_rm_region_callback();',
-                                                      {
-                                                          :id            => 'load_subnets_btn',
-                                                          :spinner_id    => 'load_subnets_indicator',
-                                                          :class         => 'btn-success',
-                                                          :spinner_class => 'spinner-inverse'
-                                                      })
-                 }
+<% #This view has been modified and wraps the properties of azure_vm
+   # using fields_for rails method.
 %>
 
-<%= selectable_f f, :resource_group, resource_groups,
+<%= f.fields_for :azure_vm do |vm_f| %>
+
+  <%= selectable_f vm_f, :location, compute_resource.regions,
+               { :include_blank => _('Please select an Azure region') },
+               {
+                   :label       => _('Azure Region'),
+                   :required    => true,
+                   :id          => 'azure_rm_region',
+                   :label_size  => "col-md-2",
+                   :onchange    => 'azure_rm_region_callback();',
+                   :help_inline => spinner_button_f(f, _('Reload Images, Sizes, vNets'),
+                                                    'azure_rm_region_callback();',
+                                                    {
+                                                        :id            => 'load_subnets_btn',
+                                                        :spinner_id    => 'load_subnets_indicator',
+                                                        :class         => 'btn-success',
+                                                        :spinner_class => 'spinner-inverse'
+                                                    })
+               }
+  %>
+
+  <%= selectable_f vm_f, :resource_group, resource_groups,
                  { :include_blank => true },
                  {
                      :disabled => resource_groups.empty?,
@@ -111,87 +117,76 @@
                      :required => true,
                      :id       => 'azure_rm_rg'
                  }
-%>
+  %>
 
-<%= selectable_f f, :vm_size, [],
+  <%= selectable_f vm_f, :vm_size, [],
                  { :include_blank => _('Please first select an Azure region') },
                  {
                      :label    => _('VM Size'),
                      :required => true,
                      :id       => 'azure_rm_size'
                  }
-%>
+  %>
 
-<%= selectable_f f, :platform, %w(Linux Windows),
+  <%= selectable_f vm_f, :platform, %w(Linux Windows),
                  {},
                  {
                      :label    => _('Platform'),
                      :required => true
                  }
-%>
+  %>
 
-<%= text_f f, :username,
+  <%= text_f vm_f, :username,
            {
                :label    => _('Username'),
                :required => true
            }
-%>
-<%= text_f f, :password,
+  %>
+
+  <%= password_f vm_f, :password,
            {
                :label    => _('Password'),
-               :required => true
+               :required => true,
+               :placeholder => "********"
            }
-%>
+  %>
 
-<%= textarea_f f, :ssh_key_data,
+  <%= textarea_f vm_f, :ssh_key_data,
                {
                    :label => _('SSH Key')
                }
-%>
+  %>
 
-<%= number_f f, :os_disk_size,
-             {
-                 :class    => "col-md-2",
-                 :label    => _('OS Disk Size (GB)'), :label_size => "col-md-2",
-                 :required => true
-             }
-%>
-
-<%= checkbox_f f, :premium_os_disk,
+  <%= checkbox_f vm_f, :premium_os_disk,
                {
                    :label => _('Premium OS Disk'), :label_size => "col-md-2"
                },
                'true',
                'false'
-%>
+  %>
 
-<%= selectable_f f, :os_disk_caching, %w(None ReadOnly ReadWrite),
+  <%= selectable_f vm_f, :os_disk_caching, %w(None ReadOnly ReadWrite),
                  {},
                  {
                      :label    => _('OS Disk Caching'),
                      :required => true,
                      :class    => "col-md-2"
                  }
-%>
+  %>
 
-<%= text_f f, :puppet_master,
+  <%= text_f vm_f, :script_command,
            {
-               :label => _('Puppet Master'),
-               :help_inline => _('For the Azure Puppet extension for Windows')
+               :label => _('Custom Script Command'),
+               :help_inline => _("To perform commands as root, prefix it with 'sudo'.")
            }
-%>
+  %>
 
-<%= text_f f, :script_command,
-           {
-               :label => _('Custom Script Command')
-           }
-%>
-
-<%= text_f f, :script_uris,
+  <%= text_f vm_f, :script_uris,
            {
                :label => _('Comma seperated file URIs')
            }
-%>
+  %>
+<% end %>
 
 <div id="image_selection">
   <%= select_f f, :image_id, images, :uuid, :name,

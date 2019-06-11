@@ -13,8 +13,8 @@
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => :authorizer) %></td>
       <td><%= vm.vm_size %></td>
-      <td><%= vm.resource_group %></td>
-      <td><%= vm.location %></td>
+      <td><%= vm.azure_vm.resource_group %></td>
+      <td><%= vm.azure_vm.location %></td>
       <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %> </span> </td>
       <td>
         <%= action_buttons(
