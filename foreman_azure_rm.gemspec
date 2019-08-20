@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.name    = 'foreman_azure_rm'
   s.version = ForemanAzureRM::VERSION
   s.date    = Date.today.to_s
-  s.authors = ['Tyler Gregory']
-  s.email   = ['tdgregory@protonmail.com']
+  s.authors = ['Aditi Puntambekar', 'Shimon Shtein', 'Tyler Gregory']
+  s.email   = ['puntambekaraditi@gmail.com', 'shteinshim@gmail.com', 'tdgregory@protonmail.com']
   s.summary = 'Azure Resource Manager as a compute resource for The Foreman'
   s.homepage = 'https://github.com/theforeman/foreman_azure_rm'
   s.license = 'GPL-3.0'
@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
   s.description = 'This gem provides Azure Resource Manager as a compute resource for The Foreman'
 
   s.add_dependency 'deface', '< 2.0'
-  s.add_dependency 'azure_mgmt_resources'
-  s.add_dependency 'azure_mgmt_network'
-  s.add_dependency 'azure_mgmt_storage'
-  s.add_dependency 'azure_mgmt_compute'
+  s.add_dependency 'azure_mgmt_resources', '~> 0.17.6'
+  s.add_dependency 'azure_mgmt_network', '~> 0.19.0'
+  s.add_dependency 'azure_mgmt_storage', '~> 0.17.10'
+  s.add_dependency 'azure_mgmt_compute', '~> 0.18.7'
   s.add_development_dependency 'rubocop'
   s.add_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end
