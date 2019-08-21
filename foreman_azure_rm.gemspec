@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'azure_mgmt_storage', '~> 0.17.10'
   s.add_dependency 'azure_mgmt_compute', '~> 0.18.7'
   s.add_development_dependency 'rubocop'
-  s.add_dependency 'mocha', '~> 1.2', '>= 1.2.1'
+  s.add_development_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end
