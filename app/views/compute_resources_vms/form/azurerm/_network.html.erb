@@ -1,5 +1,7 @@
 <%= selectable_f f, :network, [],
-                 { :include_blank => _('Please first select an image and an Azure region')},
+                 { :include_blank => _('Please first select an image and an Azure region'),
+                   :selected => nil
+                 },
                  {
                    :label => _('Azure Subnet'),
                    :required => true,
@@ -9,15 +11,18 @@
 %>
 
 <%= selectable_f f, :bridge, ['None', 'Dynamic', 'Static'],
-                 {},
+                 { :selected => nil },
                  {
-                     :label => _("Public IP"),
-                     :label_size => "col-md-2"
+                   :label => _("Public IP"),
+                   :label_size => "col-md-2"
                  }
 %>
 
 <%= checkbox_f f, :name,
-               { :label => _("Static Private IP"), :label_size => "col-md-2" },
-               'true',
-               'false'
+               {
+                 :label => _("Static Private IP"),
+                 :label_size => "col-md-2"
+               },
+             'true',
+             'false'
 %>
