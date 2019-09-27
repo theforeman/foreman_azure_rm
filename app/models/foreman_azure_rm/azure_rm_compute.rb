@@ -2,12 +2,23 @@ module ForemanAzureRM
   class AzureRMCompute
     attr_accessor :sdk
     attr_accessor :azure_vm
+    attr_accessor :resource_group
 
     delegate :name, to: :azure_vm, allow_nil: true
 
-    def initialize(azure_vm: ComputeModels::VirtualMachine.new, sdk: sdk)
+    def initialize(azure_vm: ComputeModels::VirtualMachine.new,
+                   sdk: sdk,
+                   resource_group: azure_vm.resource_group)
       @azure_vm = azure_vm
       @sdk = sdk
+      @resource_group = azure_vm.resource_group || resource_group
+      @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
+      @azure_vm.os_profile ||= ComputeModels::OSProfile.new
+      @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
+      @azure_vm.os_profile.linux_configuration.ssh ||= ComputeModels::SshConfiguration.new
+      @azure_vm.os_profile.linux_configuration.ssh.public_keys ||= [ComputeModels::SshPublicKey.new]
+      @azure_vm.storage_profile ||= ComputeModels::StorageProfile.new
+      @azure_vm.storage_profile.os_disk ||= ComputeModels::OSDisk.new
     end
 
     def id
@@ -20,6 +31,39 @@ module ForemanAzureRM
 
     def vm_size
       @azure_vm.hardware_profile.vm_size
+    end
+
+    def platform
+      @azure_vm.storage_profile.os_disk.os_type
+    end
+
+    def username
+      @azure_vm.os_profile.admin_username
+    end
+
+    def password
+      @azure_vm.os_profile.admin_password
+    end
+
+    def ssh_key_data
+      # since you can only give one additional
+      # sshkey through foreman's UI
+      sshkey = @azure_vm.os_profile.linux_configuration.ssh.public_keys[1]
+      return unless sshkey.present?
+      sshkey.key_data
+    end
+
+    def premium_os_disk
+    end
+
+    def os_disk_caching
+      @azure_vm.storage_profile.os_disk.caching
+    end
+
+    def script_command
+    end
+
+    def script_uris
     end
 
     def wait_for(_timeout = 0, _interval = 0, &block)
@@ -79,10 +123,6 @@ module ForemanAzureRM
         end
       end
       interfaces
-    end
-
-    def interfaces=(setifaces)
-      @azure_vm.network_profile.network_interfaces = setifaces
     end
 
     def ip_addresses

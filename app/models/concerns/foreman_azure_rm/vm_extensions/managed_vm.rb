@@ -35,7 +35,7 @@ module ForemanAzureRM
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
 
-        # Currently eliminating data disk creation since capability does not exist.
+        # WIP disk creation
 
         if vhd_path.nil?
           # We are using a marketplace image
@@ -60,6 +60,7 @@ module ForemanAzureRM
       end
 
       def define_network_profile(network_interface_card_ids)
+        # return [] unless network_interface_card_ids.present?
         network_interface_cards = []
         network_interface_card_ids.each_with_index do |id, index|
           nic = ComputeModels::NetworkInterfaceReference.new
@@ -96,18 +97,19 @@ module ForemanAzureRM
               ip.location = formatted_region
               ip.public_ipallocation_method = pip_alloc
             end
-            pip = sdk.create_or_update_pip(args[:azure_vm][:resource_group],
-                                           "#{args[:azure_vm][:vm_name]}-pip#{nic}",
+
+            pip = sdk.create_or_update_pip(args[:resource_group],
+                                           "#{args[:vm_name]}-pip#{nic}",
                                            public_ip_params)
           end
           new_nic = sdk.create_or_update_nic(
-            args[:azure_vm][:resource_group],
-            "#{args[:azure_vm][:vm_name]}-nic#{nic}",
+            args[:resource_group],
+            "#{args[:vm_name]}-nic#{nic}",
             NetworkModels::NetworkInterface.new.tap do |interface|
               interface.location = formatted_region
               interface.ip_configurations = [
                 NetworkModels::NetworkInterfaceIPConfiguration.new.tap do |nic_conf|
-                  nic_conf.name = "#{args[:azure_vm][:vm_name]}-nic#{nic}"
+                  nic_conf.name = "#{args[:vm_name]}-nic#{nic}"
                   nic_conf.private_ipallocation_method = priv_ip_alloc
                   nic_conf.subnet = subnets(args[:azure_vm][:location]).select{ |subnet| subnet.id == attrs[:network] }.first
                   nic_conf.public_ipaddress = pip.present? ? pip : nil
@@ -120,7 +122,7 @@ module ForemanAzureRM
         nics
       end
 
-      def create_managed_virtual_machine(vm_hash)
+      def initialize_vm(vm_hash)
         custom_data = vm_hash[:custom_data]
         msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{vm_hash[:resource_group]}."
         logger.debug msg
@@ -183,18 +185,24 @@ module ForemanAzureRM
           vm.hardware_profile = ComputeModels::HardwareProfile.new.tap do |hw_profile|
             hw_profile.vm_size = vm_hash[:vm_size]
           end
-          vm.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
         end
 
-        response = sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_create_params)
+        vm_create_params
+      end
+
+      def create_managed_virtual_machine(vm_hash)
+        vm_params = initialize_vm(vm_hash)
+        vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
+
+        actual_vm = sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
         logger.debug "Virtual Machine #{vm_hash[:name]} Created Successfully."
-        response
+        actual_vm
       end
 
       def create_vm_extension(args = {})
-        if args[:azure_vm][:script_command].present? || args[:azure_vm][:script_uris].present?
+        if args[:script_command].present? || args[:script_uris].present?
           extension = ComputeModels::VirtualMachineExtension.new
-          if args[:azure_vm][:platform] == 'Linux'
+          if args[:platform] == 'Linux'
             extension.publisher = 'Microsoft.Azure.Extensions'
             extension.virtual_machine_extension_type = 'CustomScript'
             extension.type_handler_version = '2.0'
@@ -202,11 +210,11 @@ module ForemanAzureRM
           extension.auto_upgrade_minor_version = true
           extension.location = args[:azure_vm][:location].gsub(/\s+/, '').downcase
           extension.settings = {
-                'commandToExecute' => args[:azure_vm][:script_command],
-                'fileUris'         => args[:azure_vm][:script_uris].split(',')
+                'commandToExecute' => args[:script_command],
+                'fileUris'         => args[:script_uris].split(',')
           }
-          sdk.create_or_update_vm_extensions(args[:azure_vm][:resource_group],
-                                             args[:azure_vm][:vm_name],
+          sdk.create_or_update_vm_extensions(args[:resource_group],
+                                             args[:vm_name],
                                              'ForemanCustomScript',
                                              extension)
         end

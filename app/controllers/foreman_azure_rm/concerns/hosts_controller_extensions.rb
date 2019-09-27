@@ -1,6 +1,7 @@
 module ForemanAzureRM
   module Concerns
     module HostsControllerExtensions
+      extend ActiveSupport::Concern
 
       def sizes
         if (azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id])).present?

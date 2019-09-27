@@ -1,5 +1,12 @@
-<%= selectable_f f, :network, [],
-                 { :include_blank => _('Please first select an image and an Azure region')},
+
+<% # WIP %>
+
+<% #location ||= params.fetch(:host, {}).fetch(:compute_attributes, {}).fetch(:azure_vm, {}).fetch(:location, nil)
+%>
+<%= selectable_f f, :network, [],#options_for_select(compute_resource.subnets("eastus")),
+                 { :include_blank => _('Please first select an image and an Azure region'),
+                   :selected => nil#f.object.network
+                 },
                  {
                    :label => _('Azure Subnet'),
                    :required => true,
@@ -9,7 +16,7 @@
 %>
 
 <%= selectable_f f, :bridge, ['None', 'Dynamic', 'Static'],
-                 {},
+                 { :selected => nil},#f.object.bridge },
                  {
                      :label => _("Public IP"),
                      :label_size => "col-md-2"
@@ -17,7 +24,11 @@
 %>
 
 <%= checkbox_f f, :name,
-               { :label => _("Static Private IP"), :label_size => "col-md-2" },
-               'true',
-               'false'
+               {
+                 :label => _("Static Private IP"),
+                 :label_size => "col-md-2"
+               },
+             'true',
+             'false'
+
 %>

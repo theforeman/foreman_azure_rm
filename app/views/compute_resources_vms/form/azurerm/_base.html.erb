@@ -84,13 +84,13 @@
     }
 </script>
 
-<% #This view has been modified and wraps the properties of azure_vm
-   # using fields_for rails method.
+<% # This view has been modified and wraps the properties of azure_vm
+   # using fields_for rails method for location and resource_group.
 %>
 
-<%= f.fields_for :azure_vm do |vm_f| %>
-
-  <%= selectable_f vm_f, :location, compute_resource.regions,
+<%= f.fields_for :azure_vm, f.object.azure_vm do |vm_f| %>
+  <%= selectable_f vm_f, :location, options_for_select(compute_resource.regions,
+                                      :selected => f.object.azure_vm.location),
                { :include_blank => _('Please select an Azure region') },
                {
                    :label       => _('Azure Region'),
@@ -109,7 +109,7 @@
                }
   %>
 
-  <%= selectable_f vm_f, :resource_group, resource_groups,
+  <%= selectable_f f, :resource_group, resource_groups,
                  { :include_blank => true },
                  {
                      :disabled => resource_groups.empty?,
@@ -119,8 +119,8 @@
                  }
   %>
 
-  <%= selectable_f vm_f, :vm_size, [],
-                 { :include_blank => _('Please first select an Azure region') },
+  <%= selectable_f f, :vm_size, options_for_select(compute_resource.vm_sizes(f.object.azure_vm.location).map { |size| size.name }, :selected => f.object.vm_size),
+                 { :include_blank => _('Please first select an Azure region'), },
                  {
                      :label    => _('VM Size'),
                      :required => true,
@@ -128,7 +128,7 @@
                  }
   %>
 
-  <%= selectable_f vm_f, :platform, %w(Linux Windows),
+  <%= selectable_f f, :platform, %w(Linux Windows),
                  {},
                  {
                      :label    => _('Platform'),
@@ -136,36 +136,40 @@
                  }
   %>
 
-  <%= text_f vm_f, :username,
+  <%= text_f f, :username,
            {
                :label    => _('Username'),
                :required => true
            }
   %>
 
-  <%= password_f vm_f, :password,
+  <%= password_f f, :password,
            {
                :label    => _('Password'),
                :required => true,
                :placeholder => "********"
+
            }
   %>
 
-  <%= textarea_f vm_f, :ssh_key_data,
+  <%= textarea_f f, :ssh_key_data,
                {
                    :label => _('SSH Key')
                }
   %>
 
-  <%= checkbox_f vm_f, :premium_os_disk,
+  <% checked = f.object.premium_os_disk %>
+  <%= checkbox_f f, :premium_os_disk,
                {
-                   :label => _('Premium OS Disk'), :label_size => "col-md-2"
+                   :label => _('Premium OS Disk'),
+                   :checked => checked,
+                   :label_size => "col-md-2"
                },
                'true',
                'false'
   %>
 
-  <%= selectable_f vm_f, :os_disk_caching, %w(None ReadOnly ReadWrite),
+  <%= selectable_f f, :os_disk_caching, %w(None ReadOnly ReadWrite),
                  {},
                  {
                      :label    => _('OS Disk Caching'),
@@ -174,14 +178,14 @@
                  }
   %>
 
-  <%= text_f vm_f, :script_command,
+  <%= text_f f, :script_command,
            {
                :label => _('Custom Script Command'),
                :help_inline => _("To perform commands as root, prefix it with 'sudo'.")
            }
   %>
 
-  <%= text_f vm_f, :script_uris,
+  <%= text_f f, :script_uris,
            {
                :label => _('Comma seperated file URIs')
            }

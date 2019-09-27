@@ -45,7 +45,7 @@ module ForemanAzureRM
       ComputeResource.model_name
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       'Azure Resource Manager'
     end
 
@@ -55,15 +55,15 @@ module ForemanAzureRM
 
     def regions
       [
-          'West Europe',
-          'Central US',
-          'South Central US',
-          'North Central US',
-          'West Central US',
-          'East US',
-          'East US 2',
-          'West US',
-          'West US 2'
+          ['West Europe', 'westeurope'],
+          ['Central US', 'centralus'],
+          ['South Central US', 'southcentralus'],
+          ['North Central US', 'northcentralus'],
+          ['West Central US', 'westcentralus'],
+          ['East US', 'eastus'],
+          ['East US 2', 'eastus2'],
+          ['West US', 'westus'],
+          ['West US 2', 'westus2']
       ]
     end
 
@@ -93,8 +93,33 @@ module ForemanAzureRM
       super(options)
     end
 
-    def new_vm(attr = {})
-      AzureRMCompute.new(sdk: sdk)
+    def new_vm(args = {})
+      if args.empty? || args[:image_id].nil?
+        AzureRMCompute.new(sdk: sdk)
+      else
+        opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
+        # convert rails nested_attributes into a plain hash
+        [:interfaces].each do |collection|
+          nested_args = opts.delete("#{collection}_attributes".to_sym)
+          opts[collection] = nested_attributes_for(collection, nested_args) if nested_args
+        end
+        opts.reject! { |k, v| v.nil? }
+
+        stripped_location = opts[:azure_vm][:location].gsub(/\s+/, '').downcase
+
+        raw_vm = initialize_vm(location:        stripped_location,
+                               resource_group:  opts[:resource_group],
+                               vm_size:         opts[:vm_size],
+                               username:        opts[:username],
+                               password:        opts[:password],
+                               platform:        opts[:platform],
+                               ssh_key_data:    opts[:ssh_key_data],
+                               os_disk_caching: opts[:os_disk_caching],
+                               vhd_path:        opts[:image_id],
+                               premium_os_disk: opts[:premium_os_disk],
+                              )
+        vm = AzureRMCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group])
+      end
     end
 
     def provided_attributes
@@ -154,7 +179,9 @@ module ForemanAzureRM
     end
 
     def vm_instance_defaults
-      ActiveSupport::HashWithIndifferentAccess.new
+      super.merge(
+        interfaces: new_interface
+      )
     end
 
     def vms
@@ -187,44 +214,45 @@ module ForemanAzureRM
     end
 
     def create_vm(args = {})
-      args[:azure_vm][:vm_name] = args[:name].split('.')[0]
+      args[:vm_name] = args[:name].split('.')[0]
       nics = create_nics(args)
-      if args[:azure_vm][:password].present? && !args[:azure_vm][:ssh_key_data].present?
-        sudoers_cmd = "$echo #{args[:azure_vm][:password]} | sudo -S echo '\"#{args[:azure_vm][:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
-        if args[:azure_vm][:script_command].present?
+      if args[:password].present? && !args[:ssh_key_data].present?
+        sudoers_cmd = "$echo #{args[:password]} | sudo -S echo '\"#{args[:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
+        if args[:script_command].present?
           # to run the script_cmd given through form
           # as username
-          args[:azure_vm][:script_command] =  sudoers_cmd + " ; su - \"#{args[:azure_vm][:username]}\" -c \"#{args[:azure_vm][:script_command]}\""
+          args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{args[:script_command]}\""
         else
-          args[:azure_vm][:script_command] =  sudoers_cmd
+          args[:script_command] =  sudoers_cmd
         end
         disable_password_auth = false
-      elsif args[:azure_vm][:ssh_key_data].present? && !args[:azure_vm][:password].present?
+      elsif args[:ssh_key_data].present? && !args[:password].present?
         disable_password_auth = true
       else
         disable_password_auth = false
       end
+
       vm             = create_managed_virtual_machine(
-        name:                            args[:azure_vm][:vm_name],
+        name:                            args[:vm_name],
         location:                        args[:azure_vm][:location],
-        resource_group:                  args[:azure_vm][:resource_group],
-        vm_size:                         args[:azure_vm][:vm_size],
-        username:                        args[:azure_vm][:username],
-        password:                        args[:azure_vm][:password],
-        ssh_key_data:                    args[:azure_vm][:ssh_key_data],
+        resource_group:                  args[:resource_group],
+        vm_size:                         args[:vm_size],
+        username:                        args[:username],
+        password:                        args[:password],
+        ssh_key_data:                    args[:ssh_key_data],
         disable_password_authentication: disable_password_auth,
         network_interface_card_ids:      nics.map(&:id),
-        platform:                        args[:azure_vm][:platform],
+        platform:                        args[:platform],
         vhd_path:                        args[:image_id],
-        os_disk_caching:                 args[:azure_vm][:os_disk_caching],
-        premium_os_disk:                 args[:azure_vm][:premium_os_disk],
+        os_disk_caching:                 args[:os_disk_caching],
+        premium_os_disk:                 args[:premium_os_disk],
         custom_data:                     args[:user_data],
-        script_command:                  args[:azure_vm][:script_command],
-        script_uris:                     args[:azure_vm][:script_uris],
+        script_command:                  args[:script_command],
+        script_uris:                     args[:script_uris],
       )
       create_vm_extension(args)
       # return the vm object using azure_vm
-      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk)
+      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group])
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
