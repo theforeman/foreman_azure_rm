@@ -97,11 +97,6 @@ module ForemanAzureRM
       AzureRMCompute.new(sdk: sdk)
     end
 
-    def stop
-      power_off
-      deallocate
-    end
-
     def provided_attributes
       super.merge({ :ip => :provisioning_ip_address })
     end
@@ -152,6 +147,10 @@ module ForemanAzureRM
 
     def vm_sizes(region)
       sdk.list_vm_sizes(region)
+    end
+
+    def associated_host(vm)
+      associate_by("ip", [vm.public_ip_address, vm.private_ip_address])
     end
 
     def vm_instance_defaults

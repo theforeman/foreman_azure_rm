@@ -137,5 +137,14 @@ module ForemanAzureRM
       end
       vm_status
     end
+
+    def start_vm(rg_name, vm_name)
+      compute_client.virtual_machines.start(rg_name, vm_name)
+    end
+
+    def stop_vm(rg_name, vm_name)
+      compute_client.virtual_machines.power_off(rg_name, vm_name)
+      compute_client.virtual_machines.deallocate(rg_name, vm_name)
+    end
   end
 end
