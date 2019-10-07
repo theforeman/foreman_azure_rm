@@ -11,7 +11,7 @@ module ForemanAzureRM
                    resource_group: azure_vm.resource_group)
       @azure_vm = azure_vm
       @sdk = sdk
-      @resource_group = azure_vm.resource_group || resource_group
+      @resource_group ||= resource_group
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
       @azure_vm.os_profile ||= ComputeModels::OSProfile.new
       @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new

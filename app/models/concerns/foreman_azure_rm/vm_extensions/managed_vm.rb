@@ -60,7 +60,6 @@ module ForemanAzureRM
       end
 
       def define_network_profile(network_interface_card_ids)
-        # return [] unless network_interface_card_ids.present?
         network_interface_cards = []
         network_interface_card_ids.each_with_index do |id, index|
           nic = ComputeModels::NetworkInterfaceReference.new
