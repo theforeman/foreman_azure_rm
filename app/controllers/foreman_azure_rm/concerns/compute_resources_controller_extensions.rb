@@ -3,6 +3,15 @@ module ForemanAzureRM
     module ComputeResourcesControllerExtensions
       include Api::Version2
       include Foreman::Controller::Parameters::ComputeResource
+      extend ::Apipie::DSL::Concern
+      update_api(:create, :update) do
+        param :compute_resource, Hash do
+          # Not adding :tenant as already specified in core.
+          param :app_ident, String, :desc => N_("Client ID for AzureRM")
+          param :secret_key, String, :desc => N_("Client Secret for AzureRM")
+          param :sub_id, String, :desc => N_("Subscription ID for AzureRM")
+        end
+      end
 
       def available_resource_groups
         compute_resource = ComputeResource.find_by_id(params[:id])
