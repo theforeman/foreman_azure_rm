@@ -35,6 +35,14 @@ module ForemanAzureRM
       vm_status
     end
 
+    def start
+      sdk.start_vm(@azure_vm.resource_group, name)
+    end
+
+    def stop
+      sdk.stop_vm(@azure_vm.resource_group, name)
+    end
+
     def vm_status
       sdk.check_vm_status(@azure_vm.resource_group, name)
     end
