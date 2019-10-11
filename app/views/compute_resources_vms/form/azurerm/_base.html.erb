@@ -159,9 +159,9 @@
   %>
 
   <%= checkbox_f f, :premium_os_disk,
-               {
-                   :label => _('Premium OS Disk'),
-                   :label_size => "col-md-2"
+               {    :checked => f.object.premium_os_disk == "Premium_LRS",
+                    :label => _('Premium OS Disk'),
+                    :label_size => "col-md-2"
                },
                'true',
                'false'

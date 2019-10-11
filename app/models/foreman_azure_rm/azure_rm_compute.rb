@@ -19,6 +19,7 @@ module ForemanAzureRM
       @azure_vm.os_profile.linux_configuration.ssh.public_keys ||= [ComputeModels::SshPublicKey.new]
       @azure_vm.storage_profile ||= ComputeModels::StorageProfile.new
       @azure_vm.storage_profile.os_disk ||= ComputeModels::OSDisk.new
+      @azure_vm.storage_profile.os_disk.managed_disk ||= ComputeModels::ManagedDiskParameters.new
     end
 
     def id
@@ -27,43 +28,6 @@ module ForemanAzureRM
 
     def persisted?
       !!identity && !!id
-    end
-
-    def vm_size
-      @azure_vm.hardware_profile.vm_size
-    end
-
-    def platform
-      @azure_vm.storage_profile.os_disk.os_type
-    end
-
-    def username
-      @azure_vm.os_profile.admin_username
-    end
-
-    def password
-      @azure_vm.os_profile.admin_password
-    end
-
-    def ssh_key_data
-      # since you can only give one additional
-      # sshkey through foreman's UI
-      sshkey = @azure_vm.os_profile.linux_configuration.ssh.public_keys[1]
-      return unless sshkey.present?
-      sshkey.key_data
-    end
-
-    def premium_os_disk
-    end
-
-    def os_disk_caching
-      @azure_vm.storage_profile.os_disk.caching
-    end
-
-    def script_command
-    end
-
-    def script_uris
     end
 
     def wait_for(_timeout = 0, _interval = 0, &block)
@@ -139,5 +103,47 @@ module ForemanAzureRM
 
     def image_id
     end
+
+    # Following properties are for AzureRM
+    # These are not part of Foreman's interface
+
+    def vm_size
+      @azure_vm.hardware_profile.vm_size
+    end
+
+    def platform
+      @azure_vm.storage_profile.os_disk.os_type
+    end
+
+    def username
+      @azure_vm.os_profile.admin_username
+    end
+
+    def password
+      @azure_vm.os_profile.admin_password
+    end
+
+    def ssh_key_data
+      # since you can only give one additional
+      # sshkey through foreman's UI
+      sshkey = @azure_vm.os_profile.linux_configuration.ssh.public_keys[1]
+      return unless sshkey.present?
+      sshkey.key_data
+    end
+
+    def premium_os_disk
+      @azure_vm.storage_profile.os_disk.managed_disk.storage_account_type
+    end
+
+    def os_disk_caching
+      @azure_vm.storage_profile.os_disk.caching
+    end
+
+    def script_command
+    end
+
+    def script_uris
+    end
+
   end
 end
