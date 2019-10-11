@@ -164,10 +164,11 @@ module ForemanAzureRM
     end
 
     def new_interface(attr = {})
-      # WIP
-      # calls nic_cards method in adapter
-      # causes compute profiles issue
-      # NetworkModels::NetworkInterface.new
+      NetworkModels::NetworkInterface.new
+    end
+
+    def editable_network_interfaces?
+      true
     end
 
     def vm_sizes(region)

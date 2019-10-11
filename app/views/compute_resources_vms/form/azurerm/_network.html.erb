@@ -1,5 +1,5 @@
-<%= selectable_f f, :network, [],#options_for_select(compute_resource.subnets("eastus")),
-                 { :include_blank => _('Please first select an image and an Azure region'),
+<%= selectable_f f, :network, [],
+                 { :include_blank => _('Please first select an image then an Azure region'),
                    :selected => nil#f.object.network
                  },
                  {
