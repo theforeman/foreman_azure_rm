@@ -4,9 +4,9 @@ module ForemanAzureRM
       extend ActiveSupport::Concern
 
       def sizes
-        if (azure_rm_resource = Image.unscoped.find_by_uuid(params[:image_id])).present?
-          resource = azure_rm_resource.compute_resource
-          render :json => resource.vm_sizes(params[:region_string]).map { |size| size.name }
+        azure_rm_resource = ComputeResource.unscoped.find_by_id(params[:compute_resource_id])
+        if azure_rm_resource.present?
+          render :json => azure_rm_resource.vm_sizes.map { |size| size.name }
         else
           no_sizes = _('The region you selected has no sizes associated with it')
           render :json => "[\"#{no_sizes}\"]"
@@ -14,10 +14,9 @@ module ForemanAzureRM
       end
 
       def subnets
-        azure_rm_image = Image.unscoped.find_by_uuid(params[:image_id])
-        if azure_rm_image.present?
-          azure_rm_resource = azure_rm_image.compute_resource
-          subnets           = azure_rm_resource.subnets(params[:region])
+        azure_rm_resource = ComputeResource.unscoped.find_by_id(params[:compute_resource_id])
+        if azure_rm_resource.present?
+          subnets = azure_rm_resource.subnets
           if subnets.present?
             render :json => subnets
           else

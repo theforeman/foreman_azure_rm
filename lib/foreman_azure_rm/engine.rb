@@ -11,7 +11,7 @@ module ForemanAzureRM
       Foreman::Plugin.register :foreman_azure_rm do
         requires_foreman '>= 1.17'
         compute_resource ForemanAzureRM::AzureRM
-        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id
+        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region
       end
     end
 

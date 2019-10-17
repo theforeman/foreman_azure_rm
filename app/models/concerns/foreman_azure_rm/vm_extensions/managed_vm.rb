@@ -35,7 +35,7 @@ module ForemanAzureRM
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
 
-        # WIP disk creation
+        # ToDo disk creation for volume capability
 
         if vhd_path.nil?
           # We are using a marketplace image
@@ -72,28 +72,26 @@ module ForemanAzureRM
         network_profile
       end
 
-      def create_nics(args = {})
+      def create_nics(region, args = {})
         nics               = []
-        formatted_region = args[:azure_vm][:location].gsub(/\s+/, '').downcase
         args[:interfaces_attributes].each do |nic, attrs|
-          attrs[:pubip_alloc]  = attrs[:bridge]
-          attrs[:privip_alloc] = (attrs[:name] == 'false') ? false : true
-          pip_alloc            = case attrs[:pubip_alloc]
+          private_ip = (attrs[:private_ip] == 'false') ? false : true
+          pip_alloc            = case attrs[:public_ip]
                                    when 'Static'
                                      NetworkModels::IPAllocationMethod::Static
                                    when 'Dynamic'
                                      NetworkModels::IPAllocationMethod::Dynamic
                                    when 'None'
                                      nil
-                                 end
-          priv_ip_alloc        = if attrs[:priv_ip_alloc]
+                                 end                      
+          priv_ip_alloc        = if private_ip
                                    NetworkModels::IPAllocationMethod::Static
                                  else
                                    NetworkModels::IPAllocationMethod::Dynamic
                                  end
           if pip_alloc.present?
             public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
-              ip.location = formatted_region
+              ip.location = region
               ip.public_ipallocation_method = pip_alloc
             end
 
@@ -105,12 +103,12 @@ module ForemanAzureRM
             args[:resource_group],
             "#{args[:vm_name]}-nic#{nic}",
             NetworkModels::NetworkInterface.new.tap do |interface|
-              interface.location = formatted_region
+              interface.location = region
               interface.ip_configurations = [
                 NetworkModels::NetworkInterfaceIPConfiguration.new.tap do |nic_conf|
                   nic_conf.name = "#{args[:vm_name]}-nic#{nic}"
                   nic_conf.private_ipallocation_method = priv_ip_alloc
-                  nic_conf.subnet = subnets(args[:azure_vm][:location]).select{ |subnet| subnet.id == attrs[:network] }.first
+                  nic_conf.subnet = subnets.select{ |subnet| subnet.id == attrs[:network] }.first
                   nic_conf.public_ipaddress = pip.present? ? pip : nil
                 end
               ]
@@ -198,7 +196,7 @@ module ForemanAzureRM
         actual_vm
       end
 
-      def create_vm_extension(args = {})
+      def create_vm_extension(region, args = {})
         if args[:script_command].present? || args[:script_uris].present?
           extension = ComputeModels::VirtualMachineExtension.new
           if args[:platform] == 'Linux'
@@ -207,7 +205,7 @@ module ForemanAzureRM
             extension.type_handler_version = '2.0'
           end
           extension.auto_upgrade_minor_version = true
-          extension.location = args[:azure_vm][:location].gsub(/\s+/, '').downcase
+          extension.location = region
           extension.settings = {
                 'commandToExecute' => args[:script_command],
                 'fileUris'         => args[:script_uris].split(',')

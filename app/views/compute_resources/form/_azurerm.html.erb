@@ -1,7 +1,9 @@
-<%= text_f f, :url, :label => _('Client ID'), :required => true %>
+<%= text_f f, :app_ident, :label => _('Client ID'), :required => true %>
 <%= password_f f, :password, :label => _('Client Secret'), :keep_value => true, :required => true %>
 <%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
 <%= text_f f, :uuid, :label => _('Tenant ID'), :required => true %>
+
+<%= selectable_f(f, :url, f.object.regions, {}, {:label => _('Azure Region'), :required => true }) %>
 
 <div class="col-md-offset-2">
     <%= test_connection_button_f(f, true) %>

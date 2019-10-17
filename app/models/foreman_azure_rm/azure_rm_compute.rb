@@ -3,15 +3,19 @@ module ForemanAzureRM
     attr_accessor :sdk
     attr_accessor :azure_vm
     attr_accessor :resource_group
+    attr_accessor :nics
 
     delegate :name, to: :azure_vm, allow_nil: true
 
     def initialize(azure_vm: ComputeModels::VirtualMachine.new,
                    sdk: sdk,
-                   resource_group: azure_vm.resource_group)
+                   resource_group: azure_vm.resource_group,
+                   nics: [OpenStruct.new(:network => "", :public_ip => "", :private_ip => "false")] )
+
       @azure_vm = azure_vm
       @sdk = sdk
       @resource_group ||= resource_group
+      @nics ||= nics
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
       @azure_vm.os_profile ||= ComputeModels::OSProfile.new
       @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
@@ -45,10 +49,12 @@ module ForemanAzureRM
 
     def start
       sdk.start_vm(@azure_vm.resource_group, name)
+      true
     end
 
     def stop
       sdk.stop_vm(@azure_vm.resource_group, name)
+      true
     end
 
     def vm_status
@@ -56,11 +62,16 @@ module ForemanAzureRM
     end
 
     def network_interface_card_ids
+      return nil unless @azure_vm.network_profile
       nics = @azure_vm.network_profile.network_interfaces
       nics.map(&:id)
     end
 
     def provisioning_ip_address
+      public_ip_address || private_ip_address
+    end
+
+    def public_ip_address
       interfaces.each do |nic|
         nic.ip_configurations.each do |configuration|
           next unless configuration.primary
@@ -71,22 +82,37 @@ module ForemanAzureRM
             public_ip = sdk.public_ip(ip_rg, ip_name)
             return public_ip.ip_address
           else
-            return configuration.private_ipaddress
+            return nil
           end
         end
-      end    
+      end
+    end
+
+    def private_ip_address
+      interfaces.each do |nic|
+        nic.ip_configurations.each do |configuration|
+          next unless configuration.primary
+          if configuration.private_ipaddress.present?
+            return private_ip_address = configuration.private_ipaddress
+          end
+        end
+      end
     end
 
     def interfaces
-      interfaces = []
-      unless network_interface_card_ids.nil?
+      if network_interface_card_ids
+        nics = []
         network_interface_card_ids.each do |nic_id|
-          nic_rg   = nic_id.split('/')[4]
           nic_name = nic_id.split('/')[-1]
-          interfaces << sdk.vm_nic(nic_rg, nic_name)
+          nics << sdk.vm_nic(resource_group, nic_name)
         end
+        nics
+      else
+        nics
       end
-      interfaces
+    end
+
+    def interfaces_attributes=(attrs)
     end
 
     def ip_addresses
@@ -144,6 +170,5 @@ module ForemanAzureRM
 
     def script_uris
     end
-
   end
 end
