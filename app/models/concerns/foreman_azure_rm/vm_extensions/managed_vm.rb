@@ -83,7 +83,7 @@ module ForemanAzureRM
                                      NetworkModels::IPAllocationMethod::Dynamic
                                    when 'None'
                                      nil
-                                 end                      
+                                 end
           priv_ip_alloc        = if private_ip
                                    NetworkModels::IPAllocationMethod::Static
                                  else
@@ -198,6 +198,7 @@ module ForemanAzureRM
 
       def create_vm_extension(region, args = {})
         if args[:script_command].present? || args[:script_uris].present?
+          args[:script_uris] = args[:script_uris].to_s unless args[:script_uris].present?
           extension = ComputeModels::VirtualMachineExtension.new
           if args[:platform] == 'Linux'
             extension.publisher = 'Microsoft.Azure.Extensions'

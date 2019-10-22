@@ -4,6 +4,7 @@ module ForemanAzureRM
     attr_accessor :azure_vm
     attr_accessor :resource_group
     attr_accessor :nics
+    attr_accessor :image_id
 
     delegate :name, to: :azure_vm, allow_nil: true
 
@@ -100,16 +101,7 @@ module ForemanAzureRM
     end
 
     def interfaces
-      if network_interface_card_ids
-        nics = []
-        network_interface_card_ids.each do |nic_id|
-          nic_name = nic_id.split('/')[-1]
-          nics << sdk.vm_nic(resource_group, nic_name)
-        end
-        nics
-      else
-        nics
-      end
+      nics
     end
 
     def interfaces_attributes=(attrs)
@@ -125,9 +117,6 @@ module ForemanAzureRM
 
     def identity=(setuuid)
       @azure_vm.name = setuuid
-    end
-
-    def image_id
     end
 
     # Following properties are for AzureRM

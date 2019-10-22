@@ -169,11 +169,21 @@ module ForemanAzureRM
       )
     end
 
+    def vm_nics(vm)
+      ifaces = []
+      vm.network_profile.network_interfaces.each do |nic|
+        nic_rg = nic.id.split('/')[4]
+        nic_name = nic.id.split('/')[-1]
+        ifaces << sdk.vm_nic(nic_rg, nic_name)
+      end
+      ifaces
+    end
+
     def vms(attrs = {})
       container = VMContainer.new
       # Load all vms of the region
       sdk.list_vms(region).each do |vm|
-        container.virtualmachines << AzureRMCompute.new(azure_vm: vm, sdk:sdk)
+        container.virtualmachines << AzureRMCompute.new(azure_vm: vm, sdk:sdk, nics: vm_nics(vm))
       end
       container
     end
@@ -234,15 +244,8 @@ module ForemanAzureRM
         script_uris:                     args[:script_uris],
       )
       create_vm_extension(region, args)
-      # passing the interfaces to wrapper class
-      ifaces = []
-      vm.network_profile.network_interfaces.each do |nic|
-        nic_id = nic.id
-        nic_name = nic_id.split('/')[-1]
-        ifaces << sdk.vm_nic(args[:resource_group], nic_name)
-      end
       # return the vm object using azure_vm
-      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: ifaces)
+      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
