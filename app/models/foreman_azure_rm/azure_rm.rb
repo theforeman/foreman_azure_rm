@@ -85,36 +85,32 @@ module ForemanAzureRM
     end
 
     def new_vm(args = {})
-      if args.empty? || args[:image_id].nil?
-        AzureRMCompute.new(sdk: sdk)
-      else
-        opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
-        # convert rails nested_attributes into a plain hash
-        [:interfaces].each do |collection|
-          nested_args = opts.delete("#{collection}_attributes".to_sym)
-          opts[collection] = nested_attributes_for(collection, nested_args) if nested_args
-        end
-        opts.reject! { |k, v| v.nil? }
+      return AzureRMCompute.new(sdk: sdk) if args.empty? || args[:image_id].nil?
+      opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
+      # convert rails nested_attributes into a plain hash
+      nested_args = opts.delete(:interfaces_attributes)
+      opts[:interfaces] = nested_attributes_for(:interfaces, nested_args) if nested_args
 
-        raw_vm = initialize_vm(location:        region,
-                               resource_group:  opts[:resource_group],
-                               vm_size:         opts[:vm_size],
-                               username:        opts[:username],
-                               password:        opts[:password],
-                               platform:        opts[:platform],
-                               ssh_key_data:    opts[:ssh_key_data],
-                               os_disk_caching: opts[:os_disk_caching],
-                               vhd_path:        opts[:image_id],
-                               premium_os_disk: opts[:premium_os_disk]
-                              )
-        if opts[:interfaces].present?
-          ifaces = []
-          opts[:interfaces].each_with_index do |iface_attrs, i|
-            ifaces << new_interface(iface_attrs)
-          end
+      opts.reject! { |k, v| v.nil? }
+
+      raw_vm = initialize_vm(location:        region,
+                             resource_group:  opts[:resource_group],
+                             vm_size:         opts[:vm_size],
+                             username:        opts[:username],
+                             password:        opts[:password],
+                             platform:        opts[:platform],
+                             ssh_key_data:    opts[:ssh_key_data],
+                             os_disk_caching: opts[:os_disk_caching],
+                             vhd_path:        opts[:image_id],
+                             premium_os_disk: opts[:premium_os_disk]
+                            )
+      if opts[:interfaces].present?
+        ifaces = []
+        opts[:interfaces].each_with_index do |iface_attrs, i|
+          ifaces << new_interface(iface_attrs)
         end
-        vm = AzureRMCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
       end
+      AzureRMCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
     end
 
     def provided_attributes
@@ -134,7 +130,7 @@ module ForemanAzureRM
     end
 
     def virtual_networks
-      sdk.vnets.select { |vnet| vnet.location == region }
+      @virtual_networks ||= sdk.vnets.select { |vnet| vnet.location == region }
     end
 
     def subnets
@@ -164,7 +160,7 @@ module ForemanAzureRM
     end
 
     def vm_instance_defaults
-      super.merge(
+      super.deep_merge(
         interfaces: [new_interface]
       )
     end
@@ -243,6 +239,7 @@ module ForemanAzureRM
         script_command:                  args[:script_command],
         script_uris:                     args[:script_uris],
       )
+      logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       create_vm_extension(region, args)
       # return the vm object using azure_vm
       return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))

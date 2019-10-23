@@ -11,7 +11,7 @@ module ForemanAzureRM
     def initialize(azure_vm: ComputeModels::VirtualMachine.new,
                    sdk: sdk,
                    resource_group: azure_vm.resource_group,
-                   nics: [OpenStruct.new(:network => "", :public_ip => "", :private_ip => "false")] )
+                   nics: [] )
 
       @azure_vm = azure_vm
       @sdk = sdk

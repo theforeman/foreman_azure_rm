@@ -35,7 +35,7 @@ module ForemanAzureRM
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
 
-        # ToDo disk creation for volume capability
+        # TODO - disk creation for volume capability
 
         if vhd_path.nil?
           # We are using a marketplace image
@@ -76,7 +76,7 @@ module ForemanAzureRM
         nics               = []
         args[:interfaces_attributes].each do |nic, attrs|
           private_ip = (attrs[:private_ip] == 'false') ? false : true
-          pip_alloc            = case attrs[:public_ip]
+          pub_ip_alloc            = case attrs[:public_ip]
                                    when 'Static'
                                      NetworkModels::IPAllocationMethod::Static
                                    when 'Dynamic'
@@ -89,10 +89,10 @@ module ForemanAzureRM
                                  else
                                    NetworkModels::IPAllocationMethod::Dynamic
                                  end
-          if pip_alloc.present?
+          if pub_ip_alloc.present?
             public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
               ip.location = region
-              ip.public_ipallocation_method = pip_alloc
+              ip.public_ipallocation_method = pub_ip_alloc
             end
 
             pip = sdk.create_or_update_pip(args[:resource_group],
@@ -190,10 +190,7 @@ module ForemanAzureRM
       def create_managed_virtual_machine(vm_hash)
         vm_params = initialize_vm(vm_hash)
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
-
-        actual_vm = sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
-        logger.debug "Virtual Machine #{vm_hash[:name]} Created Successfully."
-        actual_vm
+        sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end
 
       def create_vm_extension(region, args = {})

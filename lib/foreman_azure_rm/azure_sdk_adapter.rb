@@ -58,6 +58,10 @@ module ForemanAzureRM
       network_client.network_interfaces.get(rg_name, nic_name)
     end
 
+    def get_vm_extension(rg_name, vm_name, vm_extension_name)
+      compute_client.virtual_machine_extensions.get(rg_name, vm_name, vm_extension_name)
+    end
+
     def list_vm_sizes(region)
       return [] unless region.present?
       stripped_region = region.gsub(/\s+/, '').downcase
