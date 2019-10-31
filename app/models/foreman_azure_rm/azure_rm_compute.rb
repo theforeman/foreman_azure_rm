@@ -11,7 +11,7 @@ module ForemanAzureRM
     def initialize(azure_vm: ComputeModels::VirtualMachine.new,
                    sdk: sdk,
                    resource_group: azure_vm.resource_group,
-                   nics: [] )
+                   nics: [])
 
       @azure_vm = azure_vm
       @sdk = sdk
@@ -76,15 +76,12 @@ module ForemanAzureRM
       interfaces.each do |nic|
         nic.ip_configurations.each do |configuration|
           next unless configuration.primary
-          if configuration.public_ipaddress.present?
-            ip_id     = configuration.public_ipaddress.id
-            ip_rg     = ip_id.split('/')[4]
-            ip_name   = ip_id.split('/')[-1]
-            public_ip = sdk.public_ip(ip_rg, ip_name)
-            return public_ip.ip_address
-          else
-            return nil
-          end
+          return nil if configuration.public_ipaddress.blank?
+          ip_id     = configuration.public_ipaddress.id
+          ip_rg     = ip_id.split('/')[4]
+          ip_name   = ip_id.split('/')[-1]
+          public_ip = sdk.public_ip(ip_rg, ip_name)
+          return public_ip.ip_address
         end
       end
     end

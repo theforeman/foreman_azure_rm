@@ -125,10 +125,6 @@ module ForemanAzureRM
       subnets
     end
 
-    def available_subnets
-      subnets
-    end
-
     def virtual_networks
       @virtual_networks ||= sdk.vnets.select { |vnet| vnet.location == region }
     end
@@ -142,8 +138,10 @@ module ForemanAzureRM
       subnets
     end
 
+    alias_method :available_subnets, :subnets
+
     def new_interface(attrs = {})
-      args = { :network => "", :public_ip => "", :private_ip => false }.merge(attrs.to_h)
+      args = { :network => "", :public_ip => "", :private_ip => false, 'persisted?' => false }.merge(attrs.to_h)
       OpenStruct.new(args)
     end
 
@@ -168,8 +166,8 @@ module ForemanAzureRM
     def vm_nics(vm)
       ifaces = []
       vm.network_profile.network_interfaces.each do |nic|
-        nic_rg = nic.id.split('/')[4]
-        nic_name = nic.id.split('/')[-1]
+        nic_rg = (split_nic_id = nic.id.split('/'))[4]
+        nic_name = split_nic_id[-1]
         ifaces << sdk.vm_nic(nic_rg, nic_name)
       end
       ifaces
@@ -242,7 +240,7 @@ module ForemanAzureRM
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       create_vm_extension(region, args)
       # return the vm object using azure_vm
-      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
+      AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
@@ -251,13 +249,12 @@ module ForemanAzureRM
 
     def destroy_vm(uuid)
       vm           = find_vm_by_uuid(uuid)
-      vm_name      = vm.name
       rg_name      = vm.resource_group
       os_disk      = vm.azure_vm.storage_profile.os_disk
       data_disks   = vm.azure_vm.storage_profile.data_disks
       nic_ids      = vm.network_interface_card_ids
 
-      sdk.delete_vm(rg_name, vm_name)
+      sdk.delete_vm(rg_name, vm.name)
 
       nic_ids.each do |nic_id|
         nic = sdk.vm_nic(rg_name, nic_id.split('/')[-1])

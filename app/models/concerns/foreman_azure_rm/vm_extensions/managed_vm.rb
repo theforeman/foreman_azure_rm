@@ -76,19 +76,19 @@ module ForemanAzureRM
         nics               = []
         args[:interfaces_attributes].each do |nic, attrs|
           private_ip = (attrs[:private_ip] == 'false') ? false : true
-          pub_ip_alloc            = case attrs[:public_ip]
-                                   when 'Static'
-                                     NetworkModels::IPAllocationMethod::Static
-                                   when 'Dynamic'
-                                     NetworkModels::IPAllocationMethod::Dynamic
-                                   when 'None'
-                                     nil
-                                 end
-          priv_ip_alloc        = if private_ip
-                                   NetworkModels::IPAllocationMethod::Static
-                                 else
-                                   NetworkModels::IPAllocationMethod::Dynamic
-                                 end
+          priv_ip_alloc       = if private_ip
+                                  NetworkModels::IPAllocationMethod::Static
+                                else
+                                  NetworkModels::IPAllocationMethod::Dynamic
+                                end
+          pub_ip_alloc        = case attrs[:public_ip]
+                                when 'Static'
+                                  NetworkModels::IPAllocationMethod::Static
+                                when 'Dynamic'
+                                  NetworkModels::IPAllocationMethod::Dynamic
+                                when 'None'
+                                  nil
+                                end
           if pub_ip_alloc.present?
             public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
               ip.location = region
@@ -109,7 +109,7 @@ module ForemanAzureRM
                   nic_conf.name = "#{args[:vm_name]}-nic#{nic}"
                   nic_conf.private_ipallocation_method = priv_ip_alloc
                   nic_conf.subnet = subnets.select{ |subnet| subnet.id == attrs[:network] }.first
-                  nic_conf.public_ipaddress = pip.present? ? pip : nil
+                  nic_conf.public_ipaddress = pip
                 end
               ]
             end
@@ -195,7 +195,7 @@ module ForemanAzureRM
 
       def create_vm_extension(region, args = {})
         if args[:script_command].present? || args[:script_uris].present?
-          args[:script_uris] = args[:script_uris].to_s unless args[:script_uris].present?
+          args[:script_uris] ||=  args[:script_uris].to_s
           extension = ComputeModels::VirtualMachineExtension.new
           if args[:platform] == 'Linux'
             extension.publisher = 'Microsoft.Azure.Extensions'
