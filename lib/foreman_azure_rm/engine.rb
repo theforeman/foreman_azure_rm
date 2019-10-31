@@ -4,13 +4,13 @@ module ForemanAzureRM
 
     #autoloading all files inside lib dir
     config.autoload_paths += Dir["#{config.root}/lib"]
-    config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/models/concerns/foreman_azure_rm/vm_extensions/"]
 
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
       Foreman::Plugin.register :foreman_azure_rm do
         requires_foreman '>= 1.17'
         compute_resource ForemanAzureRM::AzureRM
-        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id
+        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region
       end
     end
 

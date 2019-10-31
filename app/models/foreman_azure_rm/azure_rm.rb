@@ -1,6 +1,6 @@
 # This Model contains code modified as per azure-sdk
 # and removed dependencies from fog-azure-rm.
-# 
+
 require 'base64'
 
 module ForemanAzureRM
@@ -9,13 +9,10 @@ module ForemanAzureRM
     include VMExtensions::ManagedVM
     alias_attribute :sub_id, :user
     alias_attribute :secret_key, :password
-    alias_attribute :app_ident, :url
+    alias_attribute :region, :url
     alias_attribute :tenant, :uuid
 
-    validates :user, :presence => true
-    validates :password, :presence => true
-    validates :url, :presence => true
-    validates :uuid, :presence => true
+    validates :user, :password, :url, :uuid, :app_ident, :presence => true
 
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
@@ -23,6 +20,7 @@ module ForemanAzureRM
 
     class VMContainer
       attr_accessor :virtualmachines
+      delegate :each, to: :virtualmachines
 
       def initialize
         @virtualmachines = []
@@ -31,6 +29,14 @@ module ForemanAzureRM
       def all(_options = {})
         @virtualmachines
       end
+    end
+
+    def app_ident
+      attrs[:app_ident]
+    end
+
+    def app_ident=(name)
+      attrs[:app_ident] = name
     end
 
     def sdk
@@ -45,7 +51,7 @@ module ForemanAzureRM
       ComputeResource.model_name
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       'Azure Resource Manager'
     end
 
@@ -55,31 +61,16 @@ module ForemanAzureRM
 
     def regions
       [
-          'West Europe',
-          'Central US',
-          'South Central US',
-          'North Central US',
-          'West Central US',
-          'East US',
-          'East US 2',
-          'West US',
-          'West US 2'
+          ['West Europe', 'westeurope'],
+          ['Central US', 'centralus'],
+          ['South Central US', 'southcentralus'],
+          ['North Central US', 'northcentralus'],
+          ['West Central US', 'westcentralus'],
+          ['East US', 'eastus'],
+          ['East US 2', 'eastus2'],
+          ['West US', 'westus'],
+          ['West US 2', 'westus2']
       ]
-    end
-
-    def storage_accts(region = nil)
-      stripped_region = region.gsub(/\s+/, '').downcase
-      acct_names        = []
-      if region.nil?
-        sdk.get_storage_accts.each do |acct|
-          acct_names << acct.name
-        end
-      else
-        (sdk.get_storage_accts.select { |acct| acct.region == stripped_region }).each do |acct|
-          acct_names << acct.name
-        end
-      end
-      acct_names
     end
 
     def resource_groups
@@ -93,18 +84,37 @@ module ForemanAzureRM
       super(options)
     end
 
-    def new_vm(attr = {})
-      AzureRMCompute.new(sdk: sdk)
+    def new_vm(args = {})
+      return AzureRMCompute.new(sdk: sdk) if args.empty? || args[:image_id].nil?
+      opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
+      # convert rails nested_attributes into a plain hash
+      nested_args = opts.delete(:interfaces_attributes)
+      opts[:interfaces] = nested_attributes_for(:interfaces, nested_args) if nested_args
+
+      opts.reject! { |k, v| v.nil? }
+
+      raw_vm = initialize_vm(location:        region,
+                             resource_group:  opts[:resource_group],
+                             vm_size:         opts[:vm_size],
+                             username:        opts[:username],
+                             password:        opts[:password],
+                             platform:        opts[:platform],
+                             ssh_key_data:    opts[:ssh_key_data],
+                             os_disk_caching: opts[:os_disk_caching],
+                             vhd_path:        opts[:image_id],
+                             premium_os_disk: opts[:premium_os_disk]
+                            )
+      if opts[:interfaces].present?
+        ifaces = []
+        opts[:interfaces].each_with_index do |iface_attrs, i|
+          ifaces << new_interface(iface_attrs)
+        end
+      end
+      AzureRMCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
     end
 
     def provided_attributes
       super.merge({ :ip => :provisioning_ip_address })
-    end
-
-    def host_interfaces_attrs(host)
-      host.interfaces.select(&:physical?).each.with_index.reduce({}) do |hash, (nic, index)|
-        hash.merge(index.to_s => nic.compute_attributes.merge(ip: nic.ip, ip6: nic.ip6))
-      end
     end
 
     def available_vnets(attr = {})
@@ -115,22 +125,12 @@ module ForemanAzureRM
       subnets
     end
 
-    def available_subnets
-      subnets
+    def virtual_networks
+      @virtual_networks ||= sdk.vnets.select { |vnet| vnet.location == region }
     end
 
-    def virtual_networks(region = nil)
-      if region.nil?
-        sdk.vnets
-      else
-        stripped_region = region.gsub(/\s+/, '').downcase
-        sdk.vnets.select { |vnet| vnet.location == stripped_region }
-      end
-    end
-
-    def subnets(region = nil)
-      stripped_region = region.gsub(/\s+/, '').downcase
-      vnets   = virtual_networks(stripped_region)
+    def subnets
+      vnets   = virtual_networks
       subnets = []
       vnets.each do |vnet|
         subnets.concat(sdk.subnets(vnet.resource_group, vnet.name))
@@ -138,14 +138,18 @@ module ForemanAzureRM
       subnets
     end
 
-    def new_interface(attr = {})
-      # WIP
-      # calls nic_cards method in adapter
-      # causes compute profiles issue
-      # NetworkModels::NetworkInterface.new
+    alias_method :available_subnets, :subnets
+
+    def new_interface(attrs = {})
+      args = { :network => "", :public_ip => "", :private_ip => false, 'persisted?' => false }.merge(attrs.to_h)
+      OpenStruct.new(args)
     end
 
-    def vm_sizes(region)
+    def editable_network_interfaces?
+      true
+    end
+
+    def vm_sizes
       sdk.list_vm_sizes(region)
     end
 
@@ -154,16 +158,26 @@ module ForemanAzureRM
     end
 
     def vm_instance_defaults
-      ActiveSupport::HashWithIndifferentAccess.new
+      super.deep_merge(
+        interfaces: [new_interface]
+      )
     end
 
-    def vms
+    def vm_nics(vm)
+      ifaces = []
+      vm.network_profile.network_interfaces.each do |nic|
+        nic_rg = (split_nic_id = nic.id.split('/'))[4]
+        nic_name = split_nic_id[-1]
+        ifaces << sdk.vm_nic(nic_rg, nic_name)
+      end
+      ifaces
+    end
+
+    def vms(attrs = {})
       container = VMContainer.new
-      # Load all vms
-      resource_groups.each do |rg|
-        sdk.list_vms(rg).each do |vm|
-          container.virtualmachines << AzureRMCompute.new(azure_vm: vm, sdk:sdk)
-        end
+      # Load all vms of the region
+      sdk.list_vms(region).each do |vm|
+        container.virtualmachines << AzureRMCompute.new(azure_vm: vm, sdk:sdk, nics: vm_nics(vm))
       end
       container
     end
@@ -187,44 +201,46 @@ module ForemanAzureRM
     end
 
     def create_vm(args = {})
-      args[:azure_vm][:vm_name] = args[:name].split('.')[0]
-      nics = create_nics(args)
-      if args[:azure_vm][:password].present? && !args[:azure_vm][:ssh_key_data].present?
-        sudoers_cmd = "$echo #{args[:azure_vm][:password]} | sudo -S echo '\"#{args[:azure_vm][:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
-        if args[:azure_vm][:script_command].present?
-          # to run the script_cmd given through form
-          # as username
-          args[:azure_vm][:script_command] =  sudoers_cmd + " ; su - \"#{args[:azure_vm][:username]}\" -c \"#{args[:azure_vm][:script_command]}\""
+      args = args.to_h.deep_symbolize_keys
+      args[:vm_name] = args[:name].split('.')[0]
+      nics = create_nics(region, args)
+      if args[:password].present? && !args[:ssh_key_data].present?
+        sudoers_cmd = "$echo #{args[:password]} | sudo -S echo '\"#{args[:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
+        if args[:script_command].present?
+          # to run the script_cmd given through form as username
+          args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{args[:script_command]}\""
         else
-          args[:azure_vm][:script_command] =  sudoers_cmd
+          args[:script_command] =  sudoers_cmd
         end
         disable_password_auth = false
-      elsif args[:azure_vm][:ssh_key_data].present? && !args[:azure_vm][:password].present?
+      elsif args[:ssh_key_data].present? && !args[:password].present?
         disable_password_auth = true
       else
         disable_password_auth = false
       end
+
       vm             = create_managed_virtual_machine(
-        name:                            args[:azure_vm][:vm_name],
-        location:                        args[:azure_vm][:location],
-        resource_group:                  args[:azure_vm][:resource_group],
-        vm_size:                         args[:azure_vm][:vm_size],
-        username:                        args[:azure_vm][:username],
-        password:                        args[:azure_vm][:password],
-        ssh_key_data:                    args[:azure_vm][:ssh_key_data],
+        name:                            args[:vm_name],
+        location:                        region,
+        resource_group:                  args[:resource_group],
+        vm_size:                         args[:vm_size],
+        username:                        args[:username],
+        password:                        args[:password],
+        ssh_key_data:                    args[:ssh_key_data],
         disable_password_authentication: disable_password_auth,
         network_interface_card_ids:      nics.map(&:id),
-        platform:                        args[:azure_vm][:platform],
+        platform:                        args[:platform],
         vhd_path:                        args[:image_id],
-        os_disk_caching:                 args[:azure_vm][:os_disk_caching],
-        premium_os_disk:                 args[:azure_vm][:premium_os_disk],
+        os_disk_caching:                 args[:os_disk_caching],
+        premium_os_disk:                 args[:premium_os_disk],
         custom_data:                     args[:user_data],
-        script_command:                  args[:azure_vm][:script_command],
-        script_uris:                     args[:azure_vm][:script_uris],
+        script_command:                  args[:script_command],
+        script_uris:                     args[:script_uris],
       )
-      create_vm_extension(args)
+      logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
+      create_vm_extension(region, args)
       # return the vm object using azure_vm
-      return_vm = AzureRMCompute.new(azure_vm: vm, sdk: sdk)
+      AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled Azure RM error', e)
       destroy_vm vm.id if vm
@@ -232,15 +248,13 @@ module ForemanAzureRM
     end
 
     def destroy_vm(uuid)
-      #vm.azure_vm because that's the azure object and vm is the wrapper
       vm           = find_vm_by_uuid(uuid)
-      vm_name      = vm.name
-      rg_name      = vm.azure_vm.resource_group
+      rg_name      = vm.resource_group
       os_disk      = vm.azure_vm.storage_profile.os_disk
       data_disks   = vm.azure_vm.storage_profile.data_disks
       nic_ids      = vm.network_interface_card_ids
 
-      sdk.delete_vm(rg_name, vm_name)
+      sdk.delete_vm(rg_name, vm.name)
 
       nic_ids.each do |nic_id|
         nic = sdk.vm_nic(rg_name, nic_id.split('/')[-1])

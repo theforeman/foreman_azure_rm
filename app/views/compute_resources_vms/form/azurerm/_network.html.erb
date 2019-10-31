@@ -1,5 +1,8 @@
-<%= selectable_f f, :network, [],
-                 { :include_blank => _('Please first select an image and an Azure region')},
+<% nat = compute_resource.subnets.collect { |s| [ "#{s.id.split('/')[8]}-#{s.name} #{s.address_prefix}", s.id ] } %>
+
+<%= selectable_f f, :network, options_for_select(nat,
+                    :selected => f.object.network),
+                 { :include_blank => _('Select') },
                  {
                    :label => _('Azure Subnet'),
                    :required => true,
@@ -8,16 +11,21 @@
                  }
 %>
 
-<%= selectable_f f, :bridge, ['None', 'Dynamic', 'Static'],
+<%= selectable_f f, :public_ip, options_for_select(['None', 'Dynamic', 'Static'],
+                    :selected => f.object.public_ip),
                  {},
                  {
-                     :label => _("Public IP"),
-                     :label_size => "col-md-2"
+                    :label => _("Public IP"),
+                    :label_size => "col-md-2"
                  }
 %>
 
-<%= checkbox_f f, :name,
-               { :label => _("Static Private IP"), :label_size => "col-md-2" },
-               'true',
-               'false'
+<%= checkbox_f f, :private_ip,
+               {
+                 :label => _("Static Private IP"),
+                 :label_size => "col-md-2"
+               },
+             'true',
+             'false'
+
 %>

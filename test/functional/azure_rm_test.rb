@@ -13,8 +13,8 @@ module ForemanAzureRM
 
     test "should return compute resource edit page" do
       @test_sdk.stubs(:rgs).returns(['a', 'b', 'c'])
-      @compute_resource = FactoryBot.create(:azure_rm)
-      get :edit, params: { :id => @compute_resource.to_param }, session: set_session_user
+      compute_resource = FactoryBot.create(:azure_rm)
+      get :edit, params: { :id => compute_resource.to_param }, session: set_session_user
       assert_response :success
       assert_template 'edit'
     end

@@ -1,14 +1,4 @@
 module ForemanAzureRM
-  Storage = Azure::Storage::Profiles::Latest::Mgmt
-  Network = Azure::Network::Profiles::Latest::Mgmt
-  Compute = Azure::Compute::Profiles::Latest::Mgmt
-  Resources = Azure::Resources::Profiles::Latest::Mgmt
-
-  StorageModels = Storage::Models
-  NetworkModels = Network::Models
-  ComputeModels = Compute::Models
-  ResourceModels = Resources::Models
-
   class AzureSDKAdapter
     def initialize(tenant, app_ident, secret_key, sub_id)
       @tenant           = tenant
@@ -56,8 +46,8 @@ module ForemanAzureRM
       network_client.virtual_networks.list_all
     end
 
-    def subnets(resource_group, vnet_name)
-      network_client.subnets.list(resource_group, vnet_name)
+    def subnets(rg_name, vnet_name)
+      network_client.subnets.list(rg_name, vnet_name)
     end
 
     def public_ip(rg_name, pip_name)
@@ -68,14 +58,19 @@ module ForemanAzureRM
       network_client.network_interfaces.get(rg_name, nic_name)
     end
 
+    def get_vm_extension(rg_name, vm_name, vm_extension_name)
+      compute_client.virtual_machine_extensions.get(rg_name, vm_name, vm_extension_name)
+    end
+
     def list_vm_sizes(region)
+      return [] unless region.present?
       stripped_region = region.gsub(/\s+/, '').downcase
       compute_client.virtual_machine_sizes.list(stripped_region).value()
     end
 
-    def list_vms(rg_name)
+    def list_vms(region)
       # List all VMs in a resource group
-      virtual_machines = compute_client.virtual_machines.list(rg_name)
+      virtual_machines = compute_client.virtual_machines.list_by_location(region)
     end
 
     def get_vm(rg_name, vm_name)
