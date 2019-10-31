@@ -1,3 +1,3 @@
 module ForemanAzureRM
-  VERSION = '2.0.0.pre1'.freeze
+  VERSION = '2.0.1'.freeze
 end
