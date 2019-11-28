@@ -59,7 +59,7 @@ module ForemanAzureRM
       [:image]
     end
 
-    def regions
+    def self.regions
       [
           ['West Europe', 'westeurope'],
           ['Central US', 'centralus'],
@@ -72,6 +72,9 @@ module ForemanAzureRM
           ['West US 2', 'westus2']
       ]
     end
+
+    validates :region, inclusion: { in: regions.collect(&:second),
+    message: "%{value} must be lowercase." }
 
     def resource_groups
       sdk.rgs
