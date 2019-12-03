@@ -108,6 +108,7 @@ module ForemanAzureRM
                 NetworkModels::NetworkInterfaceIPConfiguration.new.tap do |nic_conf|
                   nic_conf.name = "#{args[:vm_name]}-nic#{nic}"
                   nic_conf.private_ipallocation_method = priv_ip_alloc
+                  nic_conf.private_ipaddress = attrs[:ip] if priv_ip_alloc == "Static"
                   nic_conf.subnet = subnets.select{ |subnet| subnet.id == attrs[:network] }.first
                   nic_conf.public_ipaddress = pip
                 end
