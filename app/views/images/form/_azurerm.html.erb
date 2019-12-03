@@ -1,6 +1,6 @@
 <%= text_f f, :username, :value => @image.username || "root",
            :help_inline         => _("The user that will be used to SSH into the VM for completion")
 %>
-<%= password_f f, :password, :help_inline => _("Password to authenticate with - used for SSH finish step.") %>
+<%= password_f f, :password, :keep_value => true, :help_inline => _("Password to authenticate with - used for SSH finish step.") %>
 <%= image_field(f, :label => _("Marketplace Image URN"), :help_inline => _("Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)")) %>
 <%= checkbox_f f, :user_data, :help_inline => _("Does this image support user data input?") %>
