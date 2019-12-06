@@ -44,6 +44,9 @@ module ForemanAzureRM
       vm_status == 'running'
     end
 
+    def reload
+    end
+
     def state
       vm_status
     end
