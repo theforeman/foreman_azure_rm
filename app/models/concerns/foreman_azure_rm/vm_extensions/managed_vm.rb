@@ -88,6 +88,8 @@ module ForemanAzureRM
                                   NetworkModels::IPAllocationMethod::Dynamic
                                 when 'None'
                                   nil
+                                else
+                                    raise RuntimeError, "Public IP value must be either 'Dynamic', 'Static' or 'None'"
                                 end
           if pub_ip_alloc.present?
             public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
