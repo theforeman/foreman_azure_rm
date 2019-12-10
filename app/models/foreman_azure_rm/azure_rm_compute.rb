@@ -119,6 +119,10 @@ module ForemanAzureRM
       @azure_vm.name = setuuid
     end
 
+    def vm_description
+        _("%{vm_size} VM Size") % {:vm_size => vm_size}
+    end
+
     # Following properties are for AzureRM
     # These are not part of Foreman's interface
 
