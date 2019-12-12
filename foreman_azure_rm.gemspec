@@ -3,7 +3,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name    = 'foreman_azure_rm'
-  s.version = ForemanAzureRM::VERSION
+  s.version = ForemanAzureRm::VERSION
   s.date    = Date.today.to_s
   s.authors = ['Aditi Puntambekar', 'Shimon Shtein', 'Tyler Gregory']
   s.email   = ['puntambekaraditi@gmail.com', 'shteinshim@gmail.com', 'tdgregory@protonmail.com']

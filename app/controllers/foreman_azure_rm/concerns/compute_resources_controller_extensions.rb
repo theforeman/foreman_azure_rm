@@ -1,4 +1,4 @@
-module ForemanAzureRM
+module ForemanAzureRm
   module Concerns
     module ComputeResourcesControllerExtensions
       include Api::Version2
@@ -7,9 +7,9 @@ module ForemanAzureRM
       update_api(:create, :update) do
         param :compute_resource, Hash do
           # Not adding :tenant as already specified in core.
-          param :app_ident, String, :desc => N_("Client ID for AzureRM")
-          param :secret_key, String, :desc => N_("Client Secret for AzureRM")
-          param :sub_id, String, :desc => N_("Subscription ID for AzureRM")
+          param :app_ident, String, :desc => N_("Client ID for AzureRm")
+          param :secret_key, String, :desc => N_("Client Secret for AzureRm")
+          param :sub_id, String, :desc => N_("Subscription ID for AzureRm")
         end
       end
 

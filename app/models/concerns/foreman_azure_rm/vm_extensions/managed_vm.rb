@@ -1,5 +1,5 @@
 # This concern has the methods to be called inside azure_rm.rb
-module ForemanAzureRM
+module ForemanAzureRm
   module VMExtensions
     module ManagedVM
       extend ActiveSupport::Concern

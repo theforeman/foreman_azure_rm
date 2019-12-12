@@ -3,8 +3,8 @@
 
 require 'base64'
 
-module ForemanAzureRM
-  class AzureRM < ComputeResource
+module ForemanAzureRm
+  class AzureRm < ComputeResource
 
     include VMExtensions::ManagedVM
     alias_attribute :sub_id, :user
@@ -40,7 +40,7 @@ module ForemanAzureRM
     end
 
     def sdk
-      @sdk ||= ForemanAzureRM::AzureSDKAdapter.new(tenant, app_ident, secret_key, sub_id)
+      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id)
     end
     
     def to_label
@@ -88,7 +88,7 @@ module ForemanAzureRM
     end
 
     def new_vm(args = {})
-      return AzureRMCompute.new(sdk: sdk) if args.empty? || args[:image_id].nil?
+      return AzureRmCompute.new(sdk: sdk) if args.empty? || args[:image_id].nil?
       opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
       # convert rails nested_attributes into a plain hash
       nested_args = opts.delete(:interfaces_attributes)
@@ -113,7 +113,7 @@ module ForemanAzureRM
           ifaces << new_interface(iface_attrs)
         end
       end
-      AzureRMCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
+      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
     end
 
     def provided_attributes
@@ -180,7 +180,7 @@ module ForemanAzureRM
       container = VMContainer.new
       # Load all vms of the region
       sdk.list_vms(region).each do |vm|
-        container.virtualmachines << AzureRMCompute.new(azure_vm: vm, sdk:sdk, nics: vm_nics(vm))
+        container.virtualmachines << AzureRmCompute.new(azure_vm: vm, sdk:sdk, nics: vm_nics(vm))
       end
       container
     end
@@ -243,9 +243,9 @@ module ForemanAzureRM
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       create_vm_extension(region, args)
       # return the vm object using azure_vm
-      AzureRMCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
+      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
     rescue RuntimeError => e
-      Foreman::Logging.exception('Unhandled Azure RM error', e)
+      Foreman::Logging.exception('Unhandled AzureRm error', e)
       destroy_vm vm.id if vm
       raise e
     end
