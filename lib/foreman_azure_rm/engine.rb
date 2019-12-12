@@ -1,4 +1,4 @@
-module ForemanAzureRM
+module ForemanAzureRm
   class Engine < ::Rails::Engine
     engine_name 'foreman_azure_rm'
 
@@ -9,14 +9,14 @@ module ForemanAzureRM
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
       Foreman::Plugin.register :foreman_azure_rm do
         requires_foreman '>= 1.17'
-        compute_resource ForemanAzureRM::AzureRM
+        compute_resource ForemanAzureRm::AzureRm
         parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region
       end
     end
 
     initializer "foreman_azure_rm.add_rabl_view_path" do
       Rabl.configure do |config|
-        config.view_paths << ForemanAzureRM::Engine.root.join('app', 'views')
+        config.view_paths << ForemanAzureRm::Engine.root.join('app', 'views')
       end
     end
 
@@ -35,9 +35,9 @@ module ForemanAzureRM
       # Use excon as default so that HTTP Proxy settings of foreman works
       Faraday::default_adapter=:excon
 
-      ::HostsController.send(:include, ForemanAzureRM::Concerns::HostsControllerExtensions)
+      ::HostsController.send(:include, ForemanAzureRm::Concerns::HostsControllerExtensions)
 
-      Api::V2::ComputeResourcesController.send(:include, ForemanAzureRM::Concerns::ComputeResourcesControllerExtensions)
+      Api::V2::ComputeResourcesController.send(:include, ForemanAzureRm::Concerns::ComputeResourcesControllerExtensions)
     end
 
     rake_tasks do

@@ -1,5 +1,5 @@
-module ForemanAzureRM
-  class AzureRMCompute
+module ForemanAzureRm
+  class AzureRmCompute
     attr_accessor :sdk
     attr_accessor :azure_vm
     attr_accessor :resource_group
@@ -123,7 +123,7 @@ module ForemanAzureRM
         _("%{vm_size} VM Size") % {:vm_size => vm_size}
     end
 
-    # Following properties are for AzureRM
+    # Following properties are for AzureRm
     # These are not part of Foreman's interface
 
     def vm_size

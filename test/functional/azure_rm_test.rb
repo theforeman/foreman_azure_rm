@@ -1,12 +1,12 @@
 require_relative '../test_plugin_helper'
 
-module ForemanAzureRM
+module ForemanAzureRm
   class ComputeResourcesControllerTest < ActionController::TestCase
     tests ::ComputeResourcesController
 
     setup do
       @test_sdk = mock('test_sdk') #creates an empty object
-      ForemanAzureRM::AzureRM.any_instance.stubs(:sdk).returns(@test_sdk)
+      ForemanAzureRm::AzureRm.any_instance.stubs(:sdk).returns(@test_sdk)
       @test_resource_client = mock('resource_client')
       @test_sdk.stubs(:resource_client).returns(@test_resource_client)
     end

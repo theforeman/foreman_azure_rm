@@ -4,7 +4,7 @@ require 'azure_mgmt_network'
 require 'azure_mgmt_storage'
 require 'azure_mgmt_compute'
 
-module ForemanAzureRM
+module ForemanAzureRm
   Storage = Azure::Storage::Profiles::Latest::Mgmt
   Network = Azure::Network::Profiles::Latest::Mgmt
   Compute = Azure::Compute::Profiles::Latest::Mgmt

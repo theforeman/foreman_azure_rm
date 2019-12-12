@@ -1,4 +1,4 @@
-module ForemanAzureRM
+module ForemanAzureRm
   module Concerns
     module HostsControllerExtensions
       extend ActiveSupport::Concern

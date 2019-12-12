@@ -1,5 +1,5 @@
-module ForemanAzureRM
-  class AzureSDKAdapter
+module ForemanAzureRm
+  class AzureSdkAdapter
     def initialize(tenant, app_ident, secret_key, sub_id)
       @tenant           = tenant
       @app_ident        = app_ident

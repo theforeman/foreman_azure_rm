@@ -1,4 +1,4 @@
-# Foreman AzureRM Plugin
+# Foreman AzureRm Plugin
 
 ## Description
 ```foreman_azure_rm``` adds [Microsoft Azure Resource Manager](http://azure.com/) as a compute resource for The Foreman
@@ -23,9 +23,9 @@
 ## Configuration
 Go to **Infrastructure > Compute Resources** and click on "New Compute Resource".
 
-Choose the **AzureRM provider**, and fill in all the fields. You need a Subscription ID, Tenant ID, Client ID and a Client Secret which you can generate from your [Microsoft Azure subscription](https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html#SettingupaTenantID,ClientID,andClientSecretforAzureResourceManagerprovisioning-SetupTenantIDPrereqPrerequisites)
+Choose the **Azure Resource Manager provider**, and fill in all the fields. You need a Subscription ID, Tenant ID, Client ID and a Client Secret which you can generate from your [Microsoft Azure subscription](https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html#SettingupaTenantID,ClientID,andClientSecretforAzureResourceManagerprovisioning-SetupTenantIDPrereqPrerequisites)
 
-That's it. You're now ready to create and manage Azure resources in your new AzureRM compute resource. You should see something like this in the Compute Resource page:
+That's it. You're now ready to create and manage Azure resources in your new Azure Resource Manager compute resource. You should see something like this in the Compute Resource page:
 
 
 ![](https://i.imgur.com/9J7tPJa.png)
