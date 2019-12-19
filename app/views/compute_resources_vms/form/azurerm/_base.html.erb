@@ -88,7 +88,7 @@
 <% # This view has been modified and refers to the properties wrapper class %>
 
 <%= selectable_f f, :resource_group, resource_groups,
-               { :include_blank => true },
+               { :include_blank => _('Please select a Resource Group') },
                {
                    :disabled => resource_groups.empty?,
                    :label    => _('Resource Group'),
@@ -106,7 +106,7 @@
 %>
 
 <%= selectable_f f, :vm_size, compute_resource.vm_sizes.map { |size| size.name },
-               {},
+               { :include_blank => _('Please select a VM Size') },
                {
                    :label    => _('VM Size'),
                    :required => true,

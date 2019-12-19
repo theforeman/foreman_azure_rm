@@ -61,6 +61,10 @@ module ForemanAzureRm
       true
     end
 
+    def to_s
+      name
+    end
+
     def vm_status
       sdk.check_vm_status(@azure_vm.resource_group, name)
     end
