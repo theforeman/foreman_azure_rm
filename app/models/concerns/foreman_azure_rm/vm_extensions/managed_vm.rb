@@ -4,8 +4,7 @@ module ForemanAzureRm
     module ManagedVM
       extend ActiveSupport::Concern
 
-      def define_managed_storage_profile(vm_name, vhd_path, publisher, offer, sku, version,
-                                           os_disk_caching, platform, premium_os_disk)
+      def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk)
         storage_profile = ComputeModels::StorageProfile.new
         os_disk = ComputeModels::OSDisk.new
         managed_disk_params = ComputeModels::ManagedDiskParameters.new
@@ -35,27 +34,39 @@ module ForemanAzureRm
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
 
-        # TODO - disk creation for volume capability
-
-        if vhd_path.nil?
-          # We are using a marketplace image
-          storage_profile.image_reference = image_reference(publisher, offer,
-                                                            sku, version)
-        else
-          # We are using a custom managed image
-          image_ref = ComputeModels::ImageReference.new
-          image_ref.id = vhd_path
-          storage_profile.image_reference = image_ref
-        end
         storage_profile
       end
 
-      def image_reference(publisher, offer, sku, version)
+      def marketplace_image_reference(publisher, offer, sku, version)
         image_reference = ComputeModels::ImageReference.new
         image_reference.publisher = publisher
         image_reference.offer = offer
         image_reference.sku = sku
         image_reference.version = version
+        image_reference
+      end
+
+      def define_image(vhd_path)
+        # If image UUID begins with / it is a custom managed image
+        # Otherwise it is a marketplace URN
+        unless vhd_path.start_with?('/')
+          urn = vhd_path.split(':')
+          publisher = urn[0]
+          offer     = urn[1]
+          sku       = urn[2]
+          version   = urn[3]
+          vhd_path = nil
+        end
+
+        if vhd_path.nil?
+          # For marketplace image
+          image_reference = marketplace_image_reference(publisher, offer, sku, version)
+        else
+          # For custom managed image
+          image_ref = ComputeModels::ImageReference.new
+          image_ref.id = vhd_path
+          image_reference = image_ref
+        end
         image_reference
       end
 
@@ -133,16 +144,6 @@ module ForemanAzureRm
             sub_resource.id = vm_hash[:availability_set_id]
             vm.availability_set = sub_resource
           end
-          # If image UUID begins with / it is a custom managed image
-          # Otherwise it is a marketplace URN
-          unless vm_hash[:vhd_path].start_with?('/')
-            urn = vm_hash[:vhd_path].split(':')
-            vm_hash[:publisher] = urn[0]
-            vm_hash[:offer]     = urn[1]
-            vm_hash[:sku]       = urn[2]
-            vm_hash[:version]   = urn[3]
-            vm_hash[:vhd_path] = nil
-          end
 
           vm.os_profile = ComputeModels::OSProfile.new.tap do |os_profile|
             os_profile.computer_name  = vm_hash[:name]
@@ -173,14 +174,9 @@ module ForemanAzureRm
           end
           vm.storage_profile = define_managed_storage_profile(
                                                                 vm_hash[:name],
-                                                                vm_hash[:vhd_path],
-                                                                vm_hash[:publisher],
-                                                                vm_hash[:offer],
-                                                                vm_hash[:sku],
-                                                                vm_hash[:version],
                                                                 vm_hash[:os_disk_caching],
                                                                 vm_hash[:platform],
-                                                                vm_hash[:premium_os_disk],
+                                                                vm_hash[:premium_os_disk]
                                                               )
           vm.hardware_profile = ComputeModels::HardwareProfile.new.tap do |hw_profile|
             hw_profile.vm_size = vm_hash[:vm_size]
@@ -193,6 +189,7 @@ module ForemanAzureRm
       def create_managed_virtual_machine(vm_hash)
         vm_params = initialize_vm(vm_hash)
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
+        vm_params.storage_profile.image_reference = define_image(vm_hash[:vhd_path])
         sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end
 
