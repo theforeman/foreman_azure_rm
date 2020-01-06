@@ -74,7 +74,7 @@ module ForemanAzureRm
     end
 
     validates :region, inclusion: { in: regions.collect(&:second),
-    message: "%{value} must be lowercase." }
+    message: "%{value} must be lowercase eg. 'eastus'. No special characters allowed." }
 
     def resource_groups
       sdk.rgs
