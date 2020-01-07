@@ -4,19 +4,23 @@ module ForemanAzureRm
     attr_accessor :azure_vm
     attr_accessor :resource_group
     attr_accessor :nics
-    attr_accessor :image_id
+    attr_accessor :script_command, :script_uris
 
     delegate :name, to: :azure_vm, allow_nil: true
 
     def initialize(azure_vm: ComputeModels::VirtualMachine.new,
                    sdk: sdk,
                    resource_group: azure_vm.resource_group,
-                   nics: [])
+                   nics: [],
+                   script_command: nil,
+                   script_uris: nil)
 
       @azure_vm = azure_vm
       @sdk = sdk
       @resource_group ||= resource_group
       @nics ||= nics
+      @script_command ||= script_command
+      @script_uris ||= script_uris
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
       @azure_vm.os_profile ||= ComputeModels::OSProfile.new
       @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
@@ -162,10 +166,42 @@ module ForemanAzureRm
       @azure_vm.storage_profile.os_disk.caching
     end
 
+    def image_uuid
+      image = @azure_vm.storage_profile.image_reference
+      return nil unless image
+      "#{image.publisher}:#{image.offer}:#{image.sku}:#{image.version}"
+    end
+
+    alias_method :image_id, :image_uuid
+
+    def vm_extension
+      return nil unless @azure_vm.resources
+      @vm_extension ||= begin
+        ext_name = @azure_vm.resources.first.id.split('/')[-1]
+        sdk.get_vm_extension(@azure_vm.resource_group, name, ext_name)
+      end
+    end
+
     def script_command
+      if vm_extension.present?
+        return @script_command if vm_extension.settings["commandToExecute"].ends_with?("waagent")
+        # Index is based on script_command that is being injected
+        # from the code in #create_vm. It can be partly hard-coded
+        # since the command shall no change frequently.
+        user_cmd_index = (vm_extension.settings["commandToExecute"].index("-c"))+ 4
+        script_command = vm_extension.settings["commandToExecute"][user_cmd_index..-2]
+      else
+        @script_command
+      end
     end
 
     def script_uris
+      if vm_extension.present?
+        return @script_uris unless vm_extension.settings["fileUris"]
+        script_uris = vm_extension.settings["fileUris"]
+      else
+        @script_uris
+      end
     end
   end
 end

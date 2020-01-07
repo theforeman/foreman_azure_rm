@@ -46,25 +46,25 @@ module ForemanAzureRm
         image_reference
       end
 
-      def define_image(vhd_path)
+      def define_image(image_id)
         # If image UUID begins with / it is a custom managed image
         # Otherwise it is a marketplace URN
-        unless vhd_path.start_with?('/')
-          urn = vhd_path.split(':')
+        unless image_id.start_with?('/')
+          urn = image_id.split(':')
           publisher = urn[0]
           offer     = urn[1]
           sku       = urn[2]
           version   = urn[3]
-          vhd_path = nil
+          image_id = nil
         end
 
-        if vhd_path.nil?
+        if image_id.nil?
           # For marketplace image
           image_reference = marketplace_image_reference(publisher, offer, sku, version)
         else
           # For custom managed image
           image_ref = ComputeModels::ImageReference.new
-          image_ref.id = vhd_path
+          image_ref.id = image_id
           image_reference = image_ref
         end
         image_reference
@@ -189,7 +189,7 @@ module ForemanAzureRm
       def create_managed_virtual_machine(vm_hash)
         vm_params = initialize_vm(vm_hash)
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
-        vm_params.storage_profile.image_reference = define_image(vm_hash[:vhd_path])
+        vm_params.storage_profile.image_reference = define_image(vm_hash[:image_id])
         sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end
 

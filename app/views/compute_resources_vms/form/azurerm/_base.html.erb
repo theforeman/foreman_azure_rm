@@ -166,7 +166,7 @@
 <%= text_f f, :script_command,
          {
              :label => _('Custom Script Command'),
-             :help_inline => _("To perform commands as root, prefix it with 'sudo'.")
+             :label_help => _("To perform commands as root, prefix it with 'sudo'")
          }
 %>
 
@@ -183,6 +183,7 @@
                    :disabled   => images.empty?,
                    :label      => _('Image'),
                    :required   => true,
+                   :selected   => f.object.image_id,
                    :label_size => "col-md-2",
                    :id         => 'azure_rm_image_id'
                } if controller_name != "compute_attributes"
