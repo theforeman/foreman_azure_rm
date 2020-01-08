@@ -6,6 +6,49 @@
 * Website: [TheForeman.org](http://theforeman.org)
 * Support: [Foreman support](http://theforeman.org/support.html)
 
+## Installation
+
+### Bundle (Gem)
+
+Add the following to bundler.d/Gemfile.local.rb in your Foreman installation directory (/usr/share/foreman by default)
+
+```bash
+$ gem 'foreman_azure_rm'
+```
+
+Or simply:
+
+```bash
+$ echo "gem 'foreman_azure_rm'" > /usr/share/foreman/bundler.d/Gemfile.local.rb
+```
+
+Then run `bundle install` from the same directory
+
+### Package
+```
+# yum install tfm-rubygem-foreman_azure_rm
+```
+
+### Foreman Installer
+```
+# foreman-installer --enable-foreman-plugin-azure
+```
+
+### Development Setup
+
+Clone the repo from github:
+```bash
+git clone https://github.com/theforeman/foreman_azure_rm.git
+```
+
+Add the following to bundler.d/Gemfile.local.rb in your Foreman development directory
+
+```ruby
+$ gem 'foreman_azure_rm', :path => 'path to foreman_azure_rm directory'
+```
+
+Then run `bundle install` from the same directory
+
 ## Features
 * Support for most typical IaaS operations
     * VM creation
@@ -28,13 +71,13 @@ Choose the **Azure Resource Manager provider**, and fill in all the fields. You 
 That's it. You're now ready to create and manage Azure resources in your new Azure Resource Manager compute resource. You should see something like this in the Compute Resource page:
 
 
-![](https://i.imgur.com/9J7tPJa.png)
+![](https://i.imgur.com/4ClZhTP.png)
 
 
 ![](https://i.imgur.com/eFHucdb.png)
 
 
-![](https://i.imgur.com/RTBlMeE.png)
+![](https://i.imgur.com/YjlRQIE.png)
 
     
 ## Planned Features
@@ -45,6 +88,7 @@ That's it. You're now ready to create and manage Azure resources in your new Azu
 * Improved extension support    
     
 ## Known Limitations
+* Please note that currently username is expected to be the same on both Virtual Machine tab for Host creation and during Image creation for Compute Resource. The password field for Image creation is optional.
 * Unable to provision using Windows Images
 
 ## Links
