@@ -12,25 +12,25 @@
 
 Add the following to bundler.d/Gemfile.local.rb in your Foreman installation directory (/usr/share/foreman by default)
 
-```bash
+```console
 $ gem 'foreman_azure_rm'
 ```
 
 Or simply:
 
-```bash
+```console
 $ echo "gem 'foreman_azure_rm'" > /usr/share/foreman/bundler.d/Gemfile.local.rb
 ```
 
 Then run `bundle install` from the same directory
 
 ### Package
-```
+```console
 # yum install tfm-rubygem-foreman_azure_rm
 ```
 
 ### Foreman Installer
-```
+```console
 # foreman-installer --enable-foreman-plugin-azure
 ```
 
@@ -44,7 +44,7 @@ git clone https://github.com/theforeman/foreman_azure_rm.git
 Add the following to bundler.d/Gemfile.local.rb in your Foreman development directory
 
 ```ruby
-$ gem 'foreman_azure_rm', :path => 'path to foreman_azure_rm directory'
+gem 'foreman_azure_rm', :path => 'path to foreman_azure_rm directory'
 ```
 
 Then run `bundle install` from the same directory
