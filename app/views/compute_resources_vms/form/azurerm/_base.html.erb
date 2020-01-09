@@ -185,6 +185,6 @@
                    :required   => true,
                    :label_size => "col-md-2",
                    :id         => 'azure_rm_image_id'
-               }
+               } if controller_name != "compute_attributes"
   %>
 </div>

@@ -88,7 +88,7 @@ module ForemanAzureRm
     end
 
     def new_vm(args = {})
-      return AzureRmCompute.new(sdk: sdk) if args.empty? || args[:image_id].nil?
+      return AzureRmCompute.new(sdk: sdk) if args.empty?
       opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
       # convert rails nested_attributes into a plain hash
       nested_args = opts.delete(:interfaces_attributes)
@@ -104,7 +104,6 @@ module ForemanAzureRm
                              platform:        opts[:platform],
                              ssh_key_data:    opts[:ssh_key_data],
                              os_disk_caching: opts[:os_disk_caching],
-                             vhd_path:        opts[:image_id],
                              premium_os_disk: opts[:premium_os_disk]
                             )
       if opts[:interfaces].present?
