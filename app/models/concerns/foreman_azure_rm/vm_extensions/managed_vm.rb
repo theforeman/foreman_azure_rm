@@ -21,10 +21,10 @@ module ForemanAzureRm
                                 ComputeModels::CachingTypes::ReadOnly
                               when 'ReadWrite'
                                 ComputeModels::CachingTypes::ReadWrite
-                              else
-                                # ARM best practices stipulate RW caching on the OS disk
-                                ComputeModels::CachingTypes::ReadWrite
                             end
+                          else
+                            # ARM best practices stipulate RW caching on the OS disk
+                            ComputeModels::CachingTypes::ReadWrite
                           end
         managed_disk_params.storage_account_type = if premium_os_disk == 'true'
                                                      ComputeModels::StorageAccountTypes::PremiumLRS

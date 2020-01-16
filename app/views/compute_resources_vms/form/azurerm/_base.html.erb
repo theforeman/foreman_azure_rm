@@ -155,10 +155,10 @@
 %>
 
 <%= selectable_f f, :os_disk_caching, %w(None ReadOnly ReadWrite),
-               {},
+               {   :include_blank => _('Please select OS Disk Caching method') },
                {
                    :label    => _('OS Disk Caching'),
-                   :required => true,
+                   :label_help => _("Default ReadWrite"),
                    :class    => "col-md-2"
                }
 %>
