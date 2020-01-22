@@ -112,7 +112,7 @@ module ForemanAzureRm
           ifaces << new_interface(iface_attrs)
         end
       end
-      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces)
+      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces, script_command: opts[:script_command], script_uris: opts[:script_uris])
     end
 
     def provided_attributes
@@ -207,10 +207,14 @@ module ForemanAzureRm
       args[:vm_name] = args[:name].split('.')[0]
       nics = create_nics(region, args)
       if args[:password].present? && !args[:ssh_key_data].present?
+        # Any change to sudoers_cmd and formation of new
+        # args[:script_command] must be accordingly changed
+        # in script_command method in AzureRmCompute class
         sudoers_cmd = "$echo #{args[:password]} | sudo -S echo '\"#{args[:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
         if args[:script_command].present?
           # to run the script_cmd given through form as username
-          args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{args[:script_command]}\""
+          user_command = args[:script_command]
+          args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{user_command}\""
         else
           args[:script_command] =  sudoers_cmd
         end
@@ -232,7 +236,7 @@ module ForemanAzureRm
         disable_password_authentication: disable_password_auth,
         network_interface_card_ids:      nics.map(&:id),
         platform:                        args[:platform],
-        vhd_path:                        args[:image_id],
+        image_id:                        args[:image_id],
         os_disk_caching:                 args[:os_disk_caching],
         premium_os_disk:                 args[:premium_os_disk],
         custom_data:                     args[:user_data],
@@ -242,7 +246,7 @@ module ForemanAzureRm
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       create_vm_extension(region, args)
       # return the vm object using azure_vm
-      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm))
+      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm), script_command: user_command, script_uris: args[:script_uris])
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled AzureRm error', e)
       destroy_vm vm.id if vm
