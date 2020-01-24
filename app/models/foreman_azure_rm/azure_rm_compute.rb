@@ -5,6 +5,7 @@ module ForemanAzureRm
     attr_accessor :resource_group
     attr_accessor :nics
     attr_accessor :script_command, :script_uris
+    attr_accessor :volumes
 
     delegate :name, to: :azure_vm, allow_nil: true
 
@@ -12,6 +13,7 @@ module ForemanAzureRm
                    sdk: sdk,
                    resource_group: azure_vm.resource_group,
                    nics: [],
+                   volumes: [],
                    script_command: nil,
                    script_uris: nil)
 
@@ -19,6 +21,7 @@ module ForemanAzureRm
       @sdk = sdk
       @resource_group ||= resource_group
       @nics ||= nics
+      @volumes ||= volumes
       @script_command ||= script_command
       @script_uris ||= script_uris
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
@@ -117,6 +120,20 @@ module ForemanAzureRm
 
     def ip_addresses
       []
+    end
+
+    def data_disks
+      @data_disks ||= @azure_vm.storage_profile.data_disks || []
+    end
+
+    def volumes
+      return @volumes if data_disks.empty?
+      volumes = data_disks.map do |disk|
+        OpenStruct.new(:disk => disk, :persisted? => true)
+      end
+    end
+
+    def volumes_attributes=(attrs)
     end
 
     def identity

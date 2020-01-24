@@ -13,19 +13,7 @@ module ForemanAzureRm
         os_disk.name = "#{vm_name}-osdisk"
         os_disk.os_type = platform
         os_disk.create_option = ComputeModels::DiskCreateOptionTypes::FromImage
-        os_disk.caching = if os_disk_caching.present?
-                            case os_disk_caching
-                              when 'None'
-                                ComputeModels::CachingTypes::None
-                              when 'ReadOnly'
-                                ComputeModels::CachingTypes::ReadOnly
-                              when 'ReadWrite'
-                                ComputeModels::CachingTypes::ReadWrite
-                            end
-                          else
-                            # ARM best practices stipulate RW caching on the OS disk
-                            ComputeModels::CachingTypes::ReadWrite
-                          end
+        os_disk.caching = disk_caching(os_disk_caching)
         managed_disk_params.storage_account_type = if premium_os_disk == 'true'
                                                      ComputeModels::StorageAccountTypes::PremiumLRS
                                                    else
@@ -33,8 +21,42 @@ module ForemanAzureRm
                                                    end
         os_disk.managed_disk = managed_disk_params
         storage_profile.os_disk = os_disk
-
         storage_profile
+      end
+
+      def disk_caching(disk_type_caching)
+        case disk_type_caching
+        when 'None'
+          ComputeModels::CachingTypes::None
+        when 'ReadOnly'
+          ComputeModels::CachingTypes::ReadOnly
+        when 'ReadWrite'
+          ComputeModels::CachingTypes::ReadWrite
+        when nil, ""
+          nil
+        else
+          raise RuntimeError, "Disk caching value must be either 'None', 'ReadOnly' or 'ReadWrite'."
+        end
+      end
+
+      def define_data_disks(vm_name, data_disks)
+        unless data_disks.nil?
+          disks = []
+          disk_count = 0
+          data_disks.each do |disk_num, attrs|
+            managed_data_disk = ComputeModels::ManagedDiskParameters.new
+            disk = ComputeModels::DataDisk.new
+            disk.name = "#{vm_name}-data-disk#{disk_count}"
+            disk.caching  = disk_caching(attrs[:data_disk_caching])
+            disk.disk_size_gb = attrs[:disk_size_gb]
+            disk.create_option = ComputeModels::DiskCreateOption::Empty
+            disk.lun = disk_count + 1
+            disk.managed_disk = managed_data_disk
+            disk_count += 1
+            disks << disk
+          end
+          disks
+        end
       end
 
       def marketplace_image_reference(publisher, offer, sku, version)
@@ -190,6 +212,7 @@ module ForemanAzureRm
         vm_params = initialize_vm(vm_hash)
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
         vm_params.storage_profile.image_reference = define_image(vm_hash[:image_id])
+        vm_params.storage_profile.data_disks = define_data_disks(vm_hash[:name], vm_hash[:data_disks])
         sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end
 

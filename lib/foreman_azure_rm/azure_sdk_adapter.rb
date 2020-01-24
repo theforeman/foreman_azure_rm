@@ -58,6 +58,10 @@ module ForemanAzureRm
       network_client.network_interfaces.get(rg_name, nic_name)
     end
 
+    def vm_disk(rg_name, disk_name)
+      compute_client.disks.get(rg_name, disk_name)
+    end
+
     def get_vm_extension(rg_name, vm_name, vm_extension_name)
       compute_client.virtual_machine_extensions.get(rg_name, vm_name, vm_extension_name)
     end
@@ -113,8 +117,8 @@ module ForemanAzureRm
       compute_client.virtual_machines.delete(rg_name, vm_name)
     end
 
-    def delete_disk(rg_name, osdisk_name)
-      compute_client.disks.delete(rg_name, osdisk_name)
+    def delete_disk(rg_name, disk_name)
+      compute_client.disks.delete(rg_name, disk_name)
     end
 
     def check_vm_status(rg_name, vm_name)
