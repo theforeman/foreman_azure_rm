@@ -186,7 +186,17 @@ module ForemanAzureRm
     def image_uuid
       image = @azure_vm.storage_profile.image_reference
       return nil unless image
-      "#{image.publisher}:#{image.offer}:#{image.sku}:#{image.version}"
+      if image.id.nil?
+        return "marketplace://#{image.publisher}:#{image.offer}:#{image.sku}:#{image.version}"
+      else
+        image_rg = image.id.split('/')[4]
+        image_name = image.id.split('/')[-1]
+        if sdk.list_custom_images.find { |custom_img| custom_img.name == image_name }
+          return "custom://#{image_name}"
+        elsif sdk.fetch_gallery_image_id(image_rg, image_name)
+          return "gallery://#{image_name}"
+        end
+      end
     end
 
     alias_method :image_id, :image_uuid

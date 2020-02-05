@@ -122,6 +122,33 @@ module ForemanAzureRm
       super.merge({ :ip => :provisioning_ip_address })
     end
 
+    def image_exists?(image)
+      image_type, image_id = image.split('://')
+      case image_type
+      when 'marketplace'
+        begin
+          urn = image_id.split(':')
+          publisher = urn[0]
+          offer     = urn[1]
+          sku       = urn[2]
+          version   = urn[3]
+          if version == "latest"
+            all_versions = sdk.list_versions(region, publisher, offer, sku).map(&:name)
+            return true if all_versions.any?
+          end
+          sdk.get_marketplace_image(region, publisher, offer, sku, version).present?
+        rescue StandardError => e
+          return false
+        end
+      when 'custom', 'gallery'
+        all_resources = sdk.list_resources
+        user_image = all_resources.detect { |resource| resource.id.split('/')[-1] == image_id && resource.location == region}
+        user_image.present?
+      else
+        false
+      end
+    end
+
     def available_vnets(attr = {})
       virtual_networks
     end
