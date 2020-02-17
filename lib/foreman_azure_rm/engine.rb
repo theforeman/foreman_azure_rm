@@ -14,6 +14,13 @@ module ForemanAzureRm
       end
     end
 
+    # Add any db migrations
+    initializer "foreman_azure_rm.load_app_instance_data" do |app|
+      ForemanAzureRm::Engine.paths['db/migrate'].existent.each do |path|
+        app.config.paths['db/migrate'] << path
+      end
+    end
+
     initializer "foreman_azure_rm.add_rabl_view_path" do
       Rabl.configure do |config|
         config.view_paths << ForemanAzureRm::Engine.root.join('app', 'views')
