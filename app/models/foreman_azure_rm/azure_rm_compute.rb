@@ -188,8 +188,12 @@ module ForemanAzureRm
         # Index is based on script_command that is being injected
         # from the code in #create_vm. It can be partly hard-coded
         # since the command shall no change frequently.
-        user_cmd_index = (vm_extension.settings["commandToExecute"].index("-c"))+ 4
-        script_command = vm_extension.settings["commandToExecute"][user_cmd_index..-2]
+        if ssh_key_data.nil?
+          user_cmd_index = (vm_extension.settings["commandToExecute"].index("-c"))+ 4
+          script_command = vm_extension.settings["commandToExecute"][user_cmd_index..-2]
+        else
+          vm_extension.settings["commandToExecute"]
+        end
       else
         @script_command
       end
