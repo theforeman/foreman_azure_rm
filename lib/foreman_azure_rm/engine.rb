@@ -38,6 +38,7 @@ module ForemanAzureRm
       require 'azure_mgmt_network'
       require 'azure_mgmt_storage'
       require 'azure_mgmt_compute'
+      require 'azure_mgmt_subscriptions'
 
       # Use excon as default so that HTTP Proxy settings of foreman works
       Faraday::default_adapter=:excon

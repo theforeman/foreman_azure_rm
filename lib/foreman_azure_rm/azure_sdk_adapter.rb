@@ -23,6 +23,10 @@ module ForemanAzureRm
       @storage_client ||= Storage::Client.new(azure_credentials)
     end
 
+    def subscription_client
+      @subscription_client ||= Subscriptions::Client.new(azure_credentials)
+    end
+
     def azure_credentials
       provider = MsRestAzure::ApplicationTokenProvider.new(
       @tenant,
@@ -35,6 +39,10 @@ module ForemanAzureRm
         credentials: credentials,
         subscription_id: @sub_id
       }
+    end
+
+    def list_locations(subscription_id)
+      subscription_client.subscriptions.list_locations(subscription_id)
     end
 
     def rgs

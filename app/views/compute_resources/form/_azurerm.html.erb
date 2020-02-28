@@ -3,8 +3,6 @@
 <%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
 <%= text_f f, :uuid, :label => _('Tenant ID'), :required => true %>
 
-<%= selectable_f(f, :url, f.object.class.regions, {}, {:label => _('Azure Region'), :label_help => _("Some of the listed regions might not be supported for your subscription. Please verify on Azure portal."), :required => true }) %>
+<% regions = f.object.regions rescue [] %>
 
-<div class="col-md-offset-2">
-    <%= test_connection_button_f(f, true) %>
-</div>
+<%= selectable_f(f, :url, regions, {}, {:label => _('Azure Region'), :disabled => regions.empty?, :required => true, :help_inline_permanent => load_button_f(f, !regions.empty?, _("Load Regions")) }) %>
