@@ -75,7 +75,11 @@ module ForemanAzureRm
         network_interface_card_ids.each_with_index do |id, index|
           nic = ComputeModels::NetworkInterfaceReference.new
           nic.id = id
-          nic.primary = true
+          if index == 0
+            nic.primary = true
+          else
+            nic.primary = false
+          end
           network_interface_cards << nic
         end
         network_profile = ComputeModels::NetworkProfile.new
