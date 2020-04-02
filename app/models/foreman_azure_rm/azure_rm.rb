@@ -56,7 +56,7 @@ module ForemanAzureRm
     end
 
     def capabilities
-      [:image]
+      [:image, :new_volume]
     end
 
     def self.regions
@@ -128,9 +128,10 @@ module ForemanAzureRm
       return AzureRmCompute.new(sdk: sdk) if args.empty?
       opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
       # convert rails nested_attributes into a plain hash
-      nested_args = opts.delete(:interfaces_attributes)
-      opts[:interfaces] = nested_attributes_for(:interfaces, nested_args) if nested_args
-
+      [:interfaces, :volumes].each do |collection|
+        nested_args = opts.delete("#{collection}_attributes".to_sym)
+        opts[collection] = nested_attributes_for(collection, nested_args) if nested_args
+      end
       opts.reject! { |k, v| v.nil? }
 
       raw_vm = initialize_vm(location:        region,
@@ -149,7 +150,10 @@ module ForemanAzureRm
           ifaces << new_interface(iface_attrs)
         end
       end
-      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces, script_command: opts[:script_command], script_uris: opts[:script_uris])
+
+      vols = opts.fetch(:volumes, []).map { |vols_attrs| new_volume(vols_attrs) } if opts[:volumes].present?
+
+      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces, volumes: vols, script_command: opts[:script_command], script_uris: opts[:script_uris])
     end
 
     def provided_attributes
@@ -188,6 +192,11 @@ module ForemanAzureRm
       true
     end
 
+    def new_volume(attrs = {})
+      args = { :disk_size_gb => 0, :data_disk_caching => "", 'persisted?' => false }.merge(attrs.to_h)
+      OpenStruct.new(args)
+    end
+
     def vm_sizes
       sdk.list_vm_sizes(region)
     end
@@ -198,7 +207,8 @@ module ForemanAzureRm
 
     def vm_instance_defaults
       super.deep_merge(
-        interfaces: [new_interface]
+        interfaces: [new_interface],
+        volumes: [new_volume]
       )
     end
 
@@ -210,6 +220,10 @@ module ForemanAzureRm
         ifaces << sdk.vm_nic(nic_rg, nic_name)
       end
       ifaces
+    end
+
+    def vm_disks(vm)
+      vm.storage_profile.data_disks
     end
 
     def vms(attrs = {})
@@ -276,6 +290,7 @@ module ForemanAzureRm
         image_id:                        args[:image_id],
         os_disk_caching:                 args[:os_disk_caching],
         premium_os_disk:                 args[:premium_os_disk],
+        data_disks:                      args[:volumes_attributes],
         custom_data:                     args[:user_data],
         script_command:                  args[:script_command],
         script_uris:                     args[:script_uris],
@@ -283,7 +298,7 @@ module ForemanAzureRm
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       create_vm_extension(region, args)
       # return the vm object using azure_vm
-      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm), script_command: user_command, script_uris: args[:script_uris])
+      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm), volumes: vm_disks(vm), script_command: user_command, script_uris: args[:script_uris])
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled AzureRm error', e)
       destroy_vm vm.id if vm
@@ -310,10 +325,8 @@ module ForemanAzureRm
           end
         end
       end
-      if os_disk.present?
-        sdk.delete_disk(rg_name, os_disk.name)
-      end
-
+      sdk.delete_disk(rg_name, os_disk.name) if os_disk.present?
+      data_disks.each { |data_disk| sdk.delete_disk(rg_name, data_disk.name) } if data_disks.present?
       true
     rescue ActiveRecord::RecordNotFound
       logger.info "Could not find the selected vm."
