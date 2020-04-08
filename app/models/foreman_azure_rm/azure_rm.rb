@@ -54,7 +54,7 @@ module ForemanAzureRm
     end
 
     def validate_region
-      errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") if !regions.collect(&:second).include? region
+      errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
     end
 
     def self.model_name
@@ -71,14 +71,7 @@ module ForemanAzureRm
 
     def regions
       return unless sub_id.present?
-      available_azure_locations = []
-      sdk.list_locations(sub_id).value.each do |loc|
-        location_names = []
-        location_names << loc.display_name
-        location_names << loc.name
-        available_azure_locations << location_names
-      end
-      available_azure_locations
+      sdk.list_regions(sub_id).value.map { |loc| [loc.display_name, loc.name] }
     end
 
     def resource_groups

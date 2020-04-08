@@ -41,7 +41,7 @@ module ForemanAzureRm
       }
     end
 
-    def list_locations(subscription_id)
+    def list_regions(subscription_id)
       subscription_client.subscriptions.list_locations(subscription_id)
     end
 

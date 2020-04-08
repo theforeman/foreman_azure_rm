@@ -5,4 +5,4 @@
 
 <% regions = f.object.regions rescue [] %>
 
-<%= selectable_f(f, :url, regions, {}, {:label => _('Azure Region'), :disabled => regions.empty?, :required => true, :help_inline_permanent => load_button_f(f, !regions.empty?, _("Load Regions")) }) %>
+<%= selectable_f(f, :url, regions, {}, {:label => _('Azure Region'), :disabled => regions.empty?, :required => true, :help_inline_permanent => load_button_f(f, regions.present?, _("Load Regions")) }) %>
