@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - postgresql
 cache:
   - npm
   - bundler
@@ -14,16 +16,18 @@ install:
   - cd ../foreman
   - echo "gemspec :path => '../${FOREMAN_PLUGIN_NAME}'" > bundler.d/${FOREMAN_PLUGIN_NAME}.local.rb
   - ln -s settings.yaml.test config/settings.yaml
-  - ln -s database.yml.example config/database.yml
-  - bundle install --jobs=3 --retry=3 --without journald development postgresql mysql2 console journald
+  - bundle install --jobs=3 --retry=3 --without journald development mysql2 console journald
   - npm install
-  - bundle exec rake webpack:compile
-  - bundle exec rake db:migrate RAILS_ENV=test
 script:
+  - export DATABASE_URL=postgresql://localhost/travis_ci_test
+  - echo $DATABASE_URL
   - cd ../${FOREMAN_PLUGIN_NAME}
   - # bundle exec rubocop
   - # node ./node_modules/.bin/eslint . app/**/*.js
   - cd ../foreman
+  - bundle exec rake db:create RAILS_ENV=test
+  - bundle exec rake webpack:compile
+  - bundle exec rake db:migrate RAILS_ENV=test
   - bundle exec rake test:${FOREMAN_PLUGIN_NAME}
   - bundle exec rake "plugin:assets:precompile[${FOREMAN_PLUGIN_NAME}]" RAILS_ENV=production
 env:
