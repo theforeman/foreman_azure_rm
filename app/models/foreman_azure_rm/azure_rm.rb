@@ -12,7 +12,7 @@ module ForemanAzureRm
     alias_attribute :region, :url
     alias_attribute :tenant, :uuid
 
-    validates :user, :password, :url, :uuid, :app_ident, :presence => true
+    validates :user, :password, :uuid, :app_ident, :presence => true
 
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
@@ -54,6 +54,7 @@ module ForemanAzureRm
     end
 
     def validate_region
+      return unless regions.present?
       errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
     end
 

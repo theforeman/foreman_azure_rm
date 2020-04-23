@@ -5,6 +5,7 @@ module ForemanAzureRm
     #autoloading all files inside lib dir
     config.eager_load_paths += Dir["#{config.root}/lib"]
     config.eager_load_paths += Dir["#{config.root}/app/models/concerns/foreman_azure_rm/vm_extensions/"]
+    config.eager_load_paths += Dir["#{config.root}/app/helpers/"]
 
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
       Foreman::Plugin.register :foreman_azure_rm do

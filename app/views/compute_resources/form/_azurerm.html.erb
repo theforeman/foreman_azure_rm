@@ -3,6 +3,4 @@
 <%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
 <%= text_f f, :uuid, :label => _('Tenant ID'), :required => true %>
 
-<% regions = f.object.regions rescue [] %>
-
-<%= selectable_f(f, :url, regions, {}, {:label => _('Azure Region'), :disabled => regions.empty?, :required => true, :help_inline_permanent => load_button_f(f, regions.present?, _("Load Regions")) }) %>
+<%= regions_list(@compute_resource, f) %>
