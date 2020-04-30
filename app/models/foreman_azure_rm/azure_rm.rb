@@ -12,11 +12,13 @@ module ForemanAzureRm
     alias_attribute :region, :url
     alias_attribute :tenant, :uuid
 
-    validates :user, :password, :url, :uuid, :app_ident, :presence => true
+    validates :user, :password, :uuid, :app_ident, :presence => true
 
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
     before_create :test_connection, :setup_key_pair
+
+    validate :ensure_attributes_and_values
 
     class VMContainer
       attr_accessor :virtualmachines
@@ -47,6 +49,15 @@ module ForemanAzureRm
       "#{name} (#{provider_friendly_name})"
     end
 
+    def ensure_attributes_and_values
+      validate_region
+    end
+
+    def validate_region
+      return unless regions.present?
+      errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end
@@ -59,59 +70,10 @@ module ForemanAzureRm
       [:image, :new_volume]
     end
 
-    def self.regions
-      [
-          ['West Europe', 'westeurope'],
-          ['Central US', 'centralus'],
-          ['South Central US', 'southcentralus'],
-          ['North Central US', 'northcentralus'],
-          ['West Central US', 'westcentralus'],
-          ['East US', 'eastus'],
-          ['East US 2', 'eastus2'],
-          ['West US', 'westus'],
-          ['West US 2', 'westus2'],
-          ['Canada Central', 'canadacentral'],
-          ['Canada East', 'canadaeast'],
-          ['Brazil South', 'brazilsouth'],
-          ['North Europe', 'northeurope'],
-          ['France Central', 'francecentral'],
-          ['France South', 'francesouth'],
-          ['UK South', 'uksouth'],
-          ['UK West', 'ukwest'],
-          ['Germany Central', 'germanycentral'],
-          ['Germany Northeast', 'germanynortheast'],
-          ['Germany West Central', 'germanywestcentral'],
-          ['Germany North', 'germanynorth'],
-          ['Switzerland North', 'switzerlandnorth'],
-          ['Switzerland West', 'switzerlandwest'],
-          ['Norway West', 'norwaywest'],
-          ['Norway East', 'norwayeast'],
-          ['East Asia', 'eastasia'],
-          ['Southeast Asia', 'southeastasia'],
-          ['Australia Central', 'australiacentral'],
-          ['Australia Central 2', 'australiacentral2'],
-          ['Australia East', 'australiaeast'],
-          ['Australia Southeast', 'australiasoutheast'],
-          ['China East', 'chinaeast'],
-          ['China North', 'chinanorth'],
-          ['China East 2', 'chinaeast2'],
-          ['China North 2', 'chinanorth2'],
-          ['Central India', 'centralindia'],
-          ['South India', 'southindia'],
-          ['West India', 'westindia'],
-          ['Japan East', 'japaneast'],
-          ['Japan West', 'japanwest'],
-          ['Korea Central', 'koreacentral'],
-          ['Korea South', 'koreasouth'],
-          ['South Africa North', 'southafricanorth'],
-          ['South Africa West', 'southafricawest'],
-          ['UAE Central', 'uaecentral'],
-          ['UAE North', 'uaenorth']
-      ]
+    def regions
+      return unless sub_id.present?
+      sdk.list_regions(sub_id).value.map { |loc| [loc.display_name, loc.name] }
     end
-
-    validates :region, inclusion: { in: regions.collect(&:second),
-    message: "%{value} must be lowercase eg. 'eastus'. No special characters allowed." }
 
     def resource_groups
       sdk.rgs
