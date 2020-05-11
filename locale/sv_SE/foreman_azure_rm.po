@@ -1,21 +1,25 @@
-# English translations for foreman_azure_rm package.
-# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the foreman_azure_rm package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# Translators:
+# Mikael Fridh <frimik@gmail.com>, 2020
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-12 17:20+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: English\n"
-"Language: en\n"
+"PO-Revision-Date: 2020-04-21 13:58+0000\n"
+"Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2020\n"
+"Language-Team: Swedish (Sweden) (https://www.transifex.com/foreman/teams/114/s"
+"v_SE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"\n"
+"Language: sv_SE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%{vm_size} VM Size"
 msgstr ""
@@ -24,7 +28,7 @@ msgid "Action with sub plans"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "Åtgärder"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr ""
@@ -72,7 +76,7 @@ msgid "Does this image support user data input?"
 msgstr ""
 
 msgid "Image"
-msgstr ""
+msgstr "Avbildning"
 
 msgid "Import Puppet classes"
 msgstr ""
@@ -90,13 +94,13 @@ msgid "Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)"
 msgstr ""
 
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 msgid "OS Disk Caching"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
@@ -111,19 +115,19 @@ msgid "Please select a VM Size"
 msgstr ""
 
 msgid "Please select an image"
-msgstr ""
+msgstr "Vänligen välj en avbildning"
 
 msgid "Premium OS Disk"
 msgstr ""
 
 msgid "Properties"
-msgstr ""
+msgstr "Egenskaper"
 
 msgid "Public IP"
 msgstr ""
 
 msgid "Region"
-msgstr ""
+msgstr "Region"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
@@ -138,16 +142,16 @@ msgid "SSH Key"
 msgstr ""
 
 msgid "Select"
-msgstr ""
+msgstr "Välj"
 
 msgid "Size"
-msgstr ""
+msgstr "Storlek"
 
 msgid "Size (GB)"
-msgstr ""
+msgstr "Storlek (GB)"
 
 msgid "State"
-msgstr ""
+msgstr "Tillstånd"
 
 msgid "Static Private IP"
 msgstr ""
@@ -177,7 +181,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 msgid "VM Size"
 msgstr ""

@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 1.0.0\n"
+"Project-Id-Version: foreman_azure_rm 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 06:57-0400\n"
-"PO-Revision-Date: 2020-04-08 06:57-0400\n"
+"POT-Creation-Date: 2020-05-12 15:17+0530\n"
+"PO-Revision-Date: 2020-05-12 15:17+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -48,6 +48,14 @@ msgstr ""
 msgid "The selected image has no associated compute resource"
 msgstr ""
 
+#: ../app/helpers/azure_compute_resource_helper.rb:11
+msgid "Azure Region"
+msgstr ""
+
+#: ../app/helpers/azure_compute_resource_helper.rb:11
+msgid "Load Regions"
+msgstr ""
+
 #: ../app/models/foreman_azure_rm/azure_rm_compute.rb:148
 msgid "%{vm_size} VM Size"
 msgstr ""
@@ -66,16 +74,6 @@ msgstr ""
 
 #: ../app/views/compute_resources/form/_azurerm.html.erb:4
 msgid "Tenant ID"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_azurerm.html.erb:6
-msgid "Azure Region"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_azurerm.html.erb:6
-msgid ""
-"Some of the listed regions might not be supported for your subscription. Pleas"
-"e verify on Azure portal."
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:91
@@ -227,6 +225,22 @@ msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:6
 msgid "Does this image support user data input?"
+msgstr ""
+
+#: action_names.rb:2
+msgid "Action with sub plans"
+msgstr ""
+
+#: action_names.rb:3
+msgid "Import facts"
+msgstr ""
+
+#: action_names.rb:4
+msgid "Import Puppet classes"
+msgstr ""
+
+#: action_names.rb:5
+msgid "Remote action:"
 msgstr ""
 
 #: gemspec.rb:2
