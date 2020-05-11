@@ -45,8 +45,8 @@ module ForemanAzureRm
       subscription_client.subscriptions.list_locations(subscription_id)
     end
 
-    def list_resources
-      resource_client.resources.list
+    def list_resources(filter)
+      resource_client.resources.list(filter)
     end
 
     def rgs
@@ -119,6 +119,10 @@ module ForemanAzureRm
 
     def get_gallery_image(rg_name, gallery_name, gallery_image_name)
       compute_client.gallery_images.get(rg_name, gallery_name, gallery_image_name)
+    end
+
+    def list_gallery_image_versions(rg_name, gallery_name, gallery_image_name)
+      compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, gallery_image_name)
     end
 
     def get_storage_accts
