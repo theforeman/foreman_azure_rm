@@ -1,21 +1,24 @@
-# English translations for foreman_azure_rm package.
-# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the foreman_azure_rm package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# Translators:
+# 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
+# Bryan Kearney <bryan.kearney@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-12 17:20+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: English\n"
-"Language: en\n"
+"PO-Revision-Date: 2020-04-21 13:58+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2020\n"
+"Language-Team: Korean (https://www.transifex.com/foreman/teams/114/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%{vm_size} VM Size"
 msgstr ""
@@ -24,7 +27,7 @@ msgid "Action with sub plans"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "동작 "
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr ""
@@ -69,10 +72,10 @@ msgid "Default ReadWrite"
 msgstr ""
 
 msgid "Does this image support user data input?"
-msgstr ""
+msgstr "이 이미지는 사용자 데이터 입력을 지원하고 있습니까?"
 
 msgid "Image"
-msgstr ""
+msgstr "이미지 "
 
 msgid "Import Puppet classes"
 msgstr ""
@@ -90,16 +93,16 @@ msgid "Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)"
 msgstr ""
 
 msgid "Name"
-msgstr ""
+msgstr "이름 "
 
 msgid "OS Disk Caching"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "암호 "
 
 msgid "Password to authenticate with - used for SSH finish step."
-msgstr ""
+msgstr "인증에 사용될 암호 - SSH 마지막 단계에서 사용됩니다."
 
 msgid "Platform"
 msgstr ""
@@ -111,19 +114,19 @@ msgid "Please select a VM Size"
 msgstr ""
 
 msgid "Please select an image"
-msgstr ""
+msgstr "이미지를 선택하십시오"
 
 msgid "Premium OS Disk"
 msgstr ""
 
 msgid "Properties"
-msgstr ""
+msgstr "속성 "
 
 msgid "Public IP"
 msgstr ""
 
 msgid "Region"
-msgstr ""
+msgstr "지역 "
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
@@ -138,22 +141,22 @@ msgid "SSH Key"
 msgstr ""
 
 msgid "Select"
-msgstr ""
+msgstr "선택 "
 
 msgid "Size"
-msgstr ""
+msgstr "사이즈"
 
 msgid "Size (GB)"
-msgstr ""
+msgstr "크기 (GB)"
 
 msgid "State"
-msgstr ""
+msgstr "상태 "
 
 msgid "Static Private IP"
 msgstr ""
 
 msgid "Subscription ID"
-msgstr ""
+msgstr "서브스크립션 ID"
 
 msgid "Subscription ID for AzureRm"
 msgstr ""
@@ -177,7 +180,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "사용자 이름 "
 
 msgid "VM Size"
 msgstr ""
