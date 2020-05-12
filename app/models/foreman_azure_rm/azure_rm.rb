@@ -80,10 +80,12 @@ module ForemanAzureRm
     end
 
     def test_connection(options = {})
-      sdk.rgs.each do |rg|
-        puts "#{rg}"
-      end
-      super(options)
+      super
+      errors[:user].empty? && errors[:password].empty? && errors[:uuid].empty? && errors[:app_ident].empty? && regions
+    rescue StandardError => e
+      errors[:base] << e.message
+    rescue Excon::Error::Socket => e
+      errors[:base] << e.message
     end
 
     def new_vm(args = {})
