@@ -43,7 +43,7 @@ module ForemanAzureRm
 
       # Add format validation for azure images
       ::Image.validates :uuid, format: { with: /\A((marketplace|custom|gallery):\/\/)[^:]+(:[^:]+:[^:]+:[^:]+)?\z/,
-          message: "Incorrect UUID format" }
+          message: "Incorrect UUID format" }, if: -> (image){ image.compute_resource.is_a? ForemanAzureRm::AzureRm }
 
       # Use excon as default so that HTTP Proxy settings of foreman works
       Faraday::default_adapter=:excon
