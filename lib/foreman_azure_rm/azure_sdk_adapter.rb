@@ -45,6 +45,10 @@ module ForemanAzureRm
       subscription_client.subscriptions.list_locations(subscription_id)
     end
 
+    def list_resources(filter)
+      resource_client.resources.list(filter)
+    end
+
     def rgs
       rgs      = resource_client.resource_groups.list
       rgs.map(&:name)
@@ -87,6 +91,38 @@ module ForemanAzureRm
 
     def get_vm(rg_name, vm_name)
       compute_client.virtual_machines.get(rg_name, vm_name)
+    end
+
+    def get_marketplace_image(location, publisher_name, offer, skus, version)
+      compute_client.virtual_machine_images.get(location, publisher_name, offer, skus, version)
+    end
+
+    def list_versions(location, publisher_name, offer, skus)
+      compute_client.virtual_machine_images.list(location, publisher_name, offer, skus)
+    end
+
+    def list_custom_images
+      compute_client.images.list
+    end
+
+    def get_custom_image(rg_name, image_name)
+      compute_client.images.get(rg_name, image_name)
+    end
+
+    def list_galleries
+      compute_client.galleries.list
+    end
+
+    def list_gallery_images(rg_name, gallery_name)
+      compute_client.gallery_images.list_by_gallery(rg_name, gallery_name)
+    end
+
+    def get_gallery_image(rg_name, gallery_name, gallery_image_name)
+      compute_client.gallery_images.get(rg_name, gallery_name, gallery_image_name)
+    end
+
+    def list_gallery_image_versions(rg_name, gallery_name, gallery_image_name)
+      compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, gallery_image_name)
     end
 
     def get_storage_accts
@@ -152,6 +188,24 @@ module ForemanAzureRm
     def stop_vm(rg_name, vm_name)
       compute_client.virtual_machines.power_off(rg_name, vm_name)
       compute_client.virtual_machines.deallocate(rg_name, vm_name)
+    end
+
+    def self.gallery_caching(rg_name)
+      @gallery_caching ||= {}
+      @gallery_caching[rg_name] ||= {}
+    end
+
+    def actual_gallery_image_id(rg_name, image_id)
+      gallery_names = list_galleries.map(&:name)
+      gallery_names.each do |gallery|
+        gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
+        return gallery_image&.id
+      end
+      nil
+    end
+
+    def fetch_gallery_image_id(rg_name, image_id)
+      AzureSdkAdapter.gallery_caching(rg_name)[image_id] ||= actual_gallery_image_id(rg_name, image_id)
     end
   end
 end

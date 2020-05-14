@@ -68,26 +68,25 @@ module ForemanAzureRm
         image_reference
       end
 
-      def define_image(image_id)
-        # If image UUID begins with / it is a custom managed image
-        # Otherwise it is a marketplace URN
-        unless image_id.start_with?('/')
+      def define_image(rg_name, image)
+        image_type, image_id = image.split('://')
+        case image_type
+        when 'marketplace'
           urn = image_id.split(':')
           publisher = urn[0]
           offer     = urn[1]
           sku       = urn[2]
           version   = urn[3]
-          image_id = nil
-        end
-
-        if image_id.nil?
-          # For marketplace image
           image_reference = marketplace_image_reference(publisher, offer, sku, version)
+        when 'custom'
+          custom_image = sdk.get_custom_image(rg_name, image_id)
+          image_reference = ComputeModels::ImageReference.new
+          image_reference.id = custom_image.id
+        when 'gallery'
+          image_reference = ComputeModels::ImageReference.new
+          image_reference.id = sdk.fetch_gallery_image_id(rg_name, image_id)
         else
-          # For custom managed image
-          image_ref = ComputeModels::ImageReference.new
-          image_ref.id = image_id
-          image_reference = image_ref
+          image_reference = nil
         end
         image_reference
       end
@@ -211,7 +210,7 @@ module ForemanAzureRm
       def create_managed_virtual_machine(vm_hash)
         vm_params = initialize_vm(vm_hash)
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
-        vm_params.storage_profile.image_reference = define_image(vm_hash[:image_id])
+        vm_params.storage_profile.image_reference = define_image(vm_hash[:resource_group], vm_hash[:image_id])
         vm_params.storage_profile.data_disks = define_data_disks(vm_hash[:name], vm_hash[:data_disks])
         sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end

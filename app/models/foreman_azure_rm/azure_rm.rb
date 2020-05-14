@@ -124,6 +124,44 @@ module ForemanAzureRm
       super.merge({ :ip => :provisioning_ip_address })
     end
 
+    def image_exists?(image)
+      image_type, image_id = image.split('://')
+      case image_type
+      when 'marketplace'
+        begin
+          urn = image_id.split(':')
+          publisher = urn[0]
+          offer     = urn[1]
+          sku       = urn[2]
+          version   = urn[3]
+          if version == "latest"
+            all_versions = sdk.list_versions(region, publisher, offer, sku).map(&:name)
+            return true if all_versions.any?
+          end
+          sdk.get_marketplace_image(region, publisher, offer, sku, version).present?
+        rescue StandardError => e
+          return false
+        end
+      when 'gallery'
+        gallery_images_list = sdk.list_resources(filter: "resourceType eq 'Microsoft.Compute/galleries/images'")
+        gallery_image = gallery_images_list.detect { |gal_img| gal_img.id.split('/')[-1] == image_id }
+        if gallery_image.present?
+          rg_name = gallery_image.id.split('/')[4]
+          gallery_name = gallery_image.name.split('/')[0]
+          image_versions = sdk.list_gallery_image_versions(rg_name, gallery_name, image_id)
+          target_regions = image_versions.map do |image_version|
+            image_version.publishing_profile.target_regions.map(&:name)
+          end.flatten.uniq.map { |tgt_reg| tgt_reg.gsub(/\s+/, '').downcase }
+          return true if target_regions.include? region
+        end
+      when 'custom'
+        custom_image = sdk.list_custom_images.detect { |custom_img| custom_img.name == image_id && custom_img.location == region }
+        return custom_image.present?
+      else
+        false
+      end
+    end
+
     def available_vnets(attr = {})
       virtual_networks
     end
