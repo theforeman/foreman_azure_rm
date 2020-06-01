@@ -4,6 +4,7 @@
 ```foreman_azure_rm``` adds [Microsoft Azure Resource Manager](http://azure.com/) as a compute resource for The Foreman
 
 * Website: [TheForeman.org](http://theforeman.org)
+* ForemanAzureRm: [Plugin manual](https://theforeman.org/plugins/foreman_azure)
 * Support: [Foreman support](http://theforeman.org/support.html)
 
 ## Installation
@@ -54,10 +55,14 @@ Then run `bundle install` from the same directory
     * VM creation
     * Provisions using Finish and User data templates from Foreman
     * Supports cloud-config provisioning
-    * Currently supports single NIC
-    * Currently supports single default OS Disk
     * Currently supports only provisioning of Linux platforms
     * Provisioning using [Public Images](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage)
+    * Provision using custom images
+    * Provision using shared image galleries
+    * Provision using RHEL byos images
+    * Multiple NICs support
+    * Support to add multiple data disks/volumes (standard or premium)
+    * VM Extension with Custom Script and File URIs support
     * Static or dynamic addresses on a per NIC basis
 * Limited extension support
     * Microsoft's custom script extension
@@ -71,21 +76,18 @@ Choose the **Azure Resource Manager provider**, and fill in all the fields. You 
 That's it. You're now ready to create and manage Azure resources in your new Azure Resource Manager compute resource. You should see something like this in the Compute Resource page:
 
 
-![](https://i.imgur.com/4ClZhTP.png)
+![](https://i.imgur.com/vsamP4G.png)
 
 
-![](https://i.imgur.com/eFHucdb.png)
+![](https://i.imgur.com/Ag9tH55.png)
 
 
-![](https://i.imgur.com/YjlRQIE.png)
+![](https://i.imgur.com/fNjlFci.png)
 
     
 ## Planned Features
-* Multiple NICs support
-* Support to add multiple data disks (standard or premium)
-* Provision using custom images
-* Provision using shared image galleries
-* Improved extension support    
+* Azure Gov Cloud Support
+* Support for http_proxy
     
 ## Known Limitations
 * Please note that currently username is expected to be the same on both Virtual Machine tab for Host creation and during Image creation for Compute Resource. The password field for Image creation is optional.
