@@ -59,6 +59,21 @@ module ForemanAzureRm
         end
       end
 
+      def marketplace_image_plan(image)
+        image_type, image_id = image.split('://')
+        return nil unless image_type == 'marketplace' && image_id.include?('byos')
+        urn = image_id.split(':')
+        publisher = urn[0]
+        offer     = urn[1]
+        sku       = urn[2]
+        version   = urn[3]
+        image_plan = ComputeModels::PurchasePlan.new
+        image_plan.publisher = publisher.downcase
+        image_plan.name = sku.downcase
+        image_plan.product = offer.downcase
+        image_plan
+      end
+
       def marketplace_image_reference(publisher, offer, sku, version)
         image_reference = ComputeModels::ImageReference.new
         image_reference.publisher = publisher
@@ -209,6 +224,7 @@ module ForemanAzureRm
 
       def create_managed_virtual_machine(vm_hash)
         vm_params = initialize_vm(vm_hash)
+        vm_params.plan = marketplace_image_plan(vm_hash[:image_id])
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
         vm_params.storage_profile.image_reference = define_image(vm_hash[:resource_group], vm_hash[:image_id])
         vm_params.storage_profile.data_disks = define_data_disks(vm_hash[:name], vm_hash[:data_disks])
