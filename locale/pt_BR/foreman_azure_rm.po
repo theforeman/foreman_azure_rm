@@ -36,6 +36,9 @@ msgstr "Ações"
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr ""
 
+msgid "Azure Image Name"
+msgstr ""
+
 msgid "Azure Region"
 msgstr ""
 
@@ -78,6 +81,9 @@ msgstr ""
 msgid "Does this image support user data input?"
 msgstr "Esta imagem suporta a entrada de dados do usuário?"
 
+msgid "For custom or shared gallery image prefix the uuid with 'custom://' or 'gallery://'. For public image, prefix the uuid with 'marketplace://'.' (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
+msgstr ""
+
 msgid "Image"
 msgstr "Imagem"
 
@@ -88,12 +94,6 @@ msgid "Import facts"
 msgstr ""
 
 msgid "Load Regions"
-msgstr ""
-
-msgid "Marketplace Image URN"
-msgstr ""
-
-msgid "Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)"
 msgstr ""
 
 msgid "Name"

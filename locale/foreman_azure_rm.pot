@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.1.0\n"
+"Project-Id-Version: foreman_azure_rm 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-12 15:17+0530\n"
-"PO-Revision-Date: 2020-05-12 15:17+0530\n"
+"POT-Creation-Date: 2020-06-23 12:31+0530\n"
+"PO-Revision-Date: 2020-06-23 12:31+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -216,11 +216,14 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:5
-msgid "Marketplace Image URN"
+msgid "Azure Image Name"
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:5
-msgid "Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)"
+msgid ""
+"For custom or shared gallery image prefix the uuid with 'custom://' or 'galler"
+"y://'. For public image, prefix the uuid with 'marketplace://'.' (e.g. 'market"
+"place://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:6
