@@ -11,6 +11,7 @@ module ForemanAzureRm
     alias_attribute :secret_key, :password
     alias_attribute :region, :url
     alias_attribute :tenant, :uuid
+    alias_attribute :azure_environment, :cloud
 
     validates :user, :password, :uuid, :app_ident, :presence => true
 
@@ -41,8 +42,16 @@ module ForemanAzureRm
       attrs[:app_ident] = name
     end
 
+    def cloud
+      attrs[:cloud]
+    end
+
+    def cloud=(name)
+      attrs[:cloud] = name
+    end
+
     def sdk
-      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id)
+      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, azure_environment)
     end
     
     def to_label
@@ -81,7 +90,7 @@ module ForemanAzureRm
 
     def test_connection(options = {})
       super
-      errors[:user].empty? && errors[:password].empty? && errors[:uuid].empty? && errors[:app_ident].empty? && regions
+      errors[:user].empty? && errors[:password].empty? && errors[:uuid].empty? && errors[:app_ident].empty? && errors[:cloud].empty? && regions
     rescue StandardError => e
       errors[:base] << e.message
     rescue Excon::Error::Socket => e

@@ -1,3 +1,9 @@
+<%= selectable_f f, :cloud, [
+  ['Public / Standard', 'azure'],  
+  ['US Government', 'azureusgovernment'],
+  ['China', 'azurechina'],
+  ['Germany', 'azuregermancloud'],
+], {}, { :label => _('Cloud'), :required => true } %>
 <%= text_f f, :app_ident, :label => _('Client ID'), :required => true %>
 <%= password_f f, :password, :label => _('Client Secret'), :keep_value => true, :required => true %>
 <%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
