@@ -14,11 +14,11 @@ Gem::Specification.new do |s|
   s.description = 'This gem provides Azure Resource Manager as a compute resource for The Foreman'
 
   s.add_dependency 'deface', '< 2.0'
-  s.add_dependency 'azure_mgmt_resources', '~> 0.17.6'
-  s.add_dependency 'azure_mgmt_network', '~> 0.19.0'
-  s.add_dependency 'azure_mgmt_storage', '~> 0.17.10'
-  s.add_dependency 'azure_mgmt_compute', '~> 0.18.7'
-  s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.1'
+  s.add_dependency 'azure_mgmt_resources', '~> 0.17.9'
+  s.add_dependency 'azure_mgmt_network', '~> 0.23.4'
+  s.add_dependency 'azure_mgmt_storage', '~> 0.21.1'
+  s.add_dependency 'azure_mgmt_compute', '~> 0.19.3'
+  s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.4'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end

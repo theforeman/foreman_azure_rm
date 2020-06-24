@@ -1,44 +1,85 @@
 module ForemanAzureRm
   class AzureSdkAdapter
-    def initialize(tenant, app_ident, secret_key, sub_id)
-      @tenant           = tenant
-      @app_ident        = app_ident
-      @secret_key       = secret_key
-      @sub_id           = sub_id
+    def initialize(tenant, app_ident, secret_key, sub_id, azure_environment)
+      @tenant               = tenant
+      @app_ident            = app_ident
+      @secret_key           = secret_key
+      @sub_id               = sub_id
+      @azure_environment    = azure_environment
+      @ad_settings          = ad_environment_settings(azure_environment)
+      @environment_settings = environment_settings(azure_environment)
     end
 
     def resource_client
-      @resource_client ||= Resources::Client.new(azure_credentials)
+      #resource_manager_endpoint_url
+      @resource_client ||= Resources::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
     def compute_client
-      @compute_client ||= Compute::Client.new(azure_credentials)
+      @compute_client ||= Compute::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
     def network_client
-      @network_client ||= Network::Client.new(azure_credentials)
+      @network_client ||= Network::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
     def storage_client
-      @storage_client ||= Storage::Client.new(azure_credentials)
+      @storage_client ||= Storage::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
     def subscription_client
-      @subscription_client ||= Subscriptions::Client.new(azure_credentials)
+      @subscription_client ||= Subscriptions::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
-    def azure_credentials
+    def azure_credentials(base_url)
       provider = MsRestAzure::ApplicationTokenProvider.new(
       @tenant,
       @app_ident,
-      @secret_key)
+      @secret_key,
+      @ad_settings)
       
       credentials = MsRest::TokenCredentials.new(provider)
 
       {
         credentials: credentials,
-        subscription_id: @sub_id
+        tenant_id: @tenant,
+        client_id: @app_ident,
+        client_secret: @secret_key,
+        subscription_id: @sub_id,
+        base_url: base_url
       }
+    end
+
+    # https://github.com/Azure/azure-sdk-for-ruby/issues/850
+    # Retrieves a [MsRestAzure::ActiveDirectoryServiceSettings] object representing the settings for the given cloud.
+    # @param azure_environment [String] The Azure environment to retrieve settings for.
+    #
+    # @return [MsRestAzure::ActiveDirectoryServiceSettings] Settings to be used for subsequent requests
+    #
+    def ad_environment_settings(azure_environment)
+      case azure_environment.downcase
+      when 'azureusgovernment'
+        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_us_government_settings
+      when 'azurechina'
+        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_china_settings
+      when 'azuregermancloud'
+        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_german_settings
+      when 'azure'
+        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_settings
+      end
+    end
+
+    def environment_settings(azure_environment)
+      case azure_environment.downcase
+      when 'azureusgovernment'
+        MsRestAzure::AzureEnvironments::AzureUSGovernment
+      when 'azurechina'
+        MsRestAzure::AzureEnvironments::AzureChinaCloud
+      when 'azuregermancloud'
+        MsRestAzure::AzureEnvironments::AzureGermanCloud
+      when 'azure'
+        MsRestAzure::AzureEnvironments::AzureCloud
+      end
     end
 
     def list_regions(subscription_id)

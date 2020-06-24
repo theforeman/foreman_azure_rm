@@ -8,7 +8,8 @@ module ForemanAzureRm
       app_ident        = compute_resource.app_ident
       secret_key       = compute_resource.password
       sub_id           = compute_resource.user
-      @test_adapter    = AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id)
+      cloud            = compute_resource.cloud
+      @test_adapter    = AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, cloud)
       AzureSdkAdapter.stubs(:gallery_caching).with('test_rg').returns({})
     end
 

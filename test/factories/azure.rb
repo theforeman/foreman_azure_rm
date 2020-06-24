@@ -5,5 +5,6 @@ FactoryBot.define do
     add_attribute(:app_ident) { '33333333-3333-3333-3333-333333333333' }
     add_attribute(:uuid) { '44444444-4444-4444-4444-444444444444' }
     add_attribute(:url) { 'eastus' }
+    add_attribute(:cloud) { 'azure' }
   end
 end
