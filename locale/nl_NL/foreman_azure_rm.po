@@ -7,9 +7,10 @@
 # Maxim Burgerhout <maxim@wzzrd.com>, 2020
 # EmielK <emiel@kremers.us>, 2020
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: EmielK <emiel@kremers.us>, 2020\n"

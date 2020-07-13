@@ -7,9 +7,10 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2020\n"
@@ -24,7 +25,7 @@ msgid "%{vm_size} VM Size"
 msgstr ""
 
 msgid "Action with sub plans"
-msgstr ""
+msgstr "하위 계획이 있는 작업"
 
 msgid "Actions"
 msgstr "동작 "
@@ -78,13 +79,13 @@ msgid "Image"
 msgstr "이미지 "
 
 msgid "Import Puppet classes"
-msgstr ""
+msgstr "Puppet 클래스 가져오기"
 
 msgid "Import facts"
-msgstr ""
+msgstr "팩트 불러오기"
 
 msgid "Load Regions"
-msgstr ""
+msgstr "지역 로드 "
 
 msgid "Marketplace Image URN"
 msgstr ""
@@ -132,7 +133,7 @@ msgid "Reload Images, Sizes, vNets"
 msgstr ""
 
 msgid "Remote action:"
-msgstr ""
+msgstr "원격 작업:"
 
 msgid "Resource Group"
 msgstr ""
