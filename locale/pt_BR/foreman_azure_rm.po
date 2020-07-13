@@ -4,18 +4,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Flamarion Jorge <jorge.flamarion@gmail.com>, 2020
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
+# Bruno Emanuel Silva <bemanuel.pe@gmail.com>, 2020
+# Flamarion Jorge <jorge.flamarion@gmail.com>, 2020
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2020
-# Bruno Emanuel Silva <bemanuel.pe@gmail.com>, 2020
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Bruno Emanuel Silva <bemanuel.pe@gmail.com>, 2020\n"
+"Last-Translator: Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 20"
+"20\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/foreman/teams/11"
 "4/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +30,7 @@ msgid "%{vm_size} VM Size"
 msgstr ""
 
 msgid "Action with sub plans"
-msgstr ""
+msgstr "Ação com subplanos"
 
 msgid "Actions"
 msgstr "Ações"
@@ -82,13 +84,13 @@ msgid "Image"
 msgstr "Imagem"
 
 msgid "Import Puppet classes"
-msgstr ""
+msgstr "Importar classes de Puppet"
 
 msgid "Import facts"
-msgstr ""
+msgstr "Importar fatos"
 
 msgid "Load Regions"
-msgstr ""
+msgstr "Carregar regiões"
 
 msgid "Marketplace Image URN"
 msgstr ""
@@ -136,7 +138,7 @@ msgid "Reload Images, Sizes, vNets"
 msgstr ""
 
 msgid "Remote action:"
-msgstr ""
+msgstr "Ação remota:"
 
 msgid "Resource Group"
 msgstr ""
