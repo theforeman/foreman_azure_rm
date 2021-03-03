@@ -67,6 +67,7 @@ Then run `bundle install` from the same directory
 * Limited extension support
     * Microsoft's custom script extension
     * Puppet Lab's Puppet agent extension for Windows
+* Azure Gov Cloud Support
 
 ## Configuration
 Go to **Infrastructure > Compute Resources** and click on "New Compute Resource".
@@ -86,7 +87,6 @@ That's it. You're now ready to create and manage Azure resources in your new Azu
 
     
 ## Planned Features
-* Azure Gov Cloud Support
 * Support for http_proxy
     
 ## Known Limitations
