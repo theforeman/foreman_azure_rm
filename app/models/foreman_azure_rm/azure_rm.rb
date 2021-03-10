@@ -115,7 +115,8 @@ module ForemanAzureRm
                              platform:        opts[:platform],
                              ssh_key_data:    opts[:ssh_key_data],
                              os_disk_caching: opts[:os_disk_caching],
-                             premium_os_disk: opts[:premium_os_disk]
+                             premium_os_disk: opts[:premium_os_disk],
+                             os_disk_size_gb: opts[:os_disk_size_gb]
                             )
       if opts[:interfaces].present?
         ifaces = []
@@ -301,6 +302,7 @@ module ForemanAzureRm
         image_id:                        args[:image_id],
         os_disk_caching:                 args[:os_disk_caching],
         premium_os_disk:                 args[:premium_os_disk],
+        os_disk_size_gb:                 args[:os_disk_size_gb],
         data_disks:                      args[:volumes_attributes],
         custom_data:                     args[:user_data],
         script_command:                  args[:script_command],

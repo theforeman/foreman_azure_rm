@@ -179,6 +179,9 @@ module ForemanAzureRm
       @azure_vm.storage_profile.os_disk.managed_disk.storage_account_type
     end
 
+    def os_disk_size_gb
+    end
+
     def os_disk_caching
       @azure_vm.storage_profile.os_disk.caching
     end

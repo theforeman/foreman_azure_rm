@@ -154,6 +154,16 @@
              'false'
 %>
 
+<%= number_f f, :os_disk_size_gb,
+         {
+             :label => _('Override OS Disk Size (GB)'),
+             :label_help => _("Leave empty to use default image size"),
+             :required => false,
+             :min => 1,
+             :class => "col-md-2",
+         }
+%>
+
 <%= selectable_f f, :os_disk_caching, %w(None ReadOnly ReadWrite),
                {   :include_blank => _("Azure's Default") },
                {
