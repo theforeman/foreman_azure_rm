@@ -1,4 +1,5 @@
-<%= text_f f, :app_ident, :label => _('Client ID'), :required => true %>
+<%= text_f f, :app_ident, :label => _('Client ID'), :required => true, :help_inline => link_to(icon_text('help', _('Documentation'), :kind => 'pficon'),
+  azure_doc_url, :rel => 'external', :class => 'btn btn-default btn-docs', :target => '_blank') %>
 <%= password_f f, :password, :label => _('Client Secret'), :keep_value => true, :required => true %>
 <%= text_f f, :user, :label => _('Subscription ID'), :required => true %>
 <%= text_f f, :uuid, :label => _('Tenant ID'), :required => true %>
