@@ -4,7 +4,7 @@ module ForemanAzureRm
     module ManagedVM
       extend ActiveSupport::Concern
 
-      def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk)
+      def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk, os_disk_size_gb)
         storage_profile = ComputeModels::StorageProfile.new
         os_disk = ComputeModels::OSDisk.new
         managed_disk_params = ComputeModels::ManagedDiskParameters.new
@@ -12,6 +12,7 @@ module ForemanAzureRm
         # Create OS disk
         os_disk.name = "#{vm_name}-osdisk"
         os_disk.os_type = platform
+        os_disk.disk_size_gb = os_disk_size_gb
         os_disk.create_option = ComputeModels::DiskCreateOptionTypes::FromImage
         os_disk.caching = disk_caching(os_disk_caching)
         managed_disk_params.storage_account_type = if premium_os_disk == 'true'
@@ -212,7 +213,8 @@ module ForemanAzureRm
                                                                 vm_hash[:name],
                                                                 vm_hash[:os_disk_caching],
                                                                 vm_hash[:platform],
-                                                                vm_hash[:premium_os_disk]
+                                                                vm_hash[:premium_os_disk],
+                                                                vm_hash[:os_disk_size_gb]
                                                               )
           vm.hardware_profile = ComputeModels::HardwareProfile.new.tap do |hw_profile|
             hw_profile.vm_size = vm_hash[:vm_size]
