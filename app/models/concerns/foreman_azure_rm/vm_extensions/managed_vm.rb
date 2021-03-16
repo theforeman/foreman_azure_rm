@@ -187,21 +187,23 @@ module ForemanAzureRm
             os_profile.admin_password = vm_hash[:password]
 
             # Adding the ssh-key support for authentication
-            os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
-              linux.disable_password_authentication = vm_hash[:disable_password_authentication]
-              linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
-                ssh_config.public_keys = [
-                  ComputeModels::SshPublicKey.new.tap do |foreman_key|
-                    foreman_key.key_data = key_pair.public
-                    foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+            if vm_hash[:platform] == 'Linux'
+              os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
+                linux.disable_password_authentication = vm_hash[:disable_password_authentication]
+                linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
+                  ssh_config.public_keys = [
+                    ComputeModels::SshPublicKey.new.tap do |foreman_key|
+                      foreman_key.key_data = key_pair.public
+                      foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                    end
+                  ]
+                  if vm_hash[:ssh_key_data].present?
+                    key_data = vm_hash[:ssh_key_data]
+                    pub_key = ComputeModels::SshPublicKey.new
+                    pub_key.key_data = key_data
+                    pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                    ssh_config.public_keys << pub_key
                   end
-                ]
-                if vm_hash[:ssh_key_data].present?
-                  key_data = vm_hash[:ssh_key_data]
-                  pub_key = ComputeModels::SshPublicKey.new
-                  pub_key.key_data = key_data
-                  pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
-                  ssh_config.public_keys << pub_key
                 end
               end
             end
