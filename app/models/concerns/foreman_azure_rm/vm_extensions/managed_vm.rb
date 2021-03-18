@@ -188,21 +188,23 @@ module ForemanAzureRm
             os_profile.admin_password = vm_hash[:password]
 
             # Adding the ssh-key support for authentication
-            os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
-              linux.disable_password_authentication = vm_hash[:disable_password_authentication]
-              linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
-                ssh_config.public_keys = [
-                  ComputeModels::SshPublicKey.new.tap do |foreman_key|
-                    foreman_key.key_data = key_pair.public
-                    foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+            if vm_hash[:platform] == 'Linux'
+              os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
+                linux.disable_password_authentication = vm_hash[:disable_password_authentication]
+                linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
+                  ssh_config.public_keys = [
+                    ComputeModels::SshPublicKey.new.tap do |foreman_key|
+                      foreman_key.key_data = key_pair.public
+                      foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                    end
+                  ]
+                  if vm_hash[:ssh_key_data].present?
+                    key_data = vm_hash[:ssh_key_data]
+                    pub_key = ComputeModels::SshPublicKey.new
+                    pub_key.key_data = key_data
+                    pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                    ssh_config.public_keys << pub_key
                   end
-                ]
-                if vm_hash[:ssh_key_data].present?
-                  key_data = vm_hash[:ssh_key_data]
-                  pub_key = ComputeModels::SshPublicKey.new
-                  pub_key.key_data = key_data
-                  pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
-                  ssh_config.public_keys << pub_key
                 end
               end
             end
@@ -237,11 +239,22 @@ module ForemanAzureRm
         if args[:script_command].present? || args[:script_uris].present?
           args[:script_uris] ||=  args[:script_uris].to_s
           extension = ComputeModels::VirtualMachineExtension.new
-          if args[:platform] == 'Linux'
+
+          case args[:platform]
+          # https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-linux
+          when 'Linux'
             extension.publisher = 'Microsoft.Azure.Extensions'
             extension.virtual_machine_extension_type = 'CustomScript'
             extension.type_handler_version = '2.0'
+          # https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows
+          when 'Windows'
+            extension.publisher = 'Microsoft.Compute'
+            extension.virtual_machine_extension_type = 'CustomScriptExtension'
+            extension.type_handler_version = '1.10'
+          else
+            raise RuntimeError, "Unsupported platform #{args[:platform]}"
           end
+
           extension.auto_upgrade_minor_version = true
           extension.location = region
           extension.settings = {
