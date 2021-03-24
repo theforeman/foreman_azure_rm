@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.files   = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
   s.description = 'This gem provides Azure Resource Manager as a compute resource for The Foreman'
 
-  s.add_dependency 'azure_mgmt_resources', '~> 0.17.9'
-  s.add_dependency 'azure_mgmt_network', '~> 0.23.4'
-  s.add_dependency 'azure_mgmt_storage', '~> 0.21.1'
-  s.add_dependency 'azure_mgmt_compute', '~> 0.19.3'
-  s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.4'
+  s.add_dependency 'azure_mgmt_resources', '~> 0.18.1'
+  s.add_dependency 'azure_mgmt_network', '~> 0.26.1'
+  s.add_dependency 'azure_mgmt_storage', '~> 0.23.0'
+  s.add_dependency 'azure_mgmt_compute', '~> 0.22.0'
+  s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.5'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end
