@@ -10,8 +10,7 @@ module AzureComputeResourceHelper
     end
     selectable_f(f, :url, regions, {}, {:label => _('Azure Region'), :disabled => regions.empty?, :required => true, :help_inline_permanent => load_button_f(f, regions.present?, _("Load Regions")) })
   end
-  def azure_doc_url
+  def azure_doc_version
     doc_version = Foreman::Plugin.find(:foreman_azure_rm).version.scan(/\d+\.\d+/).first + '.x'
-    "https://theforeman.org/plugins/foreman_azure/#{doc_version}"
   end
 end
