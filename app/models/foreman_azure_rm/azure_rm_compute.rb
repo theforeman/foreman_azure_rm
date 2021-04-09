@@ -10,7 +10,7 @@ module ForemanAzureRm
     delegate :name, to: :azure_vm, allow_nil: true
 
     def initialize(azure_vm: ComputeModels::VirtualMachine.new,
-                   sdk: sdk,
+                   sdk: nil,
                    resource_group: azure_vm.resource_group,
                    nics: [],
                    volumes: [],
