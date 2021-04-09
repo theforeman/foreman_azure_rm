@@ -6,6 +6,7 @@ cache:
   - bundler
 rvm:
   - 2.5
+  - 2.7
 install:
   - unset BUNDLE_GEMFILE
   - cd ..
