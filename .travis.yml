@@ -37,7 +37,7 @@ env:
     - FOREMAN_PLUGIN_NAME=foreman_azure_rm
   matrix:
     - FOREMAN_CORE_BRANCH=develop
-    - FOREMAN_CORE_BRANCH=2.0-stable
+    - FOREMAN_CORE_BRANCH=2.4-stable
 addons:
   apt:
     packages:
