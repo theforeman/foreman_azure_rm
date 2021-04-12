@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.2]
+- Fixes #32128 - move to GitHub Actions
+- Ruby 2.7 support
+
 ## [2.2.1]
 - Enable windows type vm
 - Implement custom size for OS disk
