@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.3]
+- Fixes #32500 - Use Foreman::Cast.to_bool to parse private_ip
+
 ## [2.2.2]
 - Fixes #32128 - move to GitHub Actions
 - Ruby 2.7 support
