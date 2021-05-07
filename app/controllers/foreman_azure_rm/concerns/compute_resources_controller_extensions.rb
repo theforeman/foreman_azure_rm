@@ -9,7 +9,6 @@ module ForemanAzureRm
           # Not adding :tenant as already specified in core.
           param :app_ident, String, :desc => N_("Client ID for AzureRm")
           param :secret_key, String, :desc => N_("Client Secret for AzureRm")
-          param :sub_id, String, :desc => N_("Subscription ID for AzureRm")
           param :cloud, String, :desc => N_("Cloud")
         end
       end

@@ -1,1 +1,1 @@
-attributes :cloud, :tenant, :app_ident, :sub_id, :region
+attributes :cloud, :tenant, :app_ident, :region, :user
