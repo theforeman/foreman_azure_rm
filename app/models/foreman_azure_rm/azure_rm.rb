@@ -43,7 +43,7 @@ module ForemanAzureRm
     end
 
     def cloud
-      attrs[:cloud]
+      attrs[:cloud] || 'azure'
     end
 
     def cloud=(name)
