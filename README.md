@@ -91,7 +91,6 @@ That's it. You're now ready to create and manage Azure resources in your new Azu
     
 ## Known Limitations
 * Please note that currently username is expected to be the same on both Virtual Machine tab for Host creation and during Image creation for Compute Resource. The password field for Image creation is optional.
-* Unable to provision using Windows Images
 
 ## Links
 * [Issue tracker](https://projects.theforeman.org/projects/azurerm)
