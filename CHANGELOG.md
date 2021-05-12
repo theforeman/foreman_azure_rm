@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.4]
+- Fixes #32526 - don't mark compute profile password as required
+- Fixes #32555 - default to public "azure" cloud if not specified
+- Refs #32120 - drop Windows from limitations
+- Fixes #32561 - use "cloud" in the CR API output
+
 ## [2.2.3]
 - Fixes #32500 - Use Foreman::Cast.to_bool to parse private_ip
 
