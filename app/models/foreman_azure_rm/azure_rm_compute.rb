@@ -5,6 +5,7 @@ module ForemanAzureRm
     attr_accessor :resource_group
     attr_accessor :nics
     attr_accessor :script_command, :script_uris
+    attr_accessor :nvidia_gpu_extension
     attr_accessor :volumes
 
     delegate :name, to: :azure_vm, allow_nil: true
@@ -15,7 +16,8 @@ module ForemanAzureRm
                    nics: [],
                    volumes: [],
                    script_command: nil,
-                   script_uris: nil)
+                   script_uris: nil,
+                   nvidia_gpu_extension: false)
 
       @azure_vm = azure_vm
       @sdk = sdk
@@ -24,6 +26,7 @@ module ForemanAzureRm
       @volumes ||= volumes
       @script_command ||= script_command
       @script_uris ||= script_uris
+      @nvidia_gpu_extension ||= nvidia_gpu_extension
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
       @azure_vm.os_profile ||= ComputeModels::OSProfile.new
       @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
@@ -208,8 +211,24 @@ module ForemanAzureRm
     def vm_extension
       return nil unless @azure_vm.resources
       @vm_extension ||= begin
-        ext_name = @azure_vm.resources.first.id.split('/')[-1]
-        sdk.get_vm_extension(@azure_vm.resource_group, name, ext_name)
+        @azure_vm.resources.each do |ext|
+          ext_name = ext.id.split('/')[-1]
+          next unless ext_name == 'ForemanCustomScript'
+          return sdk.get_vm_extension(@azure_vm.resource_group, name, ext_name)
+        end
+        nil
+      end
+    end
+
+    def vm_nvidia_gpu_extension
+      return nil unless @azure_vm.resources
+      @vm_nvidia_gpu_extension ||= begin
+        @azure_vm.resources.each do |ext|
+          ext_name = ext.id.split('/')[-1]
+          next unless ext_name == 'ForemanNvidiaGpuDriver'
+          return sdk.get_vm_extension(@azure_vm.resource_group, name, ext_name)
+        end
+        nil
       end
     end
 
@@ -219,7 +238,7 @@ module ForemanAzureRm
         # Index is based on script_command that is being injected
         # from the code in #create_vm. It can be partly hard-coded
         # since the command shall no change frequently.
-        if ssh_key_data.nil?
+        if ssh_key_data.nil? && platform == 'Linux'
           user_cmd_index = (vm_extension.settings["commandToExecute"].index("-c"))+ 4
           script_command = vm_extension.settings["commandToExecute"][user_cmd_index..-2]
         else
@@ -238,5 +257,14 @@ module ForemanAzureRm
         @script_uris
       end
     end
+
+    def nvidia_gpu_extension
+      if vm_nvidia_gpu_extension.present?
+        true
+      else
+        @nvidia_gpu_extension
+      end
+    end
+
   end
 end
