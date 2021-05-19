@@ -261,12 +261,42 @@ module ForemanAzureRm
                 'commandToExecute' => args[:script_command],
                 'fileUris'         => args[:script_uris].split(',')
           }
+
+          extension_for_log = "#{extension.publisher}/#{extension.virtual_machine_extension_type}/#{extension.type_handler_version}"
+          Foreman::Logging.logger('app').info "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
           sdk.create_or_update_vm_extensions(args[:resource_group],
                                              args[:vm_name],
                                              'ForemanCustomScript',
                                              extension)
         end
       end
+
+      def create_vm_nvidia_gpu_extension(region, args = {})
+        extension = ComputeModels::VirtualMachineExtension.new
+        extension.publisher = 'Microsoft.HpcCompute'
+        extension.type_handler_version = '1.3'
+        extension.auto_upgrade_minor_version = true
+        extension.location = region
+
+        case args[:platform]
+        # https://docs.microsoft.com/fr-fr/azure/virtual-machines/extensions/hpccompute-gpu-linux
+        when 'Linux'
+          extension.virtual_machine_extension_type = 'NvidiaGpuDriverLinux'
+        # https://docs.microsoft.com/fr-fr/azure/virtual-machines/extensions/hpccompute-gpu-windows
+        when 'Windows'
+          extension.virtual_machine_extension_type = 'NvidiaGpuDriverWindows'
+        else
+          raise RuntimeError, "Unsupported platform #{args[:platform]}"
+        end
+
+        extension_for_log = "#{extension.publisher}/#{extension.virtual_machine_extension_type}/#{extension.type_handler_version}"
+        Foreman::Logging.logger('app').info "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
+        sdk.create_or_update_vm_extensions(args[:resource_group],
+                                           args[:vm_name],
+                                           'ForemanNvidiaGpuDriver',
+                                           extension)
+      end
+
     end
   end
 end

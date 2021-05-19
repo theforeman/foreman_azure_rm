@@ -116,7 +116,8 @@ module ForemanAzureRm
                              ssh_key_data:    opts[:ssh_key_data],
                              os_disk_caching: opts[:os_disk_caching],
                              premium_os_disk: opts[:premium_os_disk],
-                             os_disk_size_gb: opts[:os_disk_size_gb]
+                             os_disk_size_gb: opts[:os_disk_size_gb],
+                             nvidia_gpu_extension: opts[:nvidia_gpu_extension],
                             )
       if opts[:interfaces].present?
         ifaces = []
@@ -127,7 +128,16 @@ module ForemanAzureRm
 
       vols = opts.fetch(:volumes, []).map { |vols_attrs| new_volume(vols_attrs) } if opts[:volumes].present?
 
-      AzureRmCompute.new(azure_vm: raw_vm ,sdk: sdk, resource_group: opts[:resource_group], nics: ifaces, volumes: vols, script_command: opts[:script_command], script_uris: opts[:script_uris])
+      AzureRmCompute.new(
+        azure_vm: raw_vm,
+        sdk: sdk,
+        resource_group: opts[:resource_group],
+        nics: ifaces,
+        volumes: vols,
+        script_command: opts[:script_command],
+        script_uris: opts[:script_uris],
+        nvidia_gpu_extension: Foreman::Cast.to_bool(opts[:nvidia_gpu_extension]),
+      )
     end
 
     def provided_attributes
@@ -310,11 +320,26 @@ module ForemanAzureRm
         custom_data:                     args[:user_data],
         script_command:                  args[:script_command],
         script_uris:                     args[:script_uris],
+        nvidia_gpu_extension:            args[:nvidia_gpu_extension],
       )
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
+      # request NVIDIA GPU driver and CUDA stack
+      if Foreman::Cast.to_bool(args[:nvidia_gpu_extension])
+        create_vm_nvidia_gpu_extension(region, args)
+      end
+      # as this extension may contains postinstall script, call it after others
       create_vm_extension(region, args)
       # return the vm object using azure_vm
-      AzureRmCompute.new(azure_vm: vm, sdk: sdk, resource_group: args[:resource_group], nics: vm_nics(vm), volumes: vm_disks(vm), script_command: user_command, script_uris: args[:script_uris])
+      AzureRmCompute.new(
+        azure_vm: vm,
+        sdk: sdk,
+        resource_group: args[:resource_group],
+        nics: vm_nics(vm),
+        volumes: vm_disks(vm),
+        script_command: user_command,
+        script_uris: args[:script_uris],
+        nvidia_gpu_extension: Foreman::Cast.to_bool(args[:nvidia_gpu_extension]),
+      )
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled AzureRm error', e)
       destroy_vm vm.id if vm
