@@ -281,19 +281,20 @@ module ForemanAzureRm
         case args[:platform]
         # https://docs.microsoft.com/fr-fr/azure/virtual-machines/extensions/hpccompute-gpu-linux
         when 'Linux'
-          extension.virtual_machine_extension_type = 'NvidiaGpuDriverLinux'
+          extension_name = 'NvidiaGpuDriverLinux'
         # https://docs.microsoft.com/fr-fr/azure/virtual-machines/extensions/hpccompute-gpu-windows
         when 'Windows'
-          extension.virtual_machine_extension_type = 'NvidiaGpuDriverWindows'
+          extension_name = 'NvidiaGpuDriverWindows'
         else
           raise RuntimeError, "Unsupported platform #{args[:platform]}"
         end
+        extension.virtual_machine_extension_type = extension_name
 
         extension_for_log = "#{extension.publisher}/#{extension.virtual_machine_extension_type}/#{extension.type_handler_version}"
         Foreman::Logging.logger('app').info "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
         sdk.create_or_update_vm_extensions(args[:resource_group],
                                            args[:vm_name],
-                                           'ForemanNvidiaGpuDriver',
+                                           extension_name,
                                            extension)
       end
 

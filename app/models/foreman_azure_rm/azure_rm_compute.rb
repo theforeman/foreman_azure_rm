@@ -225,7 +225,7 @@ module ForemanAzureRm
       @vm_nvidia_gpu_extension ||= begin
         @azure_vm.resources.each do |ext|
           ext_name = ext.id.split('/')[-1]
-          next unless ext_name == 'ForemanNvidiaGpuDriver'
+          next unless ['NvidiaGpuDriverLinux', 'NvidiaGpuDriverWindows'].include? ext_name
           return sdk.get_vm_extension(@azure_vm.resource_group, name, ext_name)
         end
         nil
