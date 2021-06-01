@@ -1,7 +1,7 @@
 # Foreman AzureRm Plugin
 
 ## Description
-```foreman_azure_rm``` adds [Microsoft Azure Resource Manager](http://azure.com/) as a compute resource for The Foreman
+```foreman_azure_rm``` adds [Microsoft Azure Resource Manager](http://azure.com/) as a Compute Resource for The Foreman
 
 * Website: [TheForeman.org](http://theforeman.org)
 * ForemanAzureRm: [Plugin manual](https://theforeman.org/plugins/foreman_azure)
@@ -11,7 +11,7 @@
 
 ### Bundle (Gem)
 
-Add the following to bundler.d/Gemfile.local.rb in your Foreman installation directory (/usr/share/foreman by default)
+Add the following to `bundler.d/Gemfile.local.rb` in your Foreman installation directory `/usr/share/foreman`
 
 ```console
 $ gem 'foreman_azure_rm'
@@ -55,7 +55,6 @@ Then run `bundle install` from the same directory
     * VM creation
     * Provisions using Finish and User data templates from Foreman
     * Supports cloud-config provisioning
-    * Currently supports only provisioning of Linux platforms
     * Provisioning using [Public Images](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage)
     * Provision using custom images
     * Provision using shared image galleries
@@ -64,6 +63,7 @@ Then run `bundle install` from the same directory
     * Support to add multiple data disks/volumes (standard or premium)
     * VM Extension with Custom Script and File URIs support
     * Static or dynamic addresses on a per NIC basis
+    * Support for NVIDIA Drivers or CUDA on Linux and Windows
 * Limited extension support
     * Microsoft's custom script extension
     * Puppet Lab's Puppet agent extension for Windows
@@ -74,16 +74,16 @@ Go to **Infrastructure > Compute Resources** and click on "New Compute Resource"
 
 Choose the **Azure Resource Manager provider**, and fill in all the fields. You need a Subscription ID, Tenant ID, Client ID and a Client Secret which you can generate from your [Microsoft Azure subscription](https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html#SettingupaTenantID,ClientID,andClientSecretforAzureResourceManagerprovisioning-SetupTenantIDPrereqPrerequisites)
 
-That's it. You're now ready to create and manage Azure resources in your new Azure Resource Manager compute resource. You should see something like this in the Compute Resource page:
+That's it. You're now ready to create and manage Azure resources in your new Azure Resource Manager Compute Resource. You should see something like this in the Compute Resource page:
 
 
-![](https://i.imgur.com/vsamP4G.png)
+![](https://i.imgur.com/yMGg3A6.png)
 
 
 ![](https://i.imgur.com/Ag9tH55.png)
 
 
-![](https://i.imgur.com/fNjlFci.png)
+![](https://i.imgur.com/OKoGgUY.png)
 
     
 ## Planned Features
