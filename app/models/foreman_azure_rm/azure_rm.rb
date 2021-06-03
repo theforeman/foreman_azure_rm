@@ -59,12 +59,21 @@ module ForemanAzureRm
     end
 
     def ensure_attributes_and_values
-      validate_region
+      validate_region if validate_cloud?
     end
 
     def validate_region
       return unless regions.present?
       errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
+    end
+
+    def validate_cloud?
+      valid_clouds = ['azure', 'azureusgovernment', 'azurechina', 'azuregermancloud']
+      unless valid_clouds.include?(cloud)
+      	errors.add(:cloud, "is not valid. Valid choices are #{valid_clouds.join(", ")}.")
+	      return false
+      end
+      true
     end
 
     def self.model_name
