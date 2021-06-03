@@ -23,6 +23,13 @@ module ForemanAzureRm
       assert_equal [['East US', 'eastus'], ['West US', 'westus']], @azure_cr.regions
     end
 
+    test "list valid standard cloud name" do
+      cloud = %w[azure azureusgovernment azurechina azuregermancloud].sample
+      ForemanAzureRm::AzureRm.any_instance.stubs(:validate_cloud?).returns(true)
+      @azure_cr.cloud=(cloud)
+      assert @azure_cr.validate_cloud?
+    end
+
     test "list all resource groups" do
       mock_resource_client = mock('mock_resource_client')
       @mock_sdk.stubs(:resource_client).returns(mock_resource_client)
