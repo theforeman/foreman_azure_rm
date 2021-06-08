@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.1.0\n"
+"Project-Id-Version: foreman_azure_rm 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-12 15:17+0530\n"
-"PO-Revision-Date: 2020-05-12 15:17+0530\n"
+"POT-Creation-Date: 2021-06-08 11:20-0400\n"
+"PO-Revision-Date: 2021-06-08 11:20-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -31,6 +31,12 @@ msgstr ""
 #:
 #: ../app/controllers/foreman_azure_rm/concerns/compute_resources_controller_extensions.rb:12
 msgid "Subscription ID for AzureRm"
+msgstr ""
+
+#:
+#: ../app/controllers/foreman_azure_rm/concerns/compute_resources_controller_extensions.rb:13
+#: ../app/views/compute_resources/form/_azurerm.html.erb:6
+msgid "Cloud"
 msgstr ""
 
 #:
@@ -56,23 +62,23 @@ msgstr ""
 msgid "Load Regions"
 msgstr ""
 
-#: ../app/models/foreman_azure_rm/azure_rm_compute.rb:148
+#: ../app/models/foreman_azure_rm/azure_rm_compute.rb:151
 msgid "%{vm_size} VM Size"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_azurerm.html.erb:1
+#: ../app/views/compute_resources/form/_azurerm.html.erb:7
 msgid "Client ID"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_azurerm.html.erb:2
+#: ../app/views/compute_resources/form/_azurerm.html.erb:8
 msgid "Client Secret"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_azurerm.html.erb:3
+#: ../app/views/compute_resources/form/_azurerm.html.erb:9
 msgid "Subscription ID"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_azurerm.html.erb:4
+#: ../app/views/compute_resources/form/_azurerm.html.erb:10
 msgid "Tenant ID"
 msgstr ""
 
@@ -81,7 +87,7 @@ msgid "Please select a Resource Group"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:94
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:6
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:5
 msgid "Resource Group"
 msgstr ""
 
@@ -109,43 +115,61 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:144
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:143
 msgid "SSH Key"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:150
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:149
 msgid "Premium OS Disk"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:158
+msgid "Override OS Disk Size (GB)"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:159
+msgid "Leave empty to use default image size"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:167
 msgid "Azure's Default"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:160
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:169
 msgid "OS Disk Caching"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:161
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:170
 msgid "Default ReadWrite"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:168
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:177
 msgid "Custom Script Command"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:169
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:178
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:175
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:184
 msgid "Comma seperated file URIs"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:181
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:190
+msgid "NVIDIA driver / CUDA"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:192
+msgid ""
+"Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/Nvidia"
+"GpuDriver{Linux,Windows}/1.3)"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:200
 msgid "Please select an image"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:184
+#: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:203
 msgid "Image"
 msgstr ""
 
@@ -183,23 +207,23 @@ msgstr ""
 msgid "Data Disk Caching"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:4
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:3
 msgid "Name"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:5
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:4
 msgid "Size"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:7
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:6
 msgid "Region"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:8
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:7
 msgid "State"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:9
+#: ../app/views/compute_resources_vms/index/_azurerm.html.erb:8
 msgid "Actions"
 msgstr ""
 
@@ -216,11 +240,14 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:5
-msgid "Marketplace Image URN"
+msgid "Azure Image Name"
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:5
-msgid "Marketplace URN (e.g. OpenLogic:CentOS:7.5:latest)"
+msgid ""
+"For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. Fo"
+"r public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'm"
+"arketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:6
@@ -228,18 +255,302 @@ msgid "Does this image support user data input?"
 msgstr ""
 
 #: action_names.rb:2
-msgid "Action with sub plans"
+msgid "Report"
 msgstr ""
 
 #: action_names.rb:3
-msgid "Import facts"
+msgid "Action with sub plans"
 msgstr ""
 
 #: action_names.rb:4
-msgid "Import Puppet classes"
+msgid "Import facts"
 msgstr ""
 
 #: action_names.rb:5
+msgid "Import Puppet classes"
+msgstr ""
+
+#: action_names.rb:6
+msgid "Abstract async task"
+msgstr ""
+
+#: action_names.rb:7
+msgid "Update"
+msgstr ""
+
+#: action_names.rb:8
+msgid "Agent action"
+msgstr ""
+
+#: action_names.rb:9
+msgid "Generate host applicability"
+msgstr ""
+
+#: action_names.rb:10
+msgid "Bulk generate applicability for hosts"
+msgstr ""
+
+#: action_names.rb:11
+msgid "Generate repository applicability"
+msgstr ""
+
+#: action_names.rb:12
+msgid "Create"
+msgstr ""
+
+#: action_names.rb:13
+msgid "Delete Activation Key"
+msgstr ""
+
+#: action_names.rb:14
+msgid "Sync capsule"
+msgstr ""
+
+#: action_names.rb:15
+msgid "Delete"
+msgstr ""
+
+#: action_names.rb:16
+msgid "Errata mail"
+msgstr ""
+
+#: action_names.rb:17
+msgid "Incremental Update of  Content View Version(s) "
+msgstr ""
+
+#: action_names.rb:18
+msgid "Synchronize smart proxy"
+msgstr ""
+
+#: action_names.rb:19
+msgid "Promote"
+msgstr ""
+
+#: action_names.rb:20
+msgid "Remove Versions and Associations"
+msgstr ""
+
+#: action_names.rb:21
+msgid "Remove from Environment"
+msgstr ""
+
+#: action_names.rb:22
+msgid "Remove Version"
+msgstr ""
+
+#: action_names.rb:23
+msgid "Export"
+msgstr ""
+
+#: action_names.rb:24
+msgid "Import Content View Version"
+msgstr ""
+
+#: action_names.rb:25
+msgid "Import Default Content View"
+msgstr ""
+
+#: action_names.rb:26
+msgid "Incremental Update"
+msgstr ""
+
+#: action_names.rb:27
+msgid "Republish Version Repositories"
+msgstr ""
+
+#: action_names.rb:28
+msgid "Publish Lifecycle Environment Repositories"
+msgstr ""
+
+#: action_names.rb:29
+msgid "Attach subscriptions"
+msgstr ""
+
+#: action_names.rb:30
+msgid "Auto attach subscriptions"
+msgstr ""
+
+#: action_names.rb:31
+msgid "Destroy Content Host"
+msgstr ""
+
+#: action_names.rb:32
+msgid "Install Applicable Errata"
+msgstr ""
+
+#: action_names.rb:33
+msgid "Hypervisors"
+msgstr ""
+
+#: action_names.rb:34
+msgid "Hypervisors update"
+msgstr ""
+
+#: action_names.rb:35
+msgid "Updating System Purpose for host"
+msgstr ""
+
+#: action_names.rb:36
+msgid "Package Profile Update"
+msgstr ""
+
+#: action_names.rb:37
+msgid "Combined Profile Update"
+msgstr ""
+
+#: action_names.rb:38
+msgid "Destroy"
+msgstr ""
+
+#: action_names.rb:39
+msgid "Product Create"
+msgstr ""
+
+#: action_names.rb:40
+msgid "Reindex subscriptions"
+msgstr ""
+
+#: action_names.rb:41
+msgid "Update http proxy"
+msgstr ""
+
+#: action_names.rb:42
+msgid "Upload errata into"
+msgstr ""
+
+#: action_names.rb:43
+msgid "Upload into"
+msgstr ""
+
+#: action_names.rb:44
+msgid "Create Package Group"
+msgstr ""
+
+#: action_names.rb:45
+msgid "Verify checksum"
+msgstr ""
+
+#: action_names.rb:46
+msgid "Disable"
+msgstr ""
+
+#: action_names.rb:47
+msgid "Enable"
+msgstr ""
+
+#: action_names.rb:48
+msgid "Run Sync Plan:"
+msgstr ""
+
+#: action_names.rb:49
+msgid "Create Export History"
+msgstr ""
+
+#: action_names.rb:50
+msgid "Create Import History"
+msgstr ""
+
+#: action_names.rb:51
+msgid "Copy version units to library"
+msgstr ""
+
+#: action_names.rb:52
+msgid "Export Library"
+msgstr ""
+
+#: action_names.rb:53
+msgid "Import"
+msgstr ""
+
+#: action_names.rb:54
+msgid "Update redhat repository"
+msgstr ""
+
+#: action_names.rb:55
+msgid "Update http proxy details"
+msgstr ""
+
+#: action_names.rb:56
+msgid "Discover"
+msgstr ""
+
+#: action_names.rb:57
+msgid "Delete Package Group"
+msgstr ""
+
+#: action_names.rb:58
+msgid "Remove subscriptions"
+msgstr ""
+
+#: action_names.rb:59
+msgid "Update Content Overrides"
+msgstr ""
+
+#: action_names.rb:60
+msgid "Update for host"
+msgstr ""
+
+#: action_names.rb:61
+msgid "Update content urls"
+msgstr ""
+
+#: action_names.rb:62
+msgid "Fetch pxe files"
+msgstr ""
+
+#: action_names.rb:63
+msgid "Filtered index content"
+msgstr ""
+
+#: action_names.rb:64
+msgid "Index content"
+msgstr ""
+
+#: action_names.rb:65
+msgid "Index errata"
+msgstr ""
+
+#: action_names.rb:66
+msgid "Index module streams"
+msgstr ""
+
+#: action_names.rb:67
+msgid "Index package groups"
+msgstr ""
+
+#: action_names.rb:68
+msgid "Instance update"
+msgstr ""
+
+#: action_names.rb:69
+msgid "Remove Content"
+msgstr ""
+
+#: action_names.rb:70
+msgid "Synchronize"
+msgstr ""
+
+#: action_names.rb:71
+msgid "Delete Product"
+msgstr ""
+
+#: action_names.rb:72
+msgid "Update release version for host"
+msgstr ""
+
+#: action_names.rb:73
+msgid "Publish"
+msgstr ""
+
+#: action_names.rb:74
+msgid "Delete Lifecycle Environment"
+msgstr ""
+
+#: action_names.rb:75
+msgid "Promotion to Environment"
+msgstr ""
+
+#: action_names.rb:76
 msgid "Remote action:"
 msgstr ""
 
