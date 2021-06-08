@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.5]
+- Bump actions/checkout from 2 to 2.3.4
+- Bump actions/setup-node from 2 to 2.1.5
+- Fixes #32639 - Fix nil error when editing a Windows VM
+- Fixes #32640 - Implement Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3 to deploy NVIDIA GPU drivers
+- Refs #32640 - Use Microsoft name (the one used when created from Azure interface) for NVIDIA GPU extension
+- i18n - pulling from tx
+- Fixes #32693 - Fix Grammar and update screenshots on README
+
 ## [2.2.4]
 - Fixes #32526 - don't mark compute profile password as required
 - Fixes #32555 - default to public "azure" cloud if not specified
