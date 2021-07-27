@@ -176,6 +176,14 @@ module ForemanAzureRm
         logger.debug msg
         vm_create_params = ComputeModels::VirtualMachine.new.tap do |vm|
           vm.location = vm_hash[:location]
+          vm.tags = {}
+          unless vm_hash[:tags].nil?
+            arr = vm_hash[:tags].split(',')
+            arr.each do |item|
+              kv = item.split('=')
+              vm.tags[kv[0].strip] = kv[1].strip
+            end            
+          end
           unless vm_hash[:availability_set_id].nil?
             sub_resource = MsRestAzure::SubResource.new
             sub_resource.id = vm_hash[:availability_set_id]

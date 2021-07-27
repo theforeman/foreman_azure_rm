@@ -185,6 +185,13 @@
          }
 %>
 
+<%= text_f f, :tags,
+         {
+             :label => _('Azure Tags'),
+             :label_help => _('Comma seperated list of name=value pairs for tags on this VM in Azure')
+         }
+%>
+
 <%= checkbox_f f, :nvidia_gpu_extension,
          {
               :label => _('NVIDIA driver / CUDA'),

@@ -330,6 +330,7 @@ module ForemanAzureRm
         script_command:                  args[:script_command],
         script_uris:                     args[:script_uris],
         nvidia_gpu_extension:            args[:nvidia_gpu_extension],
+        tags:                            args[:tags],
       )
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       # request NVIDIA GPU driver and CUDA stack
@@ -348,6 +349,7 @@ module ForemanAzureRm
         script_command: user_command,
         script_uris: args[:script_uris],
         nvidia_gpu_extension: Foreman::Cast.to_bool(args[:nvidia_gpu_extension]),
+        tags: args[:tags],
       )
     rescue RuntimeError => e
       Foreman::Logging.exception('Unhandled AzureRm error', e)
