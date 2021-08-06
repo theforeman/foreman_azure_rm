@@ -8,6 +8,7 @@ module ForemanAzureRm
     attr_accessor :nvidia_gpu_extension
     attr_accessor :volumes
     attr_accessor :tags
+    attr_accessor :specialized_vm
 
     delegate :name, to: :azure_vm, allow_nil: true
 
@@ -19,6 +20,7 @@ module ForemanAzureRm
                    script_command: nil,
                    script_uris: nil,
                    nvidia_gpu_extension: false,
+                   specialized_vm: false,
                    tags: [])
 
       @azure_vm = azure_vm
@@ -30,6 +32,7 @@ module ForemanAzureRm
       @script_uris ||= script_uris
       @nvidia_gpu_extension ||= nvidia_gpu_extension
       @tags ||= tags
+      @specialized_vm ||= specialized_vm
       @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
       @azure_vm.os_profile ||= ComputeModels::OSProfile.new
       @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
