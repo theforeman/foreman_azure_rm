@@ -4,6 +4,8 @@
 require 'base64'
 
 module ForemanAzureRm
+  # rubocop:disable Metrics/ClassLength
+  # rubocop:disable Layout/LineLength
   class AzureRm < ComputeResource
 
     include VMExtensions::ManagedVM
@@ -51,7 +53,8 @@ module ForemanAzureRm
     end
 
     def sdk
-      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, azure_environment)
+      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, 
+                                                   azure_environment)
     end
     
     def to_label
@@ -64,7 +67,9 @@ module ForemanAzureRm
 
     def validate_region
       return unless regions.present?
-      errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
+      return if regions.collect(&:second).include?(region)
+      errors.add(:region, 
+                 "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.")
     end
 
     def validate_cloud?
@@ -99,7 +104,9 @@ module ForemanAzureRm
 
     def test_connection(options = {})
       super
-      errors[:user].empty? && errors[:password].empty? && errors[:uuid].empty? && errors[:app_ident].empty? && errors[:cloud].empty? && regions
+      errors[:user].empty? && errors[:password].empty? &&
+        errors[:uuid].empty? && errors[:app_ident].empty? &&
+        errors[:cloud].empty? && regions
     rescue StandardError => e
       errors[:base] << e.message
     rescue Excon::Error::Socket => e
@@ -135,7 +142,11 @@ module ForemanAzureRm
         end
       end
 
-      vols = opts.fetch(:volumes, []).map { |vols_attrs| new_volume(vols_attrs) } if opts[:volumes].present?
+      if opts[:volumes].present?
+        vols = opts.fetch(:volumes, []).map do |vols_attrs|
+ new_volume(vols_attrs)
+        end
+      end
 
       AzureRmCompute.new(
         azure_vm: raw_vm,
@@ -173,18 +184,23 @@ module ForemanAzureRm
         end
       when 'gallery'
         gallery_images_list = sdk.list_resources(filter: "resourceType eq 'Microsoft.Compute/galleries/images'")
-        gallery_image = gallery_images_list.detect { |gal_img| gal_img.id.split('/')[-1] == image_id }
+        gallery_image = gallery_images_list.detect do |gal_img|
+ gal_img.id.split('/')[-1] == image_id
+        end                        
         if gallery_image.present?
           rg_name = gallery_image.id.split('/')[4]
           gallery_name = gallery_image.name.split('/')[0]
           image_versions = sdk.list_gallery_image_versions(rg_name, gallery_name, image_id)
           target_regions = image_versions.map do |image_version|
             image_version.publishing_profile.target_regions.map(&:name)
-          end.flatten.uniq.map { |tgt_reg| tgt_reg.gsub(/\s+/, '').downcase }
+          end
+          target_regions.flatten.uniq.map { |tgt_reg| tgt_reg.gsub(/\s+/, '').downcase }
           return true if target_regions.include? region
         end
       when 'custom'
-        custom_image = sdk.list_custom_images.detect { |custom_img| custom_img.name == image_id && custom_img.location == region }
+        custom_image = sdk.list_custom_images.detect do |custom_img|
+ custom_img.name == image_id && custom_img.location == region
+        end                       
         return custom_image.present?
       else
         false
@@ -215,7 +231,8 @@ module ForemanAzureRm
     alias_method :available_subnets, :subnets
 
     def new_interface(attrs = {})
-      args = { :network => "", :public_ip => "", :private_ip => false, 'persisted?' => false }.merge(attrs.to_h)
+      args = { :network => "", :public_ip => "", :private_ip => false, 
+'persisted?' => false }.merge(attrs.to_h)
       OpenStruct.new(args)
     end
 
@@ -224,7 +241,8 @@ module ForemanAzureRm
     end
 
     def new_volume(attrs = {})
-      args = { :disk_size_gb => 0, :data_disk_caching => "", 'persisted?' => false }.merge(attrs.to_h)
+      args = { :disk_size_gb => 0, :data_disk_caching => "", 
+'persisted?' => false }.merge(attrs.to_h)
       OpenStruct.new(args)
     end
 
@@ -298,7 +316,8 @@ module ForemanAzureRm
           if args[:script_command].present?
             # to run the script_cmd given through form as username
             user_command = args[:script_command]
-            args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{user_command}\""
+            args[:script_command] =  
+              sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{user_command}\""
           else
             args[:script_command] =  sudoers_cmd
           end
@@ -378,11 +397,17 @@ module ForemanAzureRm
         end
       end
       sdk.delete_disk(rg_name, os_disk.name) if os_disk.present?
-      data_disks.each { |data_disk| sdk.delete_disk(rg_name, data_disk.name) } if data_disks.present?
+      if data_disks.present?
+        data_disks.each do |data_disk|
+ sdk.delete_disk(rg_name, data_disk.name)
+        end
+      end
       true
     rescue ActiveRecord::RecordNotFound
       logger.info "Could not find the selected vm."
       true
     end
+    # rubocop:enable Metrics/ClassLength
+    # rubocop:enable Layout/LineLength
   end
 end

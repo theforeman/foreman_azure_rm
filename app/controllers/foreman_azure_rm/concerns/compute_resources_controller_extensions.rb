@@ -39,8 +39,12 @@ module ForemanAzureRm
       end
 
       def action_permission
+        resource_groups = 'available_resource_groups'
+        sizes = 'available_sizes'
+        subnets = 'available_subnets'
+        vnets = 'available_vnets'
         case params[:action]
-          when 'available_resource_groups', 'available_sizes', 'available_subnets', 'available_vnets'
+          when resource_groups, sizes, subnets, vnets
             :view
           else
             super

@@ -10,6 +10,7 @@ module ForemanAzureRm
       @environment_settings = environment_settings(azure_environment)
     end
 
+    # rubocop:disable Layout/LineLength
     def resource_client
       #resource_manager_endpoint_url
       @resource_client ||= Resources::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
@@ -30,6 +31,7 @@ module ForemanAzureRm
     def subscription_client
       @subscription_client ||= Subscriptions::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
+    # rubocop:enable Layout/LineLength
 
     def azure_credentials(base_url)
       provider = MsRestAzure::ApplicationTokenProvider.new(
@@ -51,10 +53,12 @@ module ForemanAzureRm
     end
 
     # https://github.com/Azure/azure-sdk-for-ruby/issues/850
-    # Retrieves a [MsRestAzure::ActiveDirectoryServiceSettings] object representing the settings for the given cloud.
+    # Retrieves a [MsRestAzure::ActiveDirectoryServiceSettings]
+    # object representing the settings for the given cloud.
     # @param azure_environment [String] The Azure environment to retrieve settings for.
     #
-    # @return [MsRestAzure::ActiveDirectoryServiceSettings] Settings to be used for subsequent requests
+    # @return [MsRestAzure::ActiveDirectoryServiceSettings]
+    # Settings to be used for subsequent requests
     #
     def ad_environment_settings(azure_environment)
       case azure_environment.downcase
@@ -163,7 +167,8 @@ module ForemanAzureRm
     end
 
     def list_gallery_image_versions(rg_name, gallery_name, gallery_image_name)
-      compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, gallery_image_name)
+      compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, 
+gallery_image_name)
     end
 
     def get_storage_accts
@@ -239,14 +244,17 @@ module ForemanAzureRm
     def actual_gallery_image_id(rg_name, image_id)
       gallery_names = list_galleries.map(&:name)
       gallery_names.each do |gallery|
-        gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
+        gallery_image = list_gallery_images(rg_name, gallery).detect do |image|
+          image.name == image_id
+        end                        
         return gallery_image&.id
       end
       nil
     end
 
     def fetch_gallery_image_id(rg_name, image_id)
-      AzureSdkAdapter.gallery_caching(rg_name)[image_id] ||= actual_gallery_image_id(rg_name, image_id)
+      AzureSdkAdapter.gallery_caching(rg_name)[image_id] ||= actual_gallery_image_id(rg_name, 
+image_id)
     end
   end
 end

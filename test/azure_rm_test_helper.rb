@@ -52,36 +52,43 @@ module AzureRmTestHelper
     @mock_sdk.expects(:subnets).with('rg1', 'first_vnet').returns([mock_subnets])
     mock_subnets.stubs(:id).returns('subnet_id')
     mock_nic = mock('mock_nic')
-    @mock_sdk.expects(:create_or_update_nic).with() do |p1, p2|
+    vm_nic = @mock_sdk.expects(:create_or_update_nic).with() do |p1, p2|
       p1 == "rg1" &&
       p2 == "ervin-golomb-nic0"
-    end.returns(mock_nic)
+    end
+    vm_nic.returns(mock_nic)
     mock_nic.stubs(:id).returns('nic_id')
     mock_pip = mock('mock_pip')
-    @mock_sdk.expects(:create_or_update_pip).with() do |p1, p2|
+    vm_pip = @mock_sdk.expects(:create_or_update_pip).with() do |p1, p2|
       p1 == "rg1"
       p2 == "ervin-golomb-pip0"
-    end.returns(mock_pip)
+    end
+    vm_pip.returns(mock_pip)
   end
 
   def mock_create_or_update_vm_with_password
-    @mock_sdk.expects(:create_or_update_vm).with() do |actual_rg, actual_vm_name, actual_vm_params|
+    vm_password = @mock_sdk.expects(:create_or_update_vm).with() do
+      |actual_rg, actual_vm_name, actual_vm_params|
       actual_rg == "rg1" &&
       actual_vm_name == "ervin-golomb" &&
       actual_vm_params.os_profile.computer_name == "ervin-golomb" &&
       actual_vm_params.os_profile.linux_configuration.ssh.public_keys.count == 1
-    end.returns(@mock_vm)
+    end
+    vm_password.returns(@mock_vm)
   end
 
   def mock_create_or_update_vm_with_sshkey
-    @mock_sdk.expects(:create_or_update_vm).with() do |actual_rg, actual_vm_name, actual_vm_params|
+    vm_ssh_update = @mock_sdk.expects(:create_or_update_vm).with() do
+      |actual_rg, actual_vm_name, actual_vm_params|
       actual_rg == "rg1" &&
       actual_vm_name == "ervin-golomb" &&
       actual_vm_params.os_profile.computer_name == "ervin-golomb" &&
       actual_vm_params.os_profile.linux_configuration.ssh.public_keys.count == 2
-    end.returns(@mock_vm)
+    end
+    vm_ssh_update.returns(@mock_vm)
   end
 
+  # rubocop:disable Layout/LineLength
   def base_vm_args
     {
         "location" => "eastus",
@@ -91,10 +98,12 @@ module AzureRmTestHelper
         "username" => "testuser",
         "name" => "ervin-golomb.example.com",
         "interfaces_attributes" => {
-            "0" => {"network" => "[\"/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/first_vnet/subnets/first_subnet\"]", "public_ip" => "Dynamic", "private_ip" => "false"}
+            "0" => {
+"network" => "[\"/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/first_vnet/subnets/first_subnet\"]", "public_ip" => "Dynamic", "private_ip" => "false"}
         }
     }
   end
+  # rubocop:enable Layout/LineLength
 
   def with_password_auth
     {
@@ -129,7 +138,7 @@ module AzureRmTestHelper
   def with_ssh_key_auth
     {
         "disable_password_authentication" => "true",
-        "ssh_key_data" => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoU+GgFexfYem02eR1cft\nCZ7O08mTfMy/m4+zd/0JAufPlsbq6MDJUzUeotkBUuSHziaOeweEX99qagsbHXEU\nO387RlG7EXFFdKH2yXKi/mEbkXvNWyemLoIrRp/4sjzJ18tnxiI+FMmEGX33cUxw\nbysTchSoSucs9JKXH2EYmt8YZ2MawJMdPG/Hx/JENwTE+HUnlud6m5PZv6DNerjU\nrouHpWMzH0fe/9UPIPJswUEC2cDyn329QV9mXCbjZyDx7dTCVVCDihZYPysxDJl0\n/qsdYSbHYpB7zaceu/8Esh1STXeHU4tk4B81kpknvETjJHo+oKVy3v4OQSxibAdy\nPwIDAQAB"
+        "ssh_key_data" => "MIIBIjANBgk\nPwIDAQAB"
     }
   end
 end

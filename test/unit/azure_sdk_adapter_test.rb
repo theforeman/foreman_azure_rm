@@ -13,8 +13,10 @@ module ForemanAzureRm
       AzureSdkAdapter.stubs(:gallery_caching).with('test_rg').returns({})
     end
 
+    # rubocop:disable Layout/LineLength
     test "should call #actual_gallery_image_id when #gallery_caching is {} otherwise return #gallery_caching" do
       @test_adapter.expects(:actual_gallery_image_id).with('test_rg', 'test_gallery_image_name').once.returns('test_gallery_img_id')
+      # rubocop:enable Layout/LineLength
       actual1 = @test_adapter.fetch_gallery_image_id('test_rg', 'test_gallery_image_name')
       actual2 = @test_adapter.fetch_gallery_image_id('test_rg', 'test_gallery_image_name')
 

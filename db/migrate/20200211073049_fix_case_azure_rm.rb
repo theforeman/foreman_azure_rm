@@ -1,5 +1,6 @@
 class FixCaseAzureRm < ActiveRecord::Migration[5.2]
   def change
-    ComputeResource.where(type: 'ForemanAzureRM::AzureRM').update_all(type: 'ForemanAzureRm::AzureRm')
+    foreman_rm_change = "ForemanAzureRm::AzureRm"
+    ComputeResource.where(type: 'ForemanAzureRM::AzureRM').update_all(type: foreman_rm_change)
   end
 end

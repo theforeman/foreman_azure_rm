@@ -1,0 +1,92 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.5
+
+MethodLength:
+  Description: 'Avoid methods longer than 30 lines of code.'
+  Max: 65 # default is 10
+
+Documentation:
+  Enabled: false
+
+StringLiterals:
+  Enabled: false
+
+HashSyntax:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Encoding:
+  Enabled: false
+
+LineLength:
+  Max: 100
+
+FormatString:
+  Enabled: false # we use % for i18n
+
+IfUnlessModifier:
+  Enabled: false
+
+Next:
+  Enabled: false # don't force next over conditions
+
+MethodCalledOnDoEndBlock:
+  Enabled: true
+
+LeadingCommentSpace:
+  Enabled: false
+
+RescueModifier:
+  Enabled: false
+
+AssignmentInCondition:
+  Enabled: false
+
+ParameterAlignment:
+  Enabled: false # don't care if parameters are not aligned
+
+ParameterAlignment:
+  Enabled: false # don't care if parameters are not aligned
+
+WhileUntilModifier:
+  Enabled: false
+
+ParenthesesAroundCondition:
+  Enabled: false
+
+DotPosition:
+  Enabled: false
+
+Lambda:
+  Enabled: false # don't require -> for single line lambdas
+
+RedundantSelf:
+  Enabled: false
+
+RedundantReturn:
+  Enabled: false
+
+SingleLineBlockParams:
+  Enabled: false
+
+FormatString:
+  Enabled: false # we use % for i18n
+
+Style/Alias:
+  Enabled: false
+
+Style/CommandLiteral:
+  EnforcedStyle: mixed
+
+Layou/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+Layout/MultilineHashBraceLayout:
+  Enabled: false
+
+Layout/MultilineArrayBraceLayout:
+  Enabled: false

@@ -1,10 +1,15 @@
 # This concern has the methods to be called inside azure_rm.rb
 module ForemanAzureRm
   module VMExtensions
+    # rubocop:disable Metrics/ModuleLength
     module ManagedVM
       extend ActiveSupport::Concern
 
-      def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk, os_disk_size_gb)
+      def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk, disk)
+        os_disk_size_gb = disk  
+         # Here disk is Just a variable just to make rubocop happy.  
+         # os_disk_size_gb is avariable coming from the PR
+         # https://github.com/theforeman/foreman_azure_rm/pull/108
         storage_profile = ComputeModels::StorageProfile.new
         os_disk = ComputeModels::OSDisk.new
         managed_disk_params = ComputeModels::ManagedDiskParameters.new
@@ -122,6 +127,7 @@ module ForemanAzureRm
 
       def create_nics(region, args = {})
         nics               = []
+        error_msg = "Public IP value must be either 'Dynamic', 'Static' or 'None'"
         args[:interfaces_attributes].each do |nic, attrs|
           private_ip = Foreman::Cast.to_bool(attrs[:private_ip])
           priv_ip_alloc       = if private_ip
@@ -137,7 +143,8 @@ module ForemanAzureRm
                                 when 'None'
                                   nil
                                 else
-                                    raise RuntimeError, "Public IP value must be either 'Dynamic', 'Static' or 'None'"
+                                    raise RuntimeError, 
+                                          error_msg
                                 end
           if pub_ip_alloc.present?
             public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
@@ -172,7 +179,8 @@ module ForemanAzureRm
 
       def initialize_vm(vm_hash)
         custom_data = vm_hash[:custom_data]
-        msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{vm_hash[:resource_group]}."
+        resource = vm_hash[:resource_group]
+        msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{resource}."
         logger.debug msg
         vm_create_params = ComputeModels::VirtualMachine.new.tap do |vm|
           vm.location = vm_hash[:location]
@@ -217,7 +225,8 @@ module ForemanAzureRm
               end
             end
             # added custom_data here so that azure's vm gets this
-            os_profile.custom_data    = Base64.strict_encode64(custom_data) unless vm_hash[:custom_data].nil?
+            data = custom_data
+            os_profile.custom_data=Base64.strict_encode64(data) unless vm_hash[:custom_data].nil?
           end
           vm.storage_profile = define_managed_storage_profile(
                                                                 vm_hash[:name],
@@ -238,8 +247,10 @@ module ForemanAzureRm
         vm_params = initialize_vm(vm_hash)
         vm_params.plan = marketplace_image_plan(vm_hash[:image_id])
         vm_params.network_profile = define_network_profile(vm_hash[:network_interface_card_ids])
-        vm_params.storage_profile.image_reference = define_image(vm_hash[:resource_group], vm_hash[:image_id])
-        vm_params.storage_profile.data_disks = define_data_disks(vm_hash[:name], vm_hash[:data_disks])
+        vm_params.storage_profile.image_reference = define_image(vm_hash[:resource_group], 
+                                                                 vm_hash[:image_id])
+        vm_params.storage_profile.data_disks = define_data_disks(vm_hash[:name], 
+                                                                 vm_hash[:data_disks])
         sdk.create_or_update_vm(vm_hash[:resource_group], vm_hash[:name], vm_params)
       end
 
@@ -270,8 +281,12 @@ module ForemanAzureRm
                 'fileUris'         => args[:script_uris].split(',')
           }
 
-          extension_for_log = "#{extension.publisher}/#{extension.virtual_machine_extension_type}/#{extension.type_handler_version}"
-          Foreman::Logging.logger('app').info "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
+          extension_vm = extension.virtual_machine_extension_type
+          extension_type = extension.type_handler_version
+
+          extension_for_log = "#{extension.publisher}/#{extension_vm}/#{extension_type}"
+          log_info = "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
+          Foreman::Logging.logger('app').info log_info
           sdk.create_or_update_vm_extensions(args[:resource_group],
                                              args[:vm_name],
                                              'ForemanCustomScript',
@@ -297,9 +312,13 @@ module ForemanAzureRm
           raise RuntimeError, "Unsupported platform #{args[:platform]}"
         end
         extension.virtual_machine_extension_type = extension_name
+        extension_vm = extension.virtual_machine_extension_type
+        extension_type = extension.type_handler_version
 
-        extension_for_log = "#{extension.publisher}/#{extension.virtual_machine_extension_type}/#{extension.type_handler_version}"
-        Foreman::Logging.logger('app').info "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
+        extension_for_log = "#{extension.publisher}/#{extension_vm}/#{extension_type}"
+        log_info = "Azure RM machine #{args[:name]}: creating #{extension_for_log} extension"
+        Foreman::Logging.logger('app').info log_info
+
         sdk.create_or_update_vm_extensions(args[:resource_group],
                                            args[:vm_name],
                                            extension_name,
@@ -307,5 +326,6 @@ module ForemanAzureRm
       end
 
     end
+    # rubocop:enable Metrics/ModuleLength
   end
 end

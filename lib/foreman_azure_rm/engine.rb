@@ -4,14 +4,16 @@ module ForemanAzureRm
 
     #autoloading all files inside lib dir
     config.eager_load_paths += Dir["#{config.root}/lib"]
-    config.eager_load_paths += Dir["#{config.root}/app/models/concerns/foreman_azure_rm/vm_extensions/"]
+    vm_extension_path = "/app/models/concerns/foreman_azure_rm/vm_extensions/"
+    config.eager_load_paths += Dir[config.root.to_s + vm_extension_path]
     config.eager_load_paths += Dir["#{config.root}/app/helpers/"]
 
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
       Foreman::Plugin.register :foreman_azure_rm do
         requires_foreman '>= 1.17'
         compute_resource ForemanAzureRm::AzureRm
-        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region, :cloud
+        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id,
+                         :region, :cloud
       end
     end
 
@@ -42,15 +44,20 @@ module ForemanAzureRm
       require 'azure_mgmt_subscriptions'
 
       # Add format validation for azure images
-      ::Image.validates :uuid, uniqueness: { scope: :compute_resource_id, case_sensitive: false }, format: { with: /\A((marketplace|custom|gallery):\/\/)[^:]+(:[^:]+:[^:]+:[^:]+)?\z/,
-          message: "Incorrect UUID format" }, if: -> (image){ image.compute_resource.is_a? ForemanAzureRm::AzureRm }
+      ::Image.validates :uuid,
+                        uniqueness: { scope: :compute_resource_id, case_sensitive: false },
+               format: { with: /\A((marketplace|custom|gallery):\/\/)[^:]+(:[^:]+:[^:]+:[^:]+)?\z/,
+                        message: "Incorrect UUID format" },
+                        if: -> (image){
+                              image.compute_resource.is_a? ForemanAzureRm::AzureRm
+                            }
 
       # Use excon as default so that HTTP Proxy settings of foreman works
       Faraday::default_adapter=:excon
 
       ::HostsController.send(:include, ForemanAzureRm::Concerns::HostsControllerExtensions)
-
-      Api::V2::ComputeResourcesController.send(:include, ForemanAzureRm::Concerns::ComputeResourcesControllerExtensions)
+      compute_extension = ForemanAzureRm::Concerns::ComputeResourcesControllerExtensions
+      Api::V2::ComputeResourcesController.send(:include, compute_extension)
     end
 
     rake_tasks do
