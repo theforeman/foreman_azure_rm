@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.6]
+- Bump actions/setup-node from 2.1.5 to 2.2.0
+- Fixes #32713 - Add Cloud validation to controller
+- Bump actions/setup-node from 2.2.0 to 2.3.0
+- Fixes #33159 - Add support for tags on Azure VM resources
+- Bump actions/setup-node from 2.3.0 to 2.3.1
+- Bump actions/setup-node from 2.3.1 to 2.3.2
+- Bump actions/checkout from 2.3.4 to 2.4.0
+- Bump actions/setup-node from 2.3.2 to 2.4.1
+
 ## [2.2.5]
 - Bump actions/checkout from 2 to 2.3.4
 - Bump actions/setup-node from 2 to 2.1.5
