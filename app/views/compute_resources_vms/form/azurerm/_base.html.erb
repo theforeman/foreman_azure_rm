@@ -202,6 +202,16 @@
          'false'
 %>
 
+<%= checkbox_f f, :specialized_vm,
+         {
+              :label => _('Specialized VM'),
+              :label_size => "col-md-2",
+              :label_help => _("Use this option if this VM is going to be created from an image that is Specialized."),
+         },
+         'true',
+         'false'
+%>
+
 <div id="image_selection">
   <%= select_f f, :image_id, images, :uuid, :name,
                { :include_blank => (images.empty? or images.size == 1) ? false : _('Please select an image') },

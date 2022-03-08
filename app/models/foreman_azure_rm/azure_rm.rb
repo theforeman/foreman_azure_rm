@@ -127,6 +127,7 @@ module ForemanAzureRm
                              premium_os_disk: opts[:premium_os_disk],
                              os_disk_size_gb: opts[:os_disk_size_gb],
                              nvidia_gpu_extension: opts[:nvidia_gpu_extension],
+                             specialized_vm: opts[:specialized_vm],
                             )
       if opts[:interfaces].present?
         ifaces = []
@@ -146,6 +147,7 @@ module ForemanAzureRm
         script_command: opts[:script_command],
         script_uris: opts[:script_uris],
         nvidia_gpu_extension: Foreman::Cast.to_bool(opts[:nvidia_gpu_extension]),
+        specialized_vm: Foreman::Cast.to_bool(opts[:specialized_vm]),
       )
     end
 
@@ -331,6 +333,7 @@ module ForemanAzureRm
         script_uris:                     args[:script_uris],
         nvidia_gpu_extension:            args[:nvidia_gpu_extension],
         tags:                            args[:tags],
+        specialized_vm:                  args[:specialized_vm],
       )
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       # request NVIDIA GPU driver and CUDA stack

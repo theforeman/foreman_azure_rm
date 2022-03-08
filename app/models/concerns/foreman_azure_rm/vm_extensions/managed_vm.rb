@@ -174,6 +174,7 @@ module ForemanAzureRm
         custom_data = vm_hash[:custom_data]
         msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{vm_hash[:resource_group]}."
         logger.debug msg
+        spec_vm = Foreman::Cast.to_bool(vm_hash[:specialized_vm])
         vm_create_params = ComputeModels::VirtualMachine.new.tap do |vm|
           vm.location = vm_hash[:location]
           vm.tags = {}
@@ -190,28 +191,30 @@ module ForemanAzureRm
             vm.availability_set = sub_resource
           end
 
-          vm.os_profile = ComputeModels::OSProfile.new.tap do |os_profile|
-            os_profile.computer_name  = vm_hash[:name]
-            os_profile.admin_username = vm_hash[:username]
-            os_profile.admin_password = vm_hash[:password]
+          if spec_vm == false
+            vm.os_profile = ComputeModels::OSProfile.new.tap do |os_profile|
+              os_profile.computer_name  = vm_hash[:name]
+              os_profile.admin_username = vm_hash[:username]
+              os_profile.admin_password = vm_hash[:password]
 
-            # Adding the ssh-key support for authentication
-            if vm_hash[:platform] == 'Linux'
-              os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
-                linux.disable_password_authentication = vm_hash[:disable_password_authentication]
-                linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
-                  ssh_config.public_keys = [
-                    ComputeModels::SshPublicKey.new.tap do |foreman_key|
-                      foreman_key.key_data = key_pair.public
-                      foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+              # Adding the ssh-key support for authentication
+              if vm_hash[:platform] == 'Linux'
+                os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
+                  linux.disable_password_authentication = vm_hash[:disable_password_authentication]
+                  linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
+                    ssh_config.public_keys = [
+                      ComputeModels::SshPublicKey.new.tap do |foreman_key|
+                        foreman_key.key_data = key_pair.public
+                        foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                      end
+                    ]
+                    if vm_hash[:ssh_key_data].present?
+                      key_data = vm_hash[:ssh_key_data]
+                      pub_key = ComputeModels::SshPublicKey.new
+                      pub_key.key_data = key_data
+                      pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
+                      ssh_config.public_keys << pub_key
                     end
-                  ]
-                  if vm_hash[:ssh_key_data].present?
-                    key_data = vm_hash[:ssh_key_data]
-                    pub_key = ComputeModels::SshPublicKey.new
-                    pub_key.key_data = key_data
-                    pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
-                    ssh_config.public_keys << pub_key
                   end
                 end
               end
