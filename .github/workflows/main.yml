@@ -38,12 +38,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -yyq libsqlite3-dev zlib1g-dev libvirt-dev libcurl4-openssl-dev
       - name: Checkout Foreman
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.0
         with:
           repository: theforeman/foreman
           ref: ${{ matrix.foreman }}
       - name: Checkout Plugin
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.0
         with:
           path: plugin
       - name: Setup Plugin
