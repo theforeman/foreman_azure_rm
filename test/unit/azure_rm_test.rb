@@ -46,11 +46,6 @@ module ForemanAzureRm
       test "create vm with password and without custom data" do
         @mock_vm.stubs(:disable_password_authentication).returns(false)
         @mock_vm.os_profile.stubs(:custom_data)
-        mock_vm_extension = mock('mock_vm_extension')
-        @mock_sdk.expects(:create_or_update_vm_extensions).with() do |actual_rg, vm_name, script_name, actual_ext|
-          actual_rg == "rg1" &&
-          actual_ext.settings["commandToExecute"] == "$echo testpswd123 | sudo -S echo '\"testuser\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
-        end.returns(mock_vm_extension)
         mock_create_or_update_vm_with_password
         vm_args = base_vm_args.merge(with_password_auth).merge(with_marketplace_image)
         actual_server = @azure_cr.create_vm(vm_args)
@@ -70,7 +65,7 @@ module ForemanAzureRm
         mock_vm_extension = mock('mock_vm_extension')
         @mock_sdk.expects(:create_or_update_vm_extensions).with() do |actual_rg, vm_name, script_name, actual_ext|
           actual_rg == "rg1" &&
-          actual_ext.settings["commandToExecute"] == "$echo testpswd123 | sudo -S echo '\"testuser\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent ; su - \"testuser\" -c \"sudo sh /var/lib/waagent/custom-script/download/0/myscript.sh\"" &&
+          actual_ext.settings["commandToExecute"] == "su - \"testuser\" -c \"sudo sh /var/lib/waagent/custom-script/download/0/myscript.sh\"" &&
           actual_ext.settings["fileUris"] == ["https://gist.githubusercontent.com/apuntamb/f4e9ff4e2daf62bc847313b0c64e59f9/raw/73578e1bb7b03237ae1ac6b787b08d00d126adf0/myscript.sh"]
         end.returns(mock_vm_extension)
         vm_args = base_vm_args.merge(with_password_auth).merge(with_custom_data).merge(with_marketplace_image).merge(with_vm_extensions)
@@ -136,11 +131,6 @@ module ForemanAzureRm
         @mock_vm.storage_profile.image_reference.stubs(:id).returns('/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img')
         @mock_sdk.stubs(:list_custom_images).returns([])
         mock_create_or_update_vm_with_password
-        mock_vm_extension = mock('mock_vm_extension')
-        @mock_sdk.expects(:create_or_update_vm_extensions).with() do |actual_rg, vm_name, script_name, actual_ext|
-          actual_rg == "rg1" &&
-          actual_ext.settings["commandToExecute"] == "$echo testpswd123 | sudo -S echo '\"testuser\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
-        end.returns(mock_vm_extension)
         vm_args = base_vm_args.merge(with_password_auth).merge(with_gallery_image)
         actual_server = @azure_cr.create_vm(vm_args)
 

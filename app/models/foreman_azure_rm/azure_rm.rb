@@ -291,16 +291,10 @@ module ForemanAzureRm
 
       if args[:platform] == 'Linux'
         if args[:password].present? && !args[:ssh_key_data].present?
-          # Any change to sudoers_cmd and formation of new
-          # args[:script_command] must be accordingly changed
-          # in script_command method in AzureRmCompute class
-          sudoers_cmd = "$echo #{args[:password]} | sudo -S echo '\"#{args[:username]}\" ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent"
           if args[:script_command].present?
             # to run the script_cmd given through form as username
             user_command = args[:script_command]
-            args[:script_command] =  sudoers_cmd + " ; su - \"#{args[:username]}\" -c \"#{user_command}\""
-          else
-            args[:script_command] =  sudoers_cmd
+            args[:script_command] = "su - \"#{args[:username]}\" -c \"#{user_command}\""
           end
           disable_password_auth = false
         elsif args[:ssh_key_data].present? && !args[:password].present?
