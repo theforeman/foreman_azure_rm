@@ -123,7 +123,7 @@ module ForemanAzureRm
       def create_nics(region, args = {})
         nics               = []
         args[:interfaces_attributes].each do |nic, attrs|
-          private_ip = Foreman::Cast.to_bool(attrs[:private_ip])
+          private_ip = ActiveRecord::Type::Boolean.new.deserialize(attrs[:private_ip])
           priv_ip_alloc       = if private_ip
                                   NetworkModels::IPAllocationMethod::Static
                                 else

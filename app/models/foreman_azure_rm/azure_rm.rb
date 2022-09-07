@@ -145,7 +145,7 @@ module ForemanAzureRm
         volumes: vols,
         script_command: opts[:script_command],
         script_uris: opts[:script_uris],
-        nvidia_gpu_extension: Foreman::Cast.to_bool(opts[:nvidia_gpu_extension]),
+        nvidia_gpu_extension: ActiveRecord::Type::Boolean.new.deserialize(opts[:nvidia_gpu_extension]),
       )
     end
 
@@ -334,7 +334,7 @@ module ForemanAzureRm
       )
       logger.debug "Virtual Machine #{args[:vm_name]} Created Successfully."
       # request NVIDIA GPU driver and CUDA stack
-      if Foreman::Cast.to_bool(args[:nvidia_gpu_extension])
+      if ActiveRecord::Type::Boolean.new.deserialize(args[:nvidia_gpu_extension])
         create_vm_nvidia_gpu_extension(region, args)
       end
       # as this extension may contains postinstall script, call it after others
@@ -348,7 +348,7 @@ module ForemanAzureRm
         volumes: vm_disks(vm),
         script_command: user_command,
         script_uris: args[:script_uris],
-        nvidia_gpu_extension: Foreman::Cast.to_bool(args[:nvidia_gpu_extension]),
+        nvidia_gpu_extension: ActiveRecord::Type::Boolean.new.deserialize(args[:nvidia_gpu_extension]),
         tags: args[:tags],
       )
     rescue RuntimeError => e
