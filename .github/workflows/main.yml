@@ -9,11 +9,9 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - '2.5'
           - '2.7'
         foreman:
           - 'develop'
-          - '2.4-stable'
     services:
       postgres:
         image: postgres
