@@ -52,7 +52,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Set up NodeJS
-        uses: actions/setup-node@v3.4.1
+        uses: actions/setup-node@v3.5.0
         with:
           node-version: '12'
       - name: Install NodeJS dependencies
