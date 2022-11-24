@@ -36,12 +36,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -yyq libsqlite3-dev zlib1g-dev libvirt-dev libcurl4-openssl-dev
       - name: Checkout Foreman
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3
         with:
           repository: theforeman/foreman
           ref: ${{ matrix.foreman }}
       - name: Checkout Plugin
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3
         with:
           path: plugin
       - name: Setup Plugin
@@ -52,7 +52,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Set up NodeJS
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: '12'
       - name: Install NodeJS dependencies
