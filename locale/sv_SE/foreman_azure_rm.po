@@ -5,14 +5,15 @@
 #
 # Translators:
 # Mikael Fridh <frimik@gmail.com>, 2020
-# johnny.westerlund <johnny.westerlund@gmail.com>, 2020
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2021
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2020\n"
+"Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2021\n"
 "Language-Team: Swedish (Sweden) (https://www.transifex.com/foreman/teams/114/s"
 "v_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +113,7 @@ msgid "Default ReadWrite"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Radera"
 
 msgid "Delete Activation Key"
 msgstr ""
@@ -130,7 +131,7 @@ msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/N
 msgstr ""
 
 msgid "Destroy"
-msgstr ""
+msgstr "Förstör"
 
 msgid "Destroy Content Host"
 msgstr ""
@@ -181,7 +182,7 @@ msgid "Image"
 msgstr "Avbildning"
 
 msgid "Import"
-msgstr ""
+msgstr "Importera"
 
 msgid "Import Content View Version"
 msgstr ""
@@ -223,7 +224,7 @@ msgid "Leave empty to use default image size"
 msgstr ""
 
 msgid "Load Regions"
-msgstr ""
+msgstr "Ladda Regioner"
 
 msgid "NVIDIA driver / CUDA"
 msgstr ""
@@ -310,7 +311,7 @@ msgid "Remove subscriptions"
 msgstr ""
 
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 msgid "Republish Version Repositories"
 msgstr ""
@@ -373,7 +374,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Uppdatera"
 
 msgid "Update Content Overrides"
 msgstr ""

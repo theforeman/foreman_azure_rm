@@ -6,16 +6,17 @@
 # Translators:
 # Andrei Burd <burdandrei@gmail.com>, 2020
 # Vladimir Pavlov <v.pavlov@i-teco.ru>, 2020
-# Yulia <yulia.poyarkova@redhat.com>, 2020
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
-# Bryan Kearney <bryan.kearney@gmail.com>, 2020
+# Yulia <yulia.poyarkova@redhat.com>, 2021
+# Bryan Kearney <bryan.kearney@gmail.com>, 2021
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.1.1\n"
+"Project-Id-Version: foreman_azure_rm 2.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2020\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2021\n"
 "Language-Team: Russian (https://www.transifex.com/foreman/teams/114/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgid "%{vm_size} VM Size"
 msgstr ""
 
 msgid "Abstract async task"
-msgstr ""
+msgstr "Абстрактная асинхронная задача"
 
 msgid "Action with sub plans"
 msgstr "Действия с подпланами"
@@ -44,10 +45,10 @@ msgid "Agent action"
 msgstr ""
 
 msgid "Attach subscriptions"
-msgstr ""
+msgstr "Выделить подписки"
 
 msgid "Auto attach subscriptions"
-msgstr ""
+msgstr "Выбрать подписки автоматически"
 
 msgid "Azure Image Name"
 msgstr ""
@@ -95,7 +96,7 @@ msgid "Copy version units to library"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 msgid "Create Export History"
 msgstr ""
@@ -116,46 +117,46 @@ msgid "Default ReadWrite"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Delete Activation Key"
-msgstr ""
+msgstr "Удалить ключ активации"
 
 msgid "Delete Lifecycle Environment"
-msgstr ""
+msgstr "Удалить окружение"
 
 msgid "Delete Package Group"
 msgstr ""
 
 msgid "Delete Product"
-msgstr ""
+msgstr "Удалить продукт"
 
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr ""
 
 msgid "Destroy"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Destroy Content Host"
-msgstr ""
+msgstr "Удалить узел"
 
 msgid "Disable"
-msgstr ""
+msgstr "Отключить"
 
 msgid "Discover"
-msgstr ""
+msgstr "Поиск"
 
 msgid "Does this image support user data input?"
 msgstr "Допускает ли этот образ ввод пользовательских данных?"
 
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 msgid "Errata mail"
-msgstr ""
+msgstr "Почта"
 
 msgid "Export"
-msgstr ""
+msgstr "Экспорт"
 
 msgid "Export Library"
 msgstr ""
@@ -164,7 +165,7 @@ msgid "Fetch pxe files"
 msgstr ""
 
 msgid "Filtered index content"
-msgstr ""
+msgstr "Содержимое фильтруемого индекса"
 
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr ""
@@ -176,16 +177,16 @@ msgid "Generate repository applicability"
 msgstr ""
 
 msgid "Hypervisors"
-msgstr ""
+msgstr "Гипервизоры"
 
 msgid "Hypervisors update"
-msgstr ""
+msgstr "Обновление гипервизоров"
 
 msgid "Image"
 msgstr "Образ"
 
 msgid "Import"
-msgstr ""
+msgstr "Импорт"
 
 msgid "Import Content View Version"
 msgstr ""
@@ -200,25 +201,25 @@ msgid "Import facts"
 msgstr "Импорт фактов"
 
 msgid "Incremental Update"
-msgstr ""
+msgstr "Инкрементное обновление"
 
 msgid "Incremental Update of  Content View Version(s) "
 msgstr ""
 
 msgid "Index content"
-msgstr ""
+msgstr "Индексировать содержимое"
 
 msgid "Index errata"
-msgstr ""
+msgstr "Индексировать исправления"
 
 msgid "Index module streams"
 msgstr ""
 
 msgid "Index package groups"
-msgstr ""
+msgstr "Индексировать группы пакетов"
 
 msgid "Install Applicable Errata"
-msgstr ""
+msgstr "Установить исправления"
 
 msgid "Instance update"
 msgstr ""
@@ -242,7 +243,7 @@ msgid "Override OS Disk Size (GB)"
 msgstr ""
 
 msgid "Package Profile Update"
-msgstr ""
+msgstr "Обновление профиля пакетов"
 
 msgid "Password"
 msgstr "Пароль"
@@ -266,10 +267,10 @@ msgid "Premium OS Disk"
 msgstr ""
 
 msgid "Product Create"
-msgstr ""
+msgstr "Создать продукт"
 
 msgid "Promote"
-msgstr ""
+msgstr "Продвижение"
 
 msgid "Promotion to Environment"
 msgstr ""
@@ -281,7 +282,7 @@ msgid "Public IP"
 msgstr ""
 
 msgid "Publish"
-msgstr ""
+msgstr "Опубликовать"
 
 msgid "Publish Lifecycle Environment Repositories"
 msgstr ""
@@ -290,7 +291,7 @@ msgid "Region"
 msgstr "Регион"
 
 msgid "Reindex subscriptions"
-msgstr ""
+msgstr "Повторно индексировать подписки"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
@@ -299,22 +300,22 @@ msgid "Remote action:"
 msgstr "Удаленное действие:"
 
 msgid "Remove Content"
-msgstr ""
+msgstr "Удалить содержимое"
 
 msgid "Remove Version"
-msgstr ""
+msgstr "Удалить версию"
 
 msgid "Remove Versions and Associations"
-msgstr ""
+msgstr "Удалить версии и связи"
 
 msgid "Remove from Environment"
-msgstr ""
+msgstr "Удалить из окружения"
 
 msgid "Remove subscriptions"
-msgstr ""
+msgstr "Удалить подписки"
 
 msgid "Report"
-msgstr ""
+msgstr "Сообщить"
 
 msgid "Republish Version Repositories"
 msgstr ""
@@ -353,7 +354,7 @@ msgid "Sync capsule"
 msgstr ""
 
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронизировать"
 
 msgid "Synchronize smart proxy"
 msgstr ""
@@ -377,7 +378,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 msgid "Update Content Overrides"
 msgstr ""
@@ -386,7 +387,7 @@ msgid "Update content urls"
 msgstr ""
 
 msgid "Update for host"
-msgstr ""
+msgstr "Обновление узла"
 
 msgid "Update http proxy"
 msgstr ""
@@ -404,10 +405,10 @@ msgid "Updating System Purpose for host"
 msgstr ""
 
 msgid "Upload errata into"
-msgstr ""
+msgstr "Добавить исправления в"
 
 msgid "Upload into"
-msgstr ""
+msgstr "Добавить в"
 
 msgid "Username"
 msgstr "Имя"

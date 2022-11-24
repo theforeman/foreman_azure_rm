@@ -4,14 +4,15 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2021
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
+"Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2021\n"
 "Language-Team: Catalan (https://www.transifex.com/foreman/teams/114/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +90,7 @@ msgid "Copy version units to library"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 msgid "Create Export History"
 msgstr ""
@@ -98,7 +99,7 @@ msgid "Create Import History"
 msgstr ""
 
 msgid "Create Package Group"
-msgstr ""
+msgstr "Crea un grup de paquets"
 
 msgid "Custom Script Command"
 msgstr ""
@@ -110,7 +111,7 @@ msgid "Default ReadWrite"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Suprimeix"
 
 msgid "Delete Activation Key"
 msgstr ""
@@ -128,13 +129,13 @@ msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/N
 msgstr ""
 
 msgid "Destroy"
-msgstr ""
+msgstr "Destrueix"
 
 msgid "Destroy Content Host"
 msgstr ""
 
 msgid "Disable"
-msgstr ""
+msgstr "Inhabilita"
 
 msgid "Discover"
 msgstr ""
@@ -143,13 +144,13 @@ msgid "Does this image support user data input?"
 msgstr "La imatge admet l'entrada de dades d'usuari?"
 
 msgid "Enable"
-msgstr ""
+msgstr "Habilita"
 
 msgid "Errata mail"
 msgstr ""
 
 msgid "Export"
-msgstr ""
+msgstr "Exporta"
 
 msgid "Export Library"
 msgstr ""
@@ -179,7 +180,7 @@ msgid "Image"
 msgstr "Imatge"
 
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 msgid "Import Content View Version"
 msgstr ""
@@ -221,7 +222,7 @@ msgid "Leave empty to use default image size"
 msgstr ""
 
 msgid "Load Regions"
-msgstr ""
+msgstr "Carrega les regions"
 
 msgid "NVIDIA driver / CUDA"
 msgstr ""
@@ -296,7 +297,7 @@ msgid "Remove Content"
 msgstr ""
 
 msgid "Remove Version"
-msgstr ""
+msgstr "Suprimeix la versió"
 
 msgid "Remove Versions and Associations"
 msgstr ""
@@ -308,7 +309,7 @@ msgid "Remove subscriptions"
 msgstr ""
 
 msgid "Report"
-msgstr ""
+msgstr "Informe"
 
 msgid "Republish Version Repositories"
 msgstr ""
@@ -347,7 +348,7 @@ msgid "Sync capsule"
 msgstr ""
 
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronitza"
 
 msgid "Synchronize smart proxy"
 msgstr ""
@@ -371,7 +372,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Actualitza"
 
 msgid "Update Content Overrides"
 msgstr ""
