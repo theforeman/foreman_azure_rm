@@ -4,28 +4,31 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
-# Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Giuseppe Pignataro <rogepix@gmail.com>, 2020
+# 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
+# Andrea Perotti, 2020
+# Bryan Kearney <bryan.kearney@gmail.com>, 2021
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Giuseppe Pignataro <rogepix@gmail.com>, 2020\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/foreman/teams/114/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 :"
+" 2;\n"
 
 msgid "%{vm_size} VM Size"
 msgstr ""
 
 msgid "Abstract async task"
-msgstr ""
+msgstr "Evento asinc astratto"
 
 msgid "Action with sub plans"
 msgstr ""
@@ -43,7 +46,7 @@ msgid "Attach subscriptions"
 msgstr ""
 
 msgid "Auto attach subscriptions"
-msgstr ""
+msgstr "esegui l'auto attach delle sottoscrizioni"
 
 msgid "Azure Image Name"
 msgstr ""
@@ -91,7 +94,7 @@ msgid "Copy version units to library"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 msgid "Create Export History"
 msgstr ""
@@ -112,46 +115,46 @@ msgid "Default ReadWrite"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Cancella"
 
 msgid "Delete Activation Key"
-msgstr ""
+msgstr "Cancella chiave di attivazione"
 
 msgid "Delete Lifecycle Environment"
-msgstr ""
+msgstr "Cancella ambiente ciclo di vita"
 
 msgid "Delete Package Group"
 msgstr ""
 
 msgid "Delete Product"
-msgstr ""
+msgstr "Cancella prodotto"
 
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr ""
 
 msgid "Destroy"
-msgstr ""
+msgstr "Elimina"
 
 msgid "Destroy Content Host"
-msgstr ""
+msgstr "Elimina host di contenuto"
 
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 msgid "Discover"
-msgstr ""
+msgstr "Trova"
 
 msgid "Does this image support user data input?"
 msgstr "Questa immagine supporta l'input dei dati utente?"
 
 msgid "Enable"
-msgstr ""
+msgstr "Abilita"
 
 msgid "Errata mail"
-msgstr ""
+msgstr "Posta per l'Errata"
 
 msgid "Export"
-msgstr ""
+msgstr "Esporta"
 
 msgid "Export Library"
 msgstr ""
@@ -181,7 +184,7 @@ msgid "Image"
 msgstr "Immagine"
 
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 msgid "Import Content View Version"
 msgstr ""
@@ -190,13 +193,13 @@ msgid "Import Default Content View"
 msgstr ""
 
 msgid "Import Puppet classes"
-msgstr ""
+msgstr "Importa classi Puppet"
 
 msgid "Import facts"
-msgstr ""
+msgstr "Importa gli eventi"
 
 msgid "Incremental Update"
-msgstr ""
+msgstr "Aggiornamento incrementale"
 
 msgid "Incremental Update of  Content View Version(s) "
 msgstr ""
@@ -205,7 +208,7 @@ msgid "Index content"
 msgstr ""
 
 msgid "Index errata"
-msgstr ""
+msgstr "Indice errata"
 
 msgid "Index module streams"
 msgstr ""
@@ -214,7 +217,7 @@ msgid "Index package groups"
 msgstr ""
 
 msgid "Install Applicable Errata"
-msgstr ""
+msgstr "Installa errata applicabile"
 
 msgid "Instance update"
 msgstr ""
@@ -223,7 +226,7 @@ msgid "Leave empty to use default image size"
 msgstr ""
 
 msgid "Load Regions"
-msgstr ""
+msgstr "Carica le Regioni"
 
 msgid "NVIDIA driver / CUDA"
 msgstr ""
@@ -265,7 +268,7 @@ msgid "Product Create"
 msgstr ""
 
 msgid "Promote"
-msgstr ""
+msgstr "Avanzamento"
 
 msgid "Promotion to Environment"
 msgstr ""
@@ -277,7 +280,7 @@ msgid "Public IP"
 msgstr ""
 
 msgid "Publish"
-msgstr ""
+msgstr "Pubblica"
 
 msgid "Publish Lifecycle Environment Repositories"
 msgstr ""
@@ -292,25 +295,25 @@ msgid "Reload Images, Sizes, vNets"
 msgstr ""
 
 msgid "Remote action:"
-msgstr ""
+msgstr "Azione remota:"
 
 msgid "Remove Content"
-msgstr ""
+msgstr "Rimuovi contenuto"
 
 msgid "Remove Version"
-msgstr ""
+msgstr "Rimozione versione"
 
 msgid "Remove Versions and Associations"
-msgstr ""
+msgstr "Rimuovi le versioni e le associazioni"
 
 msgid "Remove from Environment"
-msgstr ""
+msgstr "Rimuovi dall'ambiente"
 
 msgid "Remove subscriptions"
 msgstr ""
 
 msgid "Report"
-msgstr ""
+msgstr "Notifica"
 
 msgid "Republish Version Repositories"
 msgstr ""
@@ -349,7 +352,7 @@ msgid "Sync capsule"
 msgstr ""
 
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizza"
 
 msgid "Synchronize smart proxy"
 msgstr ""
@@ -373,7 +376,7 @@ msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Aggiorna"
 
 msgid "Update Content Overrides"
 msgstr ""
@@ -403,7 +406,7 @@ msgid "Upload errata into"
 msgstr ""
 
 msgid "Upload into"
-msgstr ""
+msgstr "Carica in"
 
 msgid "Username"
 msgstr "Nome utente"

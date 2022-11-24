@@ -4,244 +4,247 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Lukáš Zapletal, 2020
 # Jared Nelson <jared@ajpadilla.com>, 2020
-# Félix Barbeira <fbarbeira@gmail.com>, 2020
+# fe37ea014ea122db60df81cd86b163af_742ef71 <ba9f59c06b0be83ac3724b1834a4c14b_93939>, 2020
 # Gustavo Varela <gustavo.varela@gmail.com>, 2020
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2020
-# Bryan Kearney <bryan.kearney@gmail.com>, 2020
+# francis <hackgo@gmail.com>, 2020
+# Bryan Kearney <bryan.kearney@gmail.com>, 2021
+# Amit Upadhye <aupadhye@redhat.com>, 2022
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.0.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>, 2020\n"
+"Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/foreman/teams/114/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 :"
+" 2;\n"
 
 msgid "%{vm_size} VM Size"
-msgstr ""
+msgstr "%{vm_size} Tamaño de la máquina virtual"
 
 msgid "Abstract async task"
-msgstr ""
+msgstr "Tarea de sincronización abstracta"
 
 msgid "Action with sub plans"
-msgstr ""
+msgstr "Acción con subplanes"
 
 msgid "Actions"
 msgstr "Acciones"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
-msgstr ""
+msgstr "Se puede añadir un número adicional de discos en función del tamaño de la máquina virtual. Para más detalles, consulte la documentación de Microsoft Azure"
 
 msgid "Agent action"
-msgstr ""
+msgstr "Acción del agente"
 
 msgid "Attach subscriptions"
-msgstr ""
+msgstr "Adjuntar suscripciones"
 
 msgid "Auto attach subscriptions"
-msgstr ""
+msgstr "Autoagregar suscripciones"
 
 msgid "Azure Image Name"
-msgstr ""
+msgstr "Azure Image Name"
 
 msgid "Azure Region"
-msgstr ""
+msgstr "Región de Azure"
 
 msgid "Azure Resource Manager as a compute resource for Foreman"
-msgstr ""
+msgstr "Azure Resource Manager como recurso informático para Foreman"
 
 msgid "Azure Subnet"
-msgstr ""
+msgstr "Subred de Azure"
 
 msgid "Azure's Default"
-msgstr ""
+msgstr "Valor por defecto de Azure"
 
 msgid "Azure's default"
-msgstr ""
+msgstr "Valor por defecto de Azure"
 
 msgid "Bulk generate applicability for hosts"
-msgstr ""
+msgstr "Generar a gran escala la aplicabilidad para los hosts"
 
 msgid "Client ID"
-msgstr ""
+msgstr "ID de cliente"
 
 msgid "Client ID for AzureRm"
-msgstr ""
+msgstr "ID de cliente para AzureRm"
 
 msgid "Client Secret"
-msgstr ""
+msgstr "Secreto de cliente"
 
 msgid "Client Secret for AzureRm"
-msgstr ""
+msgstr "Secreto de cliente para AzureRm"
 
 msgid "Cloud"
-msgstr ""
+msgstr "Nube"
 
 msgid "Combined Profile Update"
-msgstr ""
+msgstr "Actualización de perfil combinado"
 
 msgid "Comma seperated file URIs"
-msgstr ""
+msgstr "URI de archivo separado por comas"
 
 msgid "Copy version units to library"
-msgstr ""
+msgstr "Copiar unidades de versión a la biblioteca"
 
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 msgid "Create Export History"
-msgstr ""
+msgstr "Crear un historial de exportación"
 
 msgid "Create Import History"
-msgstr ""
+msgstr "Crear un historial de importaciones"
 
 msgid "Create Package Group"
-msgstr ""
+msgstr "Crear grupo de paquete"
 
 msgid "Custom Script Command"
-msgstr ""
+msgstr "Comando de script personalizado"
 
 msgid "Data Disk Caching"
-msgstr ""
+msgstr "Almacenamiento en caché de disco de datos"
 
 msgid "Default ReadWrite"
-msgstr ""
+msgstr "Lectura y escritura por defecto"
 
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 msgid "Delete Activation Key"
-msgstr ""
+msgstr "Borrar llave de activación"
 
 msgid "Delete Lifecycle Environment"
-msgstr ""
+msgstr "Borrar entorno del ciclo de vida"
 
 msgid "Delete Package Group"
-msgstr ""
+msgstr "Eliminar grupo de paquete"
 
 msgid "Delete Product"
-msgstr ""
+msgstr "Borrar producto"
 
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-msgstr ""
+msgstr "Implantar el controlador de la GPU NVIDIA y CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 
 msgid "Destroy"
-msgstr ""
+msgstr "Destruir"
 
 msgid "Destroy Content Host"
-msgstr ""
+msgstr "Destruir host de contenido"
 
 msgid "Disable"
-msgstr ""
+msgstr "Deshabilitar"
 
 msgid "Discover"
-msgstr ""
+msgstr "Descubrir"
 
 msgid "Does this image support user data input?"
-msgstr "¿Esta imagen soporta entrada de datos de usuario?"
+msgstr "¿Esta imagen admite la entrada de datos de usuario?"
 
 msgid "Enable"
-msgstr ""
+msgstr "Habilitar"
 
 msgid "Errata mail"
-msgstr ""
+msgstr "Correo de erratas"
 
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 msgid "Export Library"
-msgstr ""
+msgstr "Biblioteca de exportación"
 
 msgid "Fetch pxe files"
-msgstr ""
+msgstr "Buscar archivos pxe"
 
 msgid "Filtered index content"
-msgstr ""
+msgstr "Contenido del índice filtrado"
 
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
-msgstr ""
+msgstr "Para las imágenes personalizadas o compartidas de la galería, utilice el prefijo 'custom://' o 'gallery://'. Para las imágenes públicas y RHEL-byos, anteponga el uuid con 'marketplace://'. (por ejemplo, 'marketplace://OpenLogic:CentOS:7.5:latest' o 'custom://image-name')."
 
 msgid "Generate host applicability"
-msgstr ""
+msgstr "Generar la aplicabilidad del host"
 
 msgid "Generate repository applicability"
-msgstr ""
+msgstr "Generar la aplicabilidad del repositorio"
 
 msgid "Hypervisors"
-msgstr ""
+msgstr "Hipervisores"
 
 msgid "Hypervisors update"
-msgstr ""
+msgstr "Actualización de hipervisores"
 
 msgid "Image"
 msgstr "Imagen"
 
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 msgid "Import Content View Version"
-msgstr ""
+msgstr "Importar contenido Ver versión"
 
 msgid "Import Default Content View"
-msgstr ""
+msgstr "Importar la vista de contenido por defecto"
 
 msgid "Import Puppet classes"
-msgstr ""
+msgstr "Importar clases Puppet"
 
 msgid "Import facts"
-msgstr ""
+msgstr "Importar datos"
 
 msgid "Incremental Update"
-msgstr ""
+msgstr "Actualización incremental"
 
 msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
+msgstr "Actualización gradual de versiones de la vista de contenido"
 
 msgid "Index content"
-msgstr ""
+msgstr "Contenido del índice"
 
 msgid "Index errata"
-msgstr ""
+msgstr "Erratas de índice"
 
 msgid "Index module streams"
-msgstr ""
+msgstr "Secuencias del módulo de índice"
 
 msgid "Index package groups"
-msgstr ""
+msgstr "Grupos de paquete del índice"
 
 msgid "Install Applicable Errata"
-msgstr ""
+msgstr "Instalación de erratas aplicables"
 
 msgid "Instance update"
-msgstr ""
+msgstr "Actualización de instancia"
 
 msgid "Leave empty to use default image size"
-msgstr ""
+msgstr "Dejar vacío para utilizar el tamaño de imagen por defecto"
 
 msgid "Load Regions"
-msgstr ""
+msgstr "Cargar regiones"
 
 msgid "NVIDIA driver / CUDA"
-msgstr ""
+msgstr "Controlador NVIDIA / CUDA"
 
 msgid "Name"
 msgstr "Nombre"
 
 msgid "OS Disk Caching"
-msgstr ""
+msgstr "Almacenamiento en caché de disco de SO"
 
 msgid "Override OS Disk Size (GB)"
-msgstr ""
+msgstr "Anular el tamaño del disco del sistema operativo (GB)"
 
 msgid "Package Profile Update"
-msgstr ""
+msgstr "Actualización de perfil del paquete"
 
 msgid "Password"
 msgstr "Contraseña"
@@ -250,82 +253,82 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Contraseña de autenticación - usada para el paso final de SSH"
 
 msgid "Platform"
-msgstr ""
+msgstr "Plataforma"
 
 msgid "Please select a Resource Group"
-msgstr ""
+msgstr "Seleccione un grupo de recursos"
 
 msgid "Please select a VM Size"
-msgstr ""
+msgstr "Seleccione un tamaño de máquina virtual"
 
 msgid "Please select an image"
 msgstr "Seleccione una imagen"
 
 msgid "Premium OS Disk"
-msgstr ""
+msgstr "Disco de SO Premium"
 
 msgid "Product Create"
-msgstr ""
+msgstr "Crear producto"
 
 msgid "Promote"
-msgstr ""
+msgstr "Promover"
 
 msgid "Promotion to Environment"
-msgstr ""
+msgstr "Promoción al entorno"
 
 msgid "Properties"
 msgstr "Propiedades"
 
 msgid "Public IP"
-msgstr ""
+msgstr "IP pública"
 
 msgid "Publish"
-msgstr ""
+msgstr "Publicar"
 
 msgid "Publish Lifecycle Environment Repositories"
-msgstr ""
+msgstr "Publicar repositorios del entorno de ciclo de vida"
 
 msgid "Region"
 msgstr "Región"
 
 msgid "Reindex subscriptions"
-msgstr ""
+msgstr "Reindexar suscripciones"
 
 msgid "Reload Images, Sizes, vNets"
-msgstr ""
+msgstr "Recargar imágenes, tamaños, vNets"
 
 msgid "Remote action:"
-msgstr ""
+msgstr "Acción remota:"
 
 msgid "Remove Content"
-msgstr ""
+msgstr "Borrar contenido"
 
 msgid "Remove Version"
-msgstr ""
+msgstr "Eliminar versión"
 
 msgid "Remove Versions and Associations"
-msgstr ""
+msgstr "Retirar versiones y asociaciones"
 
 msgid "Remove from Environment"
-msgstr ""
+msgstr "Retirar del entorno"
 
 msgid "Remove subscriptions"
-msgstr ""
+msgstr "Eliminar suscripciones"
 
 msgid "Report"
-msgstr ""
+msgstr "Informe"
 
 msgid "Republish Version Repositories"
-msgstr ""
+msgstr "Volver a publicar repositorios de la versión"
 
 msgid "Resource Group"
-msgstr ""
+msgstr "Grupo de recursos"
 
 msgid "Run Sync Plan:"
-msgstr ""
+msgstr "Ejecutar el plan de sincronización:"
 
 msgid "SSH Key"
-msgstr ""
+msgstr "Clave SSH"
 
 msgid "Select"
 msgstr "Seleccionar"
@@ -340,79 +343,79 @@ msgid "State"
 msgstr "Estado"
 
 msgid "Static Private IP"
-msgstr ""
+msgstr "IP privada estática"
 
 msgid "Subscription ID"
 msgstr "ID de suscripción"
 
 msgid "Subscription ID for AzureRm"
-msgstr ""
+msgstr "ID de suscripción a AzureRm"
 
 msgid "Sync capsule"
-msgstr ""
+msgstr "Cápsula de sincronización"
 
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizar"
 
 msgid "Synchronize smart proxy"
-msgstr ""
+msgstr "Sincronizar proxy inteligente"
 
 msgid "Tenant ID"
-msgstr ""
+msgstr "ID de inquilino"
 
 msgid "The region you selected has no sizes associated with it"
-msgstr ""
+msgstr "La región que ha seleccionado no tiene ningún tamaño relacionado"
 
 msgid "The selected image has no associated compute resource"
-msgstr ""
+msgstr "La imagen seleccionada no tiene ningún recurso de cómputo relacionado"
 
 msgid "The selected region has no subnets"
-msgstr ""
+msgstr "La región seleccionada no tiene subredes"
 
 msgid "The user that will be used to SSH into the VM for completion"
-msgstr ""
+msgstr "El usuario que será utilizado para SSH en la máquina virtual para completar"
 
 msgid "To perform commands as root, prefix it with 'sudo'"
-msgstr ""
+msgstr "Para ejecutar los comandos como root, anteponga el prefijo 'sudo'"
 
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 msgid "Update Content Overrides"
-msgstr ""
+msgstr "Actualizar anulaciones de contenidos"
 
 msgid "Update content urls"
-msgstr ""
+msgstr "Actualizar los URL de contenido"
 
 msgid "Update for host"
-msgstr ""
+msgstr "Actualizar para host"
 
 msgid "Update http proxy"
-msgstr ""
+msgstr "Actualizar el proxy http"
 
 msgid "Update http proxy details"
-msgstr ""
+msgstr "Actualizar los detalles del proxy http"
 
 msgid "Update redhat repository"
-msgstr ""
+msgstr "Actualizar el repositorio de redhat"
 
 msgid "Update release version for host"
-msgstr ""
+msgstr "Actualizar versión de lanzamiento para el host"
 
 msgid "Updating System Purpose for host"
-msgstr ""
+msgstr "Actualización de la finalidad del sistema para el anfitrión"
 
 msgid "Upload errata into"
-msgstr ""
+msgstr "Cargar errata en"
 
 msgid "Upload into"
-msgstr ""
+msgstr "Cargar a "
 
 msgid "Username"
-msgstr "Nombre de usuario"
+msgstr "Nombre del usuario"
 
 msgid "VM Size"
-msgstr ""
+msgstr "Tamaño de la máquina virtual"
 
 msgid "Verify checksum"
-msgstr ""
+msgstr "Verificar la suma de comprobación"
