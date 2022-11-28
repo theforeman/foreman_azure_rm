@@ -4,15 +4,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.2.7]
-- Fix tests by using Postgres 14
-- i18n - pulling from tx
-- Sync locale Makefile from plugin template
-- Pin GitHub actions to a major version
-- Bump actions/setup-node from 3.5.0 to 3.5.1
-- Bump actions/checkout from 2.4.0 to 3.1.0
-- Bump actions/setup-node from 3.4.1 to 3.5.0
-
 ## [2.2.6]
 - Bump actions/setup-node from 2.1.5 to 2.2.0
 - Fixes #32713 - Add Cloud validation to controller
