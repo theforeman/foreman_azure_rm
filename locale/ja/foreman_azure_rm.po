@@ -12,7 +12,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.7\n"
+"Project-Id-Version: foreman_azure_rm 2.2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
@@ -27,7 +27,7 @@ msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} 仮想マシンサイズ"
 
 msgid "Abstract async task"
-msgstr "非同期タスクの概要"
+msgstr "非同期タスクの抽象化"
 
 msgid "Action with sub plans"
 msgstr "サブプランによるアクション"
@@ -36,7 +36,7 @@ msgid "Actions"
 msgstr "アクション"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
-msgstr "仮想マシンサイズに基づいて、さらにディスク数を追加できます。詳細については、Microsoft Azure のドキュメントを参照してください。"
+msgstr "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください。"
 
 msgid "Agent action"
 msgstr "エージェントのアクション"
@@ -66,7 +66,7 @@ msgid "Azure's default"
 msgstr "Azure のデフォルト"
 
 msgid "Bulk generate applicability for hosts"
-msgstr "ホストに適用可能なエラータを一括生成"
+msgstr "ホストに適用可能なエラータを一括生成します"
 
 msgid "Client ID"
 msgstr "クライアント ID"
@@ -168,10 +168,10 @@ msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://
 msgstr "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')。"
 
 msgid "Generate host applicability"
-msgstr "ホストに適用可能なエラータを生成する"
+msgstr "ホストに適用可能なエラータを生成します"
 
 msgid "Generate repository applicability"
-msgstr "リポジトリーに適用可能なエラータを生成する"
+msgstr "リポジトリーに適用可能なエラータを生成します"
 
 msgid "Hypervisors"
 msgstr "ハイパーバイザー"
@@ -201,7 +201,7 @@ msgid "Incremental Update"
 msgstr "増分更新"
 
 msgid "Incremental Update of  Content View Version(s) "
-msgstr "コンテンツビューバージョンの増分更新"
+msgstr "コンテンツビューバージョンの増分更新 "
 
 msgid "Index content"
 msgstr "コンテンツのインデックス作成"
@@ -267,10 +267,10 @@ msgid "Product Create"
 msgstr "製品の作成"
 
 msgid "Promote"
-msgstr "Promote (プロモート)"
+msgstr "プロモート"
 
 msgid "Promotion to Environment"
-msgstr "環境にプロモート"
+msgstr "環境へのプロモート"
 
 msgid "Properties"
 msgstr "プロパティー"
@@ -360,7 +360,7 @@ msgid "Tenant ID"
 msgstr "テナント ID"
 
 msgid "The region you selected has no sizes associated with it"
-msgstr "選択した領域にはサイズが関連付けられていません"
+msgstr "選択したリージョンにはサイズが関連付けられていません"
 
 msgid "The selected image has no associated compute resource"
 msgstr "選択したイメージには、コンピューティングリソースが関連付けられていません"
@@ -372,7 +372,7 @@ msgid "The user that will be used to SSH into the VM for completion"
 msgstr "仮想マシンで SSH 接続して完了するときに使用するユーザー"
 
 msgid "To perform commands as root, prefix it with 'sudo'"
-msgstr "root としてコマンドを実行するには、前に「sudo」を付けます"
+msgstr "root としてコマンドを実行するには、接頭辞として「sudo」を付けます"
 
 msgid "Update"
 msgstr "更新"
@@ -402,10 +402,10 @@ msgid "Updating System Purpose for host"
 msgstr "ホストのシステム目的を更新中"
 
 msgid "Upload errata into"
-msgstr "エラータの情報のアップロード"
+msgstr "エラータのアップロード:"
 
 msgid "Upload into"
-msgstr "情報のアップロード"
+msgstr "アップロード先"
 
 msgid "Username"
 msgstr "ユーザー名"

@@ -13,7 +13,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.7\n"
+"Project-Id-Version: foreman_azure_rm 2.2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
@@ -146,7 +146,7 @@ msgid "Discover"
 msgstr "Discover"
 
 msgid "Does this image support user data input?"
-msgstr "Cette image prend-t-elle en charge l'entrée de paramètres utilisateur ?"
+msgstr "Cette image prend-t-elle en charge l'entrée de données utilisateur ?"
 
 msgid "Enable"
 msgstr "Activer"
@@ -338,7 +338,7 @@ msgid "Size (GB)"
 msgstr "Taille (Go)"
 
 msgid "State"
-msgstr "État "
+msgstr "État"
 
 msgid "Static Private IP"
 msgstr "IP privée statique"
