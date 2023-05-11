@@ -6,7 +6,6 @@
 # Translators:
 # Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2022
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -23,9 +22,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} ვმ-ის ზომა"
 
-msgid "Abstract async task"
-msgstr "ასინქრონული ამოცანის აბსტრაქცია"
-
 msgid "Action with sub plans"
 msgstr "ქმედება ქვე-გეგმებით"
 
@@ -34,15 +30,6 @@ msgstr "ქმედებები"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr "დისკების დამატება შესაძლებელია ვმ-ის ზომის ზრდასთან ერთად. მეტი დეტალისთვის იხილეთ Microsoft Azure-ის დოკუმენტაცია"
-
-msgid "Agent action"
-msgstr "აგენტის ქმედება"
-
-msgid "Attach subscriptions"
-msgstr "გამოწერების მიმაგრება"
-
-msgid "Auto attach subscriptions"
-msgstr "გამოწერების ავტომატური მიმაგრება"
 
 msgid "Azure Image Name"
 msgstr "Azure-ის ასლის სახელი"
@@ -56,14 +43,11 @@ msgstr "Azure Resource Manager-ი როგორც Foreman-ის გამ�
 msgid "Azure Subnet"
 msgstr "Azure-ის ქვექსელი"
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
 msgstr "Azure-ის ნაგულისხმები"
-
-msgid "Azure's default"
-msgstr "Azure-ის ნაგულისხმები"
-
-msgid "Bulk generate applicability for hosts"
-msgstr "გამოყენებადობის ერთდროულად მრავალი ჰოსტისთვის შექმნა"
 
 msgid "Client ID"
 msgstr "კლიენტის ID"
@@ -80,26 +64,11 @@ msgstr "კლიენტის საიდუმლო ფრაზა AzureR
 msgid "Cloud"
 msgstr "ღრუბელი"
 
-msgid "Combined Profile Update"
-msgstr "პროფილის კომბინირებული განახლება"
-
 msgid "Comma seperated file URIs"
 msgstr "ფაილების მძიმით დაშორებული URI-ები"
 
-msgid "Copy version units to library"
-msgstr "ვერსიის ერთეულების ბიბლიოთეკაში კოპირება"
-
-msgid "Create"
-msgstr "შექმნა"
-
-msgid "Create Export History"
-msgstr "გატანის ისტორიის შექმნა"
-
-msgid "Create Import History"
-msgstr "შემოტანის ისტორიის შექმნა"
-
-msgid "Create Package Group"
-msgstr "პაკეტების ჯგუფის შექმნა"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
+msgstr ""
 
 msgid "Custom Script Command"
 msgstr "ხელით შეყვანილი სკრიპტი"
@@ -110,113 +79,23 @@ msgstr "მონაცემების დისკის ქეში"
 msgid "Default ReadWrite"
 msgstr "ნაგულისხმები ჩაწერადი"
 
-msgid "Delete"
-msgstr "წაშლა"
-
-msgid "Delete Activation Key"
-msgstr "აქტივაციის გასაღების წაშლა"
-
-msgid "Delete Lifecycle Environment"
-msgstr "ცხოვრების ციკლის გარემოს წაშლა"
-
-msgid "Delete Package Group"
-msgstr "პაკეტების ჯგუფის წაშლა"
-
-msgid "Delete Product"
-msgstr "პროდუქტის წაშლა"
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr "NVIDIA-ის GPU-ის დრაივერების და CUDA-ს გაშლა(Azure-ის გაფართოება Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-
-msgid "Destroy"
-msgstr "განადგურება"
-
-msgid "Destroy Content Host"
-msgstr "შემცველობის ჰოსტის განადგურება"
-
-msgid "Disable"
-msgstr "გამორთვა"
-
-msgid "Discover"
-msgstr "აღმოაჩინეთ"
 
 msgid "Does this image support user data input?"
 msgstr "აქვს ამ ასლს მომხმარებლის მონაცემების შეყვანის მხარდაჭერა?"
 
-msgid "Enable"
-msgstr "ჩართვა"
-
-msgid "Errata mail"
-msgstr "მორჩენილი ელფოსტა"
-
-msgid "Export"
-msgstr "გატანა"
-
-msgid "Export Library"
-msgstr "ბიბლიოთეკის გატანა"
-
-msgid "Fetch pxe files"
-msgstr "PXE ფაილების გამოთხოვა"
-
-msgid "Filtered index content"
-msgstr "გაფილტრული ინდექსის შემცველობა"
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr "ხელით მითითებული ან გაზიარებული გალერეის ასლისთვის გამოიყენეთ პრეფიქსი 'custom://' ან 'gallery://'. საჯარო და RHEL-byos-ის ასლებისთვის დაუსვით uuid-ის პრეფიქსი \"marketplace://\". (მაგ. 'marketplace://OpenLogic:CentOS:7.5: უახლესი' ან 'custom://image-name')"
 
-msgid "Generate host applicability"
-msgstr "ჰოსტის გამოყენებადობის გენერაცია"
-
-msgid "Generate repository applicability"
-msgstr "ჰოსტის გამოყენებადობის გენერაცია"
-
-msgid "Hypervisors"
-msgstr "ჰაიპერვაიზორები"
-
-msgid "Hypervisors update"
-msgstr "ჰაიპერვაიზორის განახლება"
-
 msgid "Image"
 msgstr "ასლი"
-
-msgid "Import"
-msgstr "იმპორტი"
-
-msgid "Import Content View Version"
-msgstr "შემცველობის ხედის ვერსიის შემოტანა"
-
-msgid "Import Default Content View"
-msgstr "ნაგულისხმები შემცველობის ხედის შემოტანა"
 
 msgid "Import Puppet classes"
 msgstr "Puppet-ის კლასების შემოტანა"
 
 msgid "Import facts"
 msgstr "ფაქტების შემოტანა"
-
-msgid "Incremental Update"
-msgstr "ინკრემენტული განახლება"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr "შემცველობის ხედის ვერსიების ინკრემენტული განახლება "
-
-msgid "Index content"
-msgstr "შემცველობის ინდექსი"
-
-msgid "Index errata"
-msgstr "მორჩენილების ინდექსი"
-
-msgid "Index module streams"
-msgstr "მოდულების ნაკადების ინდექსი"
-
-msgid "Index package groups"
-msgstr "პაკეტის ჯგუფების ინდექსი"
-
-msgid "Install Applicable Errata"
-msgstr "განკუთვნილი მორჩენილი პაჩების დაყენება"
-
-msgid "Instance update"
-msgstr "გაშვებული ასლის განახლება"
 
 msgid "Leave empty to use default image size"
 msgstr "ასლის ნაგულისხმები ზომის გამოსაყენებლად ცარიელი დატოვეთ"
@@ -235,9 +114,6 @@ msgstr "მონაცემების დისკის ქეში"
 
 msgid "Override OS Disk Size (GB)"
 msgstr "ოს-ის დისკის ზომის გადაფარვა (გბ)"
-
-msgid "Package Profile Update"
-msgstr "პაკეტის პროფილის განახლება"
 
 msgid "Password"
 msgstr "პაროლი"
@@ -260,32 +136,14 @@ msgstr "აირჩიეთ ასლი"
 msgid "Premium OS Disk"
 msgstr "ოს-ის პრემიუმ დისკი"
 
-msgid "Product Create"
-msgstr "პროდუქტის შექმნა"
-
-msgid "Promote"
-msgstr "დაწინაურება"
-
-msgid "Promotion to Environment"
-msgstr "გარემოს წინ წაწევა"
-
 msgid "Properties"
 msgstr "პარამეტრები"
 
 msgid "Public IP"
 msgstr "გარე IP"
 
-msgid "Publish"
-msgstr "გამოქვეყნება"
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr "ცხოვრების ციკლის გარემოს რეპოზიტორიების გასაჯაროება"
-
 msgid "Region"
 msgstr "რეგიონი"
-
-msgid "Reindex subscriptions"
-msgstr "გამოწერების თავიდან ინდექსირება"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr "ასლების, ზომებისა და ვირტქსელების გადატვირთვა"
@@ -293,32 +151,8 @@ msgstr "ასლების, ზომებისა და ვირტქ�
 msgid "Remote action:"
 msgstr "დაშორებული ქმედება:"
 
-msgid "Remove Content"
-msgstr "შემცველობის წაშლა"
-
-msgid "Remove Version"
-msgstr "ვერსიის წაშლა"
-
-msgid "Remove Versions and Associations"
-msgstr "ვერსიებისა და ასოციაციების წაშლა"
-
-msgid "Remove from Environment"
-msgstr "გარემოდან წაშლა"
-
-msgid "Remove subscriptions"
-msgstr "გამოწერის წაშლა"
-
-msgid "Report"
-msgstr "ანგარიში"
-
-msgid "Republish Version Repositories"
-msgstr "ვერსიების რეპოზიტორიების თავიდან გამოჩენა"
-
 msgid "Resource Group"
 msgstr "რესურსების ჯგუფი"
-
-msgid "Run Sync Plan:"
-msgstr "სინქრონიზაციის გეგმის გაშვება:"
 
 msgid "SSH Key"
 msgstr "SSH გასაღები"
@@ -344,15 +178,6 @@ msgstr "გამოწერის ID"
 msgid "Subscription ID for AzureRm"
 msgstr "გამოწერის ID AzureRm-სთვის"
 
-msgid "Sync capsule"
-msgstr "სინქრონიზაციის კაპსულა"
-
-msgid "Synchronize"
-msgstr "სინქრონიზაცია"
-
-msgid "Synchronize smart proxy"
-msgstr "ჭკვიან პროქსისთან სინქრონიზაცია"
-
 msgid "Tenant ID"
 msgstr "პატრონის ID"
 
@@ -371,44 +196,14 @@ msgstr "მომხმარებელი, რომელიც დასრ
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr "ბრძანებების root მომხმარებლით გასაშვებად წინ მიუწერეთ 'sudo'"
 
-msgid "Update"
-msgstr "განახლება"
-
-msgid "Update Content Overrides"
-msgstr "შემცველობის გადაფარვს განახლება"
-
-msgid "Update content urls"
-msgstr "შემცველობის URL-ების განახლება"
-
-msgid "Update for host"
-msgstr "განახლება ჰოსტისთვის"
-
-msgid "Update http proxy"
-msgstr "HTTP პროქსის განახლება"
-
-msgid "Update http proxy details"
-msgstr "HTTP პროქსის დეტალების განახლება"
-
-msgid "Update redhat repository"
-msgstr "RH-ის რეპოზიტორიის განახლება"
-
-msgid "Update release version for host"
-msgstr "ჰოსტის რელიზის ვერსიის განახლება"
-
-msgid "Updating System Purpose for host"
-msgstr "ჰოსტის სისტემური დანიშნულების განახლება"
-
-msgid "Upload errata into"
-msgstr "მორჩენილი შეცდომების ინფორმაციის ატვირთვა"
-
-msgid "Upload into"
-msgstr "ატვირთვის სამიზნე"
-
 msgid "Username"
 msgstr "მოხმარებელი"
 
 msgid "VM Size"
 msgstr "ვმ-ის ზომა"
 
-msgid "Verify checksum"
-msgstr "საკონტროლო ჯამის შემოწმება"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
+msgstr ""

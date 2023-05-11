@@ -8,7 +8,6 @@
 # Lukáš Zapletal, 2021
 # Pavel Borecki <pavel.borecki@gmail.com>, 2021
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -27,9 +26,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr ""
 
-msgid "Abstract async task"
-msgstr ""
-
 msgid "Action with sub plans"
 msgstr "Akce s dílčími plány"
 
@@ -38,15 +34,6 @@ msgstr "Akce"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr ""
-
-msgid "Agent action"
-msgstr ""
-
-msgid "Attach subscriptions"
-msgstr "Připojit předplatné"
-
-msgid "Auto attach subscriptions"
-msgstr "Automaticky připojovat předplatné"
 
 msgid "Azure Image Name"
 msgstr ""
@@ -60,13 +47,10 @@ msgstr ""
 msgid "Azure Subnet"
 msgstr ""
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
-msgstr ""
-
-msgid "Azure's default"
-msgstr ""
-
-msgid "Bulk generate applicability for hosts"
 msgstr ""
 
 msgid "Client ID"
@@ -84,26 +68,11 @@ msgstr ""
 msgid "Cloud"
 msgstr ""
 
-msgid "Combined Profile Update"
-msgstr ""
-
 msgid "Comma seperated file URIs"
 msgstr ""
 
-msgid "Copy version units to library"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
 msgstr ""
-
-msgid "Create"
-msgstr "Vytvořit"
-
-msgid "Create Export History"
-msgstr ""
-
-msgid "Create Import History"
-msgstr ""
-
-msgid "Create Package Group"
-msgstr "Vytvořit skupinu balíčků"
 
 msgid "Custom Script Command"
 msgstr ""
@@ -114,113 +83,23 @@ msgstr ""
 msgid "Default ReadWrite"
 msgstr ""
 
-msgid "Delete"
-msgstr "Smazat"
-
-msgid "Delete Activation Key"
-msgstr "Smazat aktivační klíč"
-
-msgid "Delete Lifecycle Environment"
-msgstr "Smazat prostředí životního cyklu"
-
-msgid "Delete Package Group"
-msgstr "Smazat skupinu balíčků"
-
-msgid "Delete Product"
-msgstr "Smazat produkt"
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr ""
-
-msgid "Destroy"
-msgstr "Zničit"
-
-msgid "Destroy Content Host"
-msgstr ""
-
-msgid "Disable"
-msgstr "Vypnout"
-
-msgid "Discover"
-msgstr "Objevit"
 
 msgid "Does this image support user data input?"
 msgstr "Podporuje tento obraz vstup dat od uživatele?"
 
-msgid "Enable"
-msgstr "Zapnout"
-
-msgid "Errata mail"
-msgstr ""
-
-msgid "Export"
-msgstr "Export"
-
-msgid "Export Library"
-msgstr ""
-
-msgid "Fetch pxe files"
-msgstr "Stáhnout pxe soubory"
-
-msgid "Filtered index content"
-msgstr ""
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr ""
 
-msgid "Generate host applicability"
-msgstr ""
-
-msgid "Generate repository applicability"
-msgstr ""
-
-msgid "Hypervisors"
-msgstr "Hypervizory"
-
-msgid "Hypervisors update"
-msgstr "Aktualizace hypervizoru"
-
 msgid "Image"
 msgstr "Obraz"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Import Content View Version"
-msgstr ""
-
-msgid "Import Default Content View"
-msgstr ""
 
 msgid "Import Puppet classes"
 msgstr "Importovat Puppet třídy"
 
 msgid "Import facts"
 msgstr "Importovat fakta"
-
-msgid "Incremental Update"
-msgstr "Postupná aktualizace"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
-
-msgid "Index content"
-msgstr "Obsah rejstříku"
-
-msgid "Index errata"
-msgstr ""
-
-msgid "Index module streams"
-msgstr ""
-
-msgid "Index package groups"
-msgstr ""
-
-msgid "Install Applicable Errata"
-msgstr ""
-
-msgid "Instance update"
-msgstr "Aktualizace instance"
 
 msgid "Leave empty to use default image size"
 msgstr ""
@@ -239,9 +118,6 @@ msgstr ""
 
 msgid "Override OS Disk Size (GB)"
 msgstr ""
-
-msgid "Package Profile Update"
-msgstr "Aktualizace profilu balíčku"
 
 msgid "Password"
 msgstr "Heslo"
@@ -264,32 +140,14 @@ msgstr "Vyberte obraz"
 msgid "Premium OS Disk"
 msgstr ""
 
-msgid "Product Create"
-msgstr "Vytvořit produkt"
-
-msgid "Promote"
-msgstr "Povýšit"
-
-msgid "Promotion to Environment"
-msgstr "Povýšení do prostředí"
-
 msgid "Properties"
 msgstr "Vlastnosti"
 
 msgid "Public IP"
 msgstr ""
 
-msgid "Publish"
-msgstr "Zveřejnit"
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr ""
-
 msgid "Region"
 msgstr "Oblast"
-
-msgid "Reindex subscriptions"
-msgstr ""
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
@@ -297,32 +155,8 @@ msgstr ""
 msgid "Remote action:"
 msgstr "Akce na protějšku:"
 
-msgid "Remove Content"
-msgstr "Odebrat obsah"
-
-msgid "Remove Version"
-msgstr "Verze na protějšku"
-
-msgid "Remove Versions and Associations"
-msgstr ""
-
-msgid "Remove from Environment"
-msgstr "Odebrat z prostředí"
-
-msgid "Remove subscriptions"
-msgstr "Odebrat předplatné"
-
-msgid "Report"
-msgstr "Výkaz"
-
-msgid "Republish Version Repositories"
-msgstr "Znovu zveřejnit repozitáře verze"
-
 msgid "Resource Group"
 msgstr ""
-
-msgid "Run Sync Plan:"
-msgstr "Spustit synchronizační plán:"
 
 msgid "SSH Key"
 msgstr ""
@@ -348,15 +182,6 @@ msgstr "Identifikátor předplatného"
 msgid "Subscription ID for AzureRm"
 msgstr ""
 
-msgid "Sync capsule"
-msgstr ""
-
-msgid "Synchronize"
-msgstr "Synchronizovat"
-
-msgid "Synchronize smart proxy"
-msgstr ""
-
 msgid "Tenant ID"
 msgstr ""
 
@@ -375,44 +200,14 @@ msgstr ""
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
-msgid "Update"
-msgstr "Aktualizovat"
-
-msgid "Update Content Overrides"
-msgstr "Aktualizovat přepsání obsahu"
-
-msgid "Update content urls"
-msgstr "Aktualizovat url adresy obsahu"
-
-msgid "Update for host"
-msgstr "Aktualizace pro stroj"
-
-msgid "Update http proxy"
-msgstr ""
-
-msgid "Update http proxy details"
-msgstr ""
-
-msgid "Update redhat repository"
-msgstr "Aktualizovat redhat repozitář"
-
-msgid "Update release version for host"
-msgstr "Aktualizovat verzi vydání pro stroj"
-
-msgid "Updating System Purpose for host"
-msgstr ""
-
-msgid "Upload errata into"
-msgstr ""
-
-msgid "Upload into"
-msgstr "Nahrát do"
-
 msgid "Username"
 msgstr "Uživatelské jméno"
 
 msgid "VM Size"
 msgstr ""
 
-msgid "Verify checksum"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
 msgstr ""

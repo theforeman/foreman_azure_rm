@@ -53,7 +53,7 @@ module ForemanAzureRm
     def sdk
       @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, azure_environment)
     end
-    
+
     def to_label
       "#{name} (#{provider_friendly_name})"
     end
@@ -64,13 +64,13 @@ module ForemanAzureRm
 
     def validate_region
       return unless regions.present?
-      errors.add(:region, "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.") unless regions.collect(&:second).include?(region)
+      errors.add(:region, _("is not valid, must be lowercase eg. 'eastus'. No special characters allowed.")) unless regions.collect(&:second).include?(region)
     end
 
     def validate_cloud?
       valid_clouds = ['azure', 'azureusgovernment', 'azurechina', 'azuregermancloud']
       unless valid_clouds.include?(cloud)
-      	errors.add(:cloud, "is not valid. Valid choices are #{valid_clouds.join(", ")}.")
+      	errors.add(:cloud, _("is not valid. Valid choices are %s.") % valid_clouds.join(", "))
 	      return false
       end
       true

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-13 18:56+0100\n"
-"PO-Revision-Date: 2022-12-13 18:56+0100\n"
+"POT-Creation-Date: 2023-05-11 14:47+0200\n"
+"PO-Revision-Date: 2023-05-11 14:47+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -60,6 +60,14 @@ msgstr ""
 
 #: ../app/helpers/azure_compute_resource_helper.rb:11
 msgid "Load Regions"
+msgstr ""
+
+#: ../app/models/foreman_azure_rm/azure_rm.rb:67
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+#: ../app/models/foreman_azure_rm/azure_rm.rb:73
+msgid "is not valid. Valid choices are %s."
 msgstr ""
 
 #: ../app/models/foreman_azure_rm/azure_rm_compute.rb:154
@@ -132,6 +140,7 @@ msgid "Leave empty to use default image size"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/azurerm/_base.html.erb:167
+#: ../app/views/compute_resources_vms/form/azurerm/_volume.html.erb:14
 msgid "Azure's Default"
 msgstr ""
 
@@ -205,10 +214,6 @@ msgstr ""
 msgid ""
 "Additional number of disks can be added based on VM Size. For more details, pl"
 "ease refer to Microsoft Azure's documentation"
-msgstr ""
-
-#: ../app/views/compute_resources_vms/form/azurerm/_volume.html.erb:14
-msgid "Azure's default"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/azurerm/_volume.html.erb:17

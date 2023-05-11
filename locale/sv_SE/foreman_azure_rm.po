@@ -7,7 +7,6 @@
 # Mikael Fridh <frimik@gmail.com>, 2020
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2021
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -25,9 +24,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr ""
 
-msgid "Abstract async task"
-msgstr ""
-
 msgid "Action with sub plans"
 msgstr ""
 
@@ -35,15 +31,6 @@ msgid "Actions"
 msgstr "Åtgärder"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
-msgstr ""
-
-msgid "Agent action"
-msgstr ""
-
-msgid "Attach subscriptions"
-msgstr ""
-
-msgid "Auto attach subscriptions"
 msgstr ""
 
 msgid "Azure Image Name"
@@ -58,13 +45,10 @@ msgstr ""
 msgid "Azure Subnet"
 msgstr ""
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
-msgstr ""
-
-msgid "Azure's default"
-msgstr ""
-
-msgid "Bulk generate applicability for hosts"
 msgstr ""
 
 msgid "Client ID"
@@ -82,25 +66,10 @@ msgstr ""
 msgid "Cloud"
 msgstr ""
 
-msgid "Combined Profile Update"
-msgstr ""
-
 msgid "Comma seperated file URIs"
 msgstr ""
 
-msgid "Copy version units to library"
-msgstr ""
-
-msgid "Create"
-msgstr ""
-
-msgid "Create Export History"
-msgstr ""
-
-msgid "Create Import History"
-msgstr ""
-
-msgid "Create Package Group"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
 msgstr ""
 
 msgid "Custom Script Command"
@@ -112,112 +81,22 @@ msgstr ""
 msgid "Default ReadWrite"
 msgstr ""
 
-msgid "Delete"
-msgstr "Radera"
-
-msgid "Delete Activation Key"
-msgstr ""
-
-msgid "Delete Lifecycle Environment"
-msgstr ""
-
-msgid "Delete Package Group"
-msgstr ""
-
-msgid "Delete Product"
-msgstr ""
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-msgstr ""
-
-msgid "Destroy"
-msgstr "Förstör"
-
-msgid "Destroy Content Host"
-msgstr ""
-
-msgid "Disable"
-msgstr ""
-
-msgid "Discover"
 msgstr ""
 
 msgid "Does this image support user data input?"
 msgstr ""
 
-msgid "Enable"
-msgstr ""
-
-msgid "Errata mail"
-msgstr ""
-
-msgid "Export"
-msgstr ""
-
-msgid "Export Library"
-msgstr ""
-
-msgid "Fetch pxe files"
-msgstr ""
-
-msgid "Filtered index content"
-msgstr ""
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
-msgstr ""
-
-msgid "Generate host applicability"
-msgstr ""
-
-msgid "Generate repository applicability"
-msgstr ""
-
-msgid "Hypervisors"
-msgstr ""
-
-msgid "Hypervisors update"
 msgstr ""
 
 msgid "Image"
 msgstr "Avbildning"
 
-msgid "Import"
-msgstr "Importera"
-
-msgid "Import Content View Version"
-msgstr ""
-
-msgid "Import Default Content View"
-msgstr ""
-
 msgid "Import Puppet classes"
 msgstr ""
 
 msgid "Import facts"
-msgstr ""
-
-msgid "Incremental Update"
-msgstr ""
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
-
-msgid "Index content"
-msgstr ""
-
-msgid "Index errata"
-msgstr ""
-
-msgid "Index module streams"
-msgstr ""
-
-msgid "Index package groups"
-msgstr ""
-
-msgid "Install Applicable Errata"
-msgstr ""
-
-msgid "Instance update"
 msgstr ""
 
 msgid "Leave empty to use default image size"
@@ -236,9 +115,6 @@ msgid "OS Disk Caching"
 msgstr ""
 
 msgid "Override OS Disk Size (GB)"
-msgstr ""
-
-msgid "Package Profile Update"
 msgstr ""
 
 msgid "Password"
@@ -262,32 +138,14 @@ msgstr "Vänligen välj en avbildning"
 msgid "Premium OS Disk"
 msgstr ""
 
-msgid "Product Create"
-msgstr ""
-
-msgid "Promote"
-msgstr ""
-
-msgid "Promotion to Environment"
-msgstr ""
-
 msgid "Properties"
 msgstr "Egenskaper"
 
 msgid "Public IP"
 msgstr ""
 
-msgid "Publish"
-msgstr ""
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr ""
-
 msgid "Region"
 msgstr "Region"
-
-msgid "Reindex subscriptions"
-msgstr ""
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
@@ -295,31 +153,7 @@ msgstr ""
 msgid "Remote action:"
 msgstr ""
 
-msgid "Remove Content"
-msgstr ""
-
-msgid "Remove Version"
-msgstr ""
-
-msgid "Remove Versions and Associations"
-msgstr ""
-
-msgid "Remove from Environment"
-msgstr ""
-
-msgid "Remove subscriptions"
-msgstr ""
-
-msgid "Report"
-msgstr "Rapport"
-
-msgid "Republish Version Repositories"
-msgstr ""
-
 msgid "Resource Group"
-msgstr ""
-
-msgid "Run Sync Plan:"
 msgstr ""
 
 msgid "SSH Key"
@@ -346,15 +180,6 @@ msgstr ""
 msgid "Subscription ID for AzureRm"
 msgstr ""
 
-msgid "Sync capsule"
-msgstr ""
-
-msgid "Synchronize"
-msgstr ""
-
-msgid "Synchronize smart proxy"
-msgstr ""
-
 msgid "Tenant ID"
 msgstr ""
 
@@ -373,44 +198,14 @@ msgstr ""
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr ""
 
-msgid "Update"
-msgstr "Uppdatera"
-
-msgid "Update Content Overrides"
-msgstr ""
-
-msgid "Update content urls"
-msgstr ""
-
-msgid "Update for host"
-msgstr ""
-
-msgid "Update http proxy"
-msgstr ""
-
-msgid "Update http proxy details"
-msgstr ""
-
-msgid "Update redhat repository"
-msgstr ""
-
-msgid "Update release version for host"
-msgstr ""
-
-msgid "Updating System Purpose for host"
-msgstr ""
-
-msgid "Upload errata into"
-msgstr ""
-
-msgid "Upload into"
-msgstr ""
-
 msgid "Username"
 msgstr "Användarnamn"
 
 msgid "VM Size"
 msgstr ""
 
-msgid "Verify checksum"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
 msgstr ""

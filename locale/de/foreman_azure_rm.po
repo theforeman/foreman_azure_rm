@@ -14,7 +14,6 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2021
 # Patrick Dolinic, 2021
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -31,9 +30,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} VM-Größe"
 
-msgid "Abstract async task"
-msgstr "Übersicht asynchrone Task"
-
 msgid "Action with sub plans"
 msgstr "Aktion mit Unterplänen"
 
@@ -42,15 +38,6 @@ msgstr "Aktionen"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr "Je nach VM-Größe kann eine zusätzliche Anzahl von Festplatten hinzugefügt werden. Weitere Informationen finden Sie in der Dokumentation von Microsoft Azure"
-
-msgid "Agent action"
-msgstr "Agentenaktion"
-
-msgid "Attach subscriptions"
-msgstr "Subskriptionen verknüpfen"
-
-msgid "Auto attach subscriptions"
-msgstr "Subskriptionen automatisch verknüpfen"
 
 msgid "Azure Image Name"
 msgstr "Azure-Image-Name"
@@ -64,14 +51,11 @@ msgstr "Azure Resource Manager als Computing-Ressource für Foreman"
 msgid "Azure Subnet"
 msgstr "Azure-Subnetz"
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
 msgstr "Azures Standard"
-
-msgid "Azure's default"
-msgstr "Azures Standard"
-
-msgid "Bulk generate applicability for hosts"
-msgstr "Anwendbarkeit von Massengenerierung für Hosts"
 
 msgid "Client ID"
 msgstr "Client ID"
@@ -88,26 +72,11 @@ msgstr "Clientgeheimnis für AzureRm"
 msgid "Cloud"
 msgstr "Cloud"
 
-msgid "Combined Profile Update"
-msgstr "Kombiniertes Profil-Update"
-
 msgid "Comma seperated file URIs"
 msgstr "Durch Kommas getrennte Datei-URIs"
 
-msgid "Copy version units to library"
-msgstr "Versionseinheiten in Bibliothek kopieren"
-
-msgid "Create"
-msgstr "Erstellen"
-
-msgid "Create Export History"
-msgstr "Exportverlauf erstellen"
-
-msgid "Create Import History"
-msgstr "Importverlauf erstellen"
-
-msgid "Create Package Group"
-msgstr "Paketgruppe erstellen"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
+msgstr ""
 
 msgid "Custom Script Command"
 msgstr "Benutzerdefinierter Skriptbefehl"
@@ -118,113 +87,23 @@ msgstr "Caching von Datenträgern"
 msgid "Default ReadWrite"
 msgstr "Standard ReadWrite"
 
-msgid "Delete"
-msgstr "Löschen"
-
-msgid "Delete Activation Key"
-msgstr "Aktivierungsschlüssel löschen"
-
-msgid "Delete Lifecycle Environment"
-msgstr "Lebenszyklusumgebung löschen"
-
-msgid "Delete Package Group"
-msgstr "Paketgruppe löschen"
-
-msgid "Delete Product"
-msgstr "Produkt löschen"
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr "Bereitstellen von NVIDIA-GPU-Treiber und CUDA (Azure-Erweiterung Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-
-msgid "Destroy"
-msgstr "Löschen"
-
-msgid "Destroy Content Host"
-msgstr "Inhaltshost löschen"
-
-msgid "Disable"
-msgstr "Deaktivieren"
-
-msgid "Discover"
-msgstr "Suchen"
 
 msgid "Does this image support user data input?"
 msgstr "Unterstützt dieses Image die Eingabe von Benutzerdaten?"
 
-msgid "Enable"
-msgstr "Aktivieren"
-
-msgid "Errata mail"
-msgstr "Errata-E-Mail"
-
-msgid "Export"
-msgstr "Export"
-
-msgid "Export Library"
-msgstr "Bibliothek exportieren"
-
-msgid "Fetch pxe files"
-msgstr "pxe-Dateien abrufen"
-
-msgid "Filtered index content"
-msgstr "Indexinhalt gefiltert"
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr "Verwenden Sie für benutzerdefinierte oder freigegebene Galeriebilder das Präfix \"custom://\" oder \"gallery://\". Bei öffentlichen und RHEL-byos-Images stellen Sie der uuid 'marketplace://' voran. (z. B. 'marketplace://OpenLogic:CentOS:7.5:latest' oder 'custom://image-name')"
 
-msgid "Generate host applicability"
-msgstr "Hostanwendbarkeit generieren"
-
-msgid "Generate repository applicability"
-msgstr "Repository-Anwendbarkeit generieren"
-
-msgid "Hypervisors"
-msgstr "Hypervisoren"
-
-msgid "Hypervisors update"
-msgstr "Hypervisoren aktualisieren"
-
 msgid "Image"
 msgstr "Image"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Import Content View Version"
-msgstr "Inhaltsansichtsversion importieren"
-
-msgid "Import Default Content View"
-msgstr "Standardinhaltsansicht importieren"
 
 msgid "Import Puppet classes"
 msgstr "Puppet-Klassen importieren"
 
 msgid "Import facts"
 msgstr "Fakten importieren"
-
-msgid "Incremental Update"
-msgstr "Inkrementelle Aktualisierung"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr "Inkrementelle Aktualisierung der Inhaltsansichtsversion(en)"
-
-msgid "Index content"
-msgstr "Inhalt indizieren"
-
-msgid "Index errata"
-msgstr "Errata indizieren"
-
-msgid "Index module streams"
-msgstr "Modulströme indexieren"
-
-msgid "Index package groups"
-msgstr "Paketgruppen indizieren"
-
-msgid "Install Applicable Errata"
-msgstr "Relevante Errata installieren"
-
-msgid "Instance update"
-msgstr "Instanz-Update"
 
 msgid "Leave empty to use default image size"
 msgstr "Leer lassen, um die Standardbildgröße zu verwenden"
@@ -243,9 +122,6 @@ msgstr "Caching von Betriebssystem-Festplatten"
 
 msgid "Override OS Disk Size (GB)"
 msgstr "Betriebssystem-Festplattengröße (GB) überschreiben"
-
-msgid "Package Profile Update"
-msgstr "Paketprofil-Update"
 
 msgid "Password"
 msgstr "Passwort"
@@ -268,32 +144,14 @@ msgstr "bitte ein Abbild auswählen"
 msgid "Premium OS Disk"
 msgstr "Premium-OS-Festplatte"
 
-msgid "Product Create"
-msgstr "Produkt erstellen"
-
-msgid "Promote"
-msgstr "Übertragen"
-
-msgid "Promotion to Environment"
-msgstr "Promotion des Environments"
-
 msgid "Properties"
 msgstr "Eigenschaften"
 
 msgid "Public IP"
 msgstr "Öffentliche IP"
 
-msgid "Publish"
-msgstr "Veröffentlichen"
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr "Lebenszyklusumgebungs-Repositorys veröffentlichen"
-
 msgid "Region"
 msgstr "Region"
-
-msgid "Reindex subscriptions"
-msgstr "Subskriptionen neu indizieren"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr "Bilder, Größen, vNets neu laden"
@@ -301,32 +159,8 @@ msgstr "Bilder, Größen, vNets neu laden"
 msgid "Remote action:"
 msgstr "Entfernte Aktion:"
 
-msgid "Remove Content"
-msgstr "Inhalt entfernen"
-
-msgid "Remove Version"
-msgstr "Version entfernen"
-
-msgid "Remove Versions and Associations"
-msgstr "Versionen und Verknüpfungen entfernen"
-
-msgid "Remove from Environment"
-msgstr "Aus Umgebung entfernen"
-
-msgid "Remove subscriptions"
-msgstr "Subskriptionen entfernen"
-
-msgid "Report"
-msgstr "Melden"
-
-msgid "Republish Version Repositories"
-msgstr "Versions-Repositorys erneut veröffentlichen"
-
 msgid "Resource Group"
 msgstr "Ressourcengruppe"
-
-msgid "Run Sync Plan:"
-msgstr "Synchronisierungsplan ausführen:"
 
 msgid "SSH Key"
 msgstr "SSH-Schlüssel"
@@ -352,15 +186,6 @@ msgstr "Subskriptions-ID"
 msgid "Subscription ID for AzureRm"
 msgstr "Abonnement-ID für AzureRm"
 
-msgid "Sync capsule"
-msgstr "Kapsel synchronisieren"
-
-msgid "Synchronize"
-msgstr "Synchronisieren"
-
-msgid "Synchronize smart proxy"
-msgstr "Smart-Proxy synchronisieren"
-
 msgid "Tenant ID"
 msgstr "Tenant-ID"
 
@@ -379,44 +204,14 @@ msgstr "Der Benutzer, der verwendet wird, um zur Vervollständigung eine SSH-Ver
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr "Um Befehle als Root auszuführen, stellen Sie ihm 'sudo' voran"
 
-msgid "Update"
-msgstr "Aktualisieren"
-
-msgid "Update Content Overrides"
-msgstr "Inhaltsüberschreibungen aktualisieren"
-
-msgid "Update content urls"
-msgstr "Inhalts-URLs aktualisieren"
-
-msgid "Update for host"
-msgstr "Update für Host"
-
-msgid "Update http proxy"
-msgstr "HTTP-Proxy aktualisieren"
-
-msgid "Update http proxy details"
-msgstr "HTTP-Proxy-Details aktualisieren"
-
-msgid "Update redhat repository"
-msgstr "Redhat-Repository aktualisieren"
-
-msgid "Update release version for host"
-msgstr "Release-Version für Host aktualisieren"
-
-msgid "Updating System Purpose for host"
-msgstr "Aktualisieren des Systemzwecks für den Host"
-
-msgid "Upload errata into"
-msgstr "Errata hochladen in"
-
-msgid "Upload into"
-msgstr "Hochgeladen in"
-
 msgid "Username"
 msgstr "Benutzername"
 
 msgid "VM Size"
 msgstr "VM-Größe"
 
-msgid "Verify checksum"
-msgstr "Prüfsumme überprüfen"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
+msgstr ""

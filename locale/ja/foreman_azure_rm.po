@@ -9,7 +9,6 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2021
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -26,9 +25,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} 仮想マシンサイズ"
 
-msgid "Abstract async task"
-msgstr "非同期タスクの抽象化"
-
 msgid "Action with sub plans"
 msgstr "サブプランによるアクション"
 
@@ -37,15 +33,6 @@ msgstr "アクション"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください。"
-
-msgid "Agent action"
-msgstr "エージェントのアクション"
-
-msgid "Attach subscriptions"
-msgstr "サブスクリプションの割り当て"
-
-msgid "Auto attach subscriptions"
-msgstr "サブスクリプションの自動割り当て"
 
 msgid "Azure Image Name"
 msgstr "Azure イメージ名"
@@ -59,14 +46,11 @@ msgstr "Foreman のコンピュートリソースとしての Azure Resource Man
 msgid "Azure Subnet"
 msgstr "Azure サブネット"
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
 msgstr "Azure のデフォルト"
-
-msgid "Azure's default"
-msgstr "Azure のデフォルト"
-
-msgid "Bulk generate applicability for hosts"
-msgstr "ホストに適用可能なエラータを一括生成します"
 
 msgid "Client ID"
 msgstr "クライアント ID"
@@ -83,26 +67,11 @@ msgstr "AzureRm のクライアントシークレット"
 msgid "Cloud"
 msgstr "クラウド"
 
-msgid "Combined Profile Update"
-msgstr "統合プロファイルの更新"
-
 msgid "Comma seperated file URIs"
 msgstr "コンマ区切りファイル URI"
 
-msgid "Copy version units to library"
-msgstr "バージョンユニットのライブラリーへのコピー"
-
-msgid "Create"
-msgstr "作成"
-
-msgid "Create Export History"
-msgstr "エクスポート履歴の作成"
-
-msgid "Create Import History"
-msgstr "インポート履歴の作成"
-
-msgid "Create Package Group"
-msgstr "パッケージグループの作成"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
+msgstr ""
 
 msgid "Custom Script Command"
 msgstr "カスタムスクリプトコマンド"
@@ -113,113 +82,23 @@ msgstr "データディスクのキャッシング"
 msgid "Default ReadWrite"
 msgstr "デフォルトの読み取り/書き込み"
 
-msgid "Delete"
-msgstr "削除"
-
-msgid "Delete Activation Key"
-msgstr "アクティベーションキーの削除"
-
-msgid "Delete Lifecycle Environment"
-msgstr "ライフサイクル環境の削除"
-
-msgid "Delete Package Group"
-msgstr "パッケージグループの削除"
-
-msgid "Delete Product"
-msgstr "製品の削除"
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr "NVIDIA GPU ドライバイーおよび CUDA をデプロイする (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-
-msgid "Destroy"
-msgstr "破棄"
-
-msgid "Destroy Content Host"
-msgstr "コンテンツホストの破棄"
-
-msgid "Disable"
-msgstr "無効化"
-
-msgid "Discover"
-msgstr "検出"
 
 msgid "Does this image support user data input?"
 msgstr "このイメージはユーザーのデータ入力に対応しますか?"
 
-msgid "Enable"
-msgstr "有効化"
-
-msgid "Errata mail"
-msgstr "エラータメール"
-
-msgid "Export"
-msgstr "エクスポート"
-
-msgid "Export Library"
-msgstr "ライブラリーのエクスポート"
-
-msgid "Fetch pxe files"
-msgstr "PXE ファイルの取得"
-
-msgid "Filtered index content"
-msgstr "フィルタリングしたインデックスコンテンツ"
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')。"
 
-msgid "Generate host applicability"
-msgstr "ホストに適用可能なエラータを生成します"
-
-msgid "Generate repository applicability"
-msgstr "リポジトリーに適用可能なエラータを生成します"
-
-msgid "Hypervisors"
-msgstr "ハイパーバイザー"
-
-msgid "Hypervisors update"
-msgstr "ハイパーバイザーの更新"
-
 msgid "Image"
 msgstr "イメージ"
-
-msgid "Import"
-msgstr "インポート"
-
-msgid "Import Content View Version"
-msgstr "コンテンツビューバージョンのインポート"
-
-msgid "Import Default Content View"
-msgstr "デフォルトのコンテンツビューのインポート"
 
 msgid "Import Puppet classes"
 msgstr "Puppet クラスのインポート"
 
 msgid "Import facts"
 msgstr "ファクトのインポート"
-
-msgid "Incremental Update"
-msgstr "増分更新"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr "コンテンツビューバージョンの増分更新 "
-
-msgid "Index content"
-msgstr "コンテンツのインデックス作成"
-
-msgid "Index errata"
-msgstr "エラータのインデックス作成"
-
-msgid "Index module streams"
-msgstr "モジュールストリームのインデックス作成"
-
-msgid "Index package groups"
-msgstr "パッケージグループのインデックス作成"
-
-msgid "Install Applicable Errata"
-msgstr "適用可能なエラータのインストール"
-
-msgid "Instance update"
-msgstr "インスタンスの更新"
 
 msgid "Leave empty to use default image size"
 msgstr "デフォルトのイメージサイズを使用するには空のままにします"
@@ -238,9 +117,6 @@ msgstr "OS ディスクキャッシング"
 
 msgid "Override OS Disk Size (GB)"
 msgstr "OS ディスクサイズ (GB) の上書き"
-
-msgid "Package Profile Update"
-msgstr "パッケージプロファイルの更新"
 
 msgid "Password"
 msgstr "パスワード"
@@ -263,32 +139,14 @@ msgstr "イメージを選択してください"
 msgid "Premium OS Disk"
 msgstr "プレミアム OS ディスク"
 
-msgid "Product Create"
-msgstr "製品の作成"
-
-msgid "Promote"
-msgstr "プロモート"
-
-msgid "Promotion to Environment"
-msgstr "環境へのプロモート"
-
 msgid "Properties"
 msgstr "プロパティー"
 
 msgid "Public IP"
 msgstr "パブリック IP"
 
-msgid "Publish"
-msgstr "公開"
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr "ライフサイクル環境リポジトリーの公開"
-
 msgid "Region"
 msgstr "リージョン"
-
-msgid "Reindex subscriptions"
-msgstr "サブスクリプションのインデックス再作成"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr "イメージ、サイズ、vNet の再読み込み"
@@ -296,32 +154,8 @@ msgstr "イメージ、サイズ、vNet の再読み込み"
 msgid "Remote action:"
 msgstr "リモートアクション:"
 
-msgid "Remove Content"
-msgstr "コンテンツの削除"
-
-msgid "Remove Version"
-msgstr "バージョンの削除"
-
-msgid "Remove Versions and Associations"
-msgstr "バージョンおよび関連付けの削除"
-
-msgid "Remove from Environment"
-msgstr "環境からの削除"
-
-msgid "Remove subscriptions"
-msgstr "サブスクリプションの削除"
-
-msgid "Report"
-msgstr "レポート"
-
-msgid "Republish Version Repositories"
-msgstr "バージョンリポジトリーの再公開"
-
 msgid "Resource Group"
 msgstr "リソースグループ"
-
-msgid "Run Sync Plan:"
-msgstr "同期プランの実行:"
 
 msgid "SSH Key"
 msgstr "SSH キー"
@@ -347,15 +181,6 @@ msgstr "サブスクリプション ID"
 msgid "Subscription ID for AzureRm"
 msgstr "AzureRm のサブスクリプション ID"
 
-msgid "Sync capsule"
-msgstr "Capsule の同期"
-
-msgid "Synchronize"
-msgstr "同期"
-
-msgid "Synchronize smart proxy"
-msgstr "Smart Proxy の同期"
-
 msgid "Tenant ID"
 msgstr "テナント ID"
 
@@ -374,44 +199,14 @@ msgstr "仮想マシンで SSH 接続して完了するときに使用するユ�
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr "root としてコマンドを実行するには、接頭辞として「sudo」を付けます"
 
-msgid "Update"
-msgstr "更新"
-
-msgid "Update Content Overrides"
-msgstr "コンテンツ上書きの更新"
-
-msgid "Update content urls"
-msgstr "コンテンツ url の更新"
-
-msgid "Update for host"
-msgstr "ホストの更新"
-
-msgid "Update http proxy"
-msgstr "http プロキシーの更新"
-
-msgid "Update http proxy details"
-msgstr "HTTP プロキシーの詳細更新"
-
-msgid "Update redhat repository"
-msgstr "redhat リポジトリーの更新"
-
-msgid "Update release version for host"
-msgstr "ホストのリリースバージョンの更新"
-
-msgid "Updating System Purpose for host"
-msgstr "ホストのシステム目的を更新中"
-
-msgid "Upload errata into"
-msgstr "エラータのアップロード:"
-
-msgid "Upload into"
-msgstr "アップロード先"
-
 msgid "Username"
 msgstr "ユーザー名"
 
 msgid "VM Size"
 msgstr "仮想マシンサイズ"
 
-msgid "Verify checksum"
-msgstr "チェックサムの確認"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
+msgstr ""
