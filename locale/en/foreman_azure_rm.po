@@ -47,9 +47,6 @@ msgstr ""
 msgid "Azure's Default"
 msgstr ""
 
-msgid "Azure's default"
-msgstr ""
-
 msgid "Client ID"
 msgstr ""
 
@@ -201,4 +198,10 @@ msgid "Username"
 msgstr ""
 
 msgid "VM Size"
+msgstr ""
+
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
 msgstr ""

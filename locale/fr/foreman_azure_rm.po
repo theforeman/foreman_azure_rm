@@ -10,7 +10,6 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2021
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 2.2.8\n"
@@ -28,9 +27,6 @@ msgstr ""
 msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} VM Size"
 
-msgid "Abstract async task"
-msgstr "Tâche async abstraite"
-
 msgid "Action with sub plans"
 msgstr "Action avec sous-plans"
 
@@ -39,15 +35,6 @@ msgstr "Actions"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
 msgstr "Un nombre supplémentaire de disques peut être ajouté en fonction de la taille de la VM. Pour plus de détails, veuillez vous référer à la documentation de Microsoft Azure"
-
-msgid "Agent action"
-msgstr "Action de l'agent"
-
-msgid "Attach subscriptions"
-msgstr "Attacher abonnements"
-
-msgid "Auto attach subscriptions"
-msgstr "Attacher automatiquement des abonnements"
 
 msgid "Azure Image Name"
 msgstr "Nom Image Azure Image"
@@ -61,14 +48,11 @@ msgstr "Azure Resource Manager comme ressource de calcul pour Foreman"
 msgid "Azure Subnet"
 msgstr "Sous-réseau Azure"
 
+msgid "Azure Tags"
+msgstr ""
+
 msgid "Azure's Default"
 msgstr "Azure par défaut"
-
-msgid "Azure's default"
-msgstr "Azure par défaut"
-
-msgid "Bulk generate applicability for hosts"
-msgstr "La masse génère l'applicabilité pour les hôtes"
 
 msgid "Client ID"
 msgstr "ID client"
@@ -85,26 +69,11 @@ msgstr "Secret de client pour AzureRm"
 msgid "Cloud"
 msgstr "Cloud"
 
-msgid "Combined Profile Update"
-msgstr "Mise à jour de profil combiné"
-
 msgid "Comma seperated file URIs"
 msgstr "Fichier URI séparé par des virgules"
 
-msgid "Copy version units to library"
-msgstr "Copier les unités de version dans la bibliothèque"
-
-msgid "Create"
-msgstr "Créer"
-
-msgid "Create Export History"
-msgstr "Créer un historique des exportations"
-
-msgid "Create Import History"
-msgstr "Créer un historique des importations"
-
-msgid "Create Package Group"
-msgstr "Créer un groupe de packages"
+msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
+msgstr ""
 
 msgid "Custom Script Command"
 msgstr "Commande de script personnalisé"
@@ -115,113 +84,23 @@ msgstr "Mise en cache des disques de données"
 msgid "Default ReadWrite"
 msgstr "ReadWrite par défaut"
 
-msgid "Delete"
-msgstr "Supprimer"
-
-msgid "Delete Activation Key"
-msgstr "Supprimer la clé d'activation"
-
-msgid "Delete Lifecycle Environment"
-msgstr "Supprimer l'environnement de cycle de vie"
-
-msgid "Delete Package Group"
-msgstr "Supprimer le groupe de packages"
-
-msgid "Delete Product"
-msgstr "Supprimer le produit"
-
 msgid "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
 msgstr "Déployer le pilote GPU NVIDIA et CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-
-msgid "Destroy"
-msgstr "Détruire"
-
-msgid "Destroy Content Host"
-msgstr "Détruire l'hôte du contenu"
-
-msgid "Disable"
-msgstr "Désactiver"
-
-msgid "Discover"
-msgstr "Discover"
 
 msgid "Does this image support user data input?"
 msgstr "Cette image prend-t-elle en charge l'entrée de données utilisateur ?"
 
-msgid "Enable"
-msgstr "Activer"
-
-msgid "Errata mail"
-msgstr "Courrier d'errata"
-
-msgid "Export"
-msgstr "Exporter"
-
-msgid "Export Library"
-msgstr "Exporter Bibliothèque"
-
-msgid "Fetch pxe files"
-msgstr "Récupérer les fichiers pxe"
-
-msgid "Filtered index content"
-msgstr "Contenu d'index filtré"
-
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
 msgstr "Pour une image de galerie personnalisée ou partagée, utilisez le préfixe 'custom://' ou 'gallery://'. Pour les images publiques et RHEL-byos, préfixez l'uuid avec 'marketplace://'. (par exemple, 'marketplace://OpenLogic:CentOS:7.5:latest' ou 'custom://image-name')"
 
-msgid "Generate host applicability"
-msgstr "Générer l'applicabilité à l'hôte"
-
-msgid "Generate repository applicability"
-msgstr "Générer l'applicabilité du référentiel"
-
-msgid "Hypervisors"
-msgstr "Hyperviseurs"
-
-msgid "Hypervisors update"
-msgstr "Mise à jour des hyperviseurs"
-
 msgid "Image"
 msgstr "Image"
-
-msgid "Import"
-msgstr "Importation"
-
-msgid "Import Content View Version"
-msgstr "Supprimer la version de l'affichage du contenu"
-
-msgid "Import Default Content View"
-msgstr "Importer la vue du contenu par défaut"
 
 msgid "Import Puppet classes"
 msgstr "Importer des classes Puppet"
 
 msgid "Import facts"
 msgstr "Importer des faits"
-
-msgid "Incremental Update"
-msgstr "Mise à jour croissante"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr "Mise à jour incrémentielle Version(s) d'affichage de contenu"
-
-msgid "Index content"
-msgstr "Contenu d'index"
-
-msgid "Index errata"
-msgstr "Errata d'index"
-
-msgid "Index module streams"
-msgstr "Indexer les flux de module"
-
-msgid "Index package groups"
-msgstr "Indexer les groupes de packages"
-
-msgid "Install Applicable Errata"
-msgstr "Installer des errata applicables"
-
-msgid "Instance update"
-msgstr "Mise à jour de l'instance"
 
 msgid "Leave empty to use default image size"
 msgstr "Laissez vide pour utiliser la taille d'image par défaut"
@@ -240,9 +119,6 @@ msgstr "OS Disk Caching"
 
 msgid "Override OS Disk Size (GB)"
 msgstr "Remplacer la taille du disque du système d'exploitation (GB)"
-
-msgid "Package Profile Update"
-msgstr "Mise à jour du profil du package"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -265,32 +141,14 @@ msgstr "Veuillez sélectionner une image"
 msgid "Premium OS Disk"
 msgstr "Disque Premium OS"
 
-msgid "Product Create"
-msgstr "Créer Produit"
-
-msgid "Promote"
-msgstr "Promouvoir"
-
-msgid "Promotion to Environment"
-msgstr "Promotion à Environnement"
-
 msgid "Properties"
 msgstr "Propriétés"
 
 msgid "Public IP"
 msgstr "IP Publique"
 
-msgid "Publish"
-msgstr "Publier"
-
-msgid "Publish Lifecycle Environment Repositories"
-msgstr "Publier les référentiels d'environnements de cycles de vie"
-
 msgid "Region"
 msgstr "Région"
-
-msgid "Reindex subscriptions"
-msgstr "Ré-indexer les abonnements"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr "Recharger les images, les tailles, les vNets"
@@ -298,32 +156,8 @@ msgstr "Recharger les images, les tailles, les vNets"
 msgid "Remote action:"
 msgstr "Action distante :"
 
-msgid "Remove Content"
-msgstr "Supprimer le contenu"
-
-msgid "Remove Version"
-msgstr "Supprimer la version "
-
-msgid "Remove Versions and Associations"
-msgstr "Supprimer les versions et les associations"
-
-msgid "Remove from Environment"
-msgstr "Supprimer les environnements"
-
-msgid "Remove subscriptions"
-msgstr "Supprimer les abonnements"
-
-msgid "Report"
-msgstr "Rapport"
-
-msgid "Republish Version Repositories"
-msgstr "Publier de nouveau les référentiels de version"
-
 msgid "Resource Group"
 msgstr "Groupe de ressources"
-
-msgid "Run Sync Plan:"
-msgstr "Exécuter Plan Sync :"
 
 msgid "SSH Key"
 msgstr "Clé SSH"
@@ -349,15 +183,6 @@ msgstr "ID d'abonnement"
 msgid "Subscription ID for AzureRm"
 msgstr "ID d'abonnement pour AzureRm"
 
-msgid "Sync capsule"
-msgstr "Sync capsule"
-
-msgid "Synchronize"
-msgstr "Synchroniser"
-
-msgid "Synchronize smart proxy"
-msgstr "Synchroniser le smart proxy"
-
 msgid "Tenant ID"
 msgstr "ID Tenant"
 
@@ -376,44 +201,14 @@ msgstr "L'utilisateur qui sera utilisé pour SSH dans la VM pour compléter la t
 msgid "To perform commands as root, prefix it with 'sudo'"
 msgstr "Pour exécuter des commandes en tant que root, préfixez par \"sudo\""
 
-msgid "Update"
-msgstr "Mise à jour"
-
-msgid "Update Content Overrides"
-msgstr "Mettre à jour les substitutions de contenu"
-
-msgid "Update content urls"
-msgstr "Mettre à jour les urls de contenu"
-
-msgid "Update for host"
-msgstr "Mise à jour de l'hôte"
-
-msgid "Update http proxy"
-msgstr "Mettre à jour proxy http"
-
-msgid "Update http proxy details"
-msgstr "Mise à jour des détails du proxy http"
-
-msgid "Update redhat repository"
-msgstr "Mettre à jour le référentiel de données Red Hat"
-
-msgid "Update release version for host"
-msgstr "Mettre à jour la version de publication pour l'hôte"
-
-msgid "Updating System Purpose for host"
-msgstr "Mise à jour Objectif système pour l'hôte"
-
-msgid "Upload errata into"
-msgstr "Télécharger l'errata dans"
-
-msgid "Upload into"
-msgstr "Téléverser vers"
-
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
 msgid "VM Size"
 msgstr "Taille de la VM"
 
-msgid "Verify checksum"
-msgstr "Vérifier la somme de contrôle"
+msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
+msgstr ""
+
+msgid "is not valid. Valid choices are %s."
+msgstr ""
