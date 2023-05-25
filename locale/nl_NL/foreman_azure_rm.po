@@ -5,16 +5,15 @@
 #
 # Translators:
 # Maxim Burgerhout <maxim@wzzrd.com>, 2020
-# EmielK <emiel@kremers.us>, 2021
-# Mark Olie <mark.transifex@oliekoets.nl>, 2021
+# EmielK <emiel@kremers.us>, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Mark Olie <mark.transifex@oliekoets.nl>, 2021\n"
-"Language-Team: Dutch (Netherlands) (https://www.transifex.com/foreman/teams/11"
+"Last-Translator: EmielK <emiel@kremers.us>, 2020\n"
+"Language-Team: Dutch (Netherlands) (https://app.transifex.com/foreman/teams/11"
 "4/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

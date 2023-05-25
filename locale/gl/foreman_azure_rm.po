@@ -4,15 +4,15 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Carmela Rubiños <carmela.rubinos@gmail.com>, 2021
+# Carmela Rubiños <carmela.rubinos@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>, 2021\n"
-"Language-Team: Galician (https://www.transifex.com/foreman/teams/114/gl/)\n"
+"Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>, 2020\n"
+"Language-Team: Galician (https://app.transifex.com/foreman/teams/114/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
