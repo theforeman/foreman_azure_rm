@@ -7,16 +7,16 @@
 # 21966816214bc546c1fc8a185e75ca1c, 2020
 # Baptiste Agasse <baptiste.agasse@gmail.com>, 2020
 # Claer <transiblu@claer.hammock.fr>, 2020
-# Bryan Kearney <bryan.kearney@gmail.com>, 2021
+# Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
-"Language-Team: French (https://www.transifex.com/foreman/teams/114/fr/)\n"
+"Language-Team: French (https://app.transifex.com/foreman/teams/114/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

@@ -4,15 +4,15 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2022
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2022\n"
-"Language-Team: Georgian (https://www.transifex.com/foreman/teams/114/ka/)\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023\n"
+"Language-Team: Georgian (https://app.transifex.com/foreman/teams/114/ka/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,7 +44,7 @@ msgid "Azure Subnet"
 msgstr "Azure-ის ქვექსელი"
 
 msgid "Azure Tags"
-msgstr ""
+msgstr "Azure-ის ჭდეები"
 
 msgid "Azure's Default"
 msgstr "Azure-ის ნაგულისხმები"
@@ -68,7 +68,7 @@ msgid "Comma seperated file URIs"
 msgstr "ფაილების მძიმით დაშორებული URI-ები"
 
 msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
-msgstr ""
+msgstr "მძიმით გამოყოფილი სახელი=მნიშვნელობის წყვილების სია Azure-ში ამ ვმ-ის ჭდეებისთვის"
 
 msgid "Custom Script Command"
 msgstr "ხელით შეყვანილი სკრიპტი"

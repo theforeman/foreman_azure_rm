@@ -8,17 +8,17 @@
 # fe37ea014ea122db60df81cd86b163af_742ef71 <ba9f59c06b0be83ac3724b1834a4c14b_93939>, 2020
 # Gustavo Varela <gustavo.varela@gmail.com>, 2020
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2020
+# Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # francis <hackgo@gmail.com>, 2020
-# Bryan Kearney <bryan.kearney@gmail.com>, 2021
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
-"Language-Team: Spanish (https://www.transifex.com/foreman/teams/114/es/)\n"
+"Language-Team: Spanish (https://app.transifex.com/foreman/teams/114/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

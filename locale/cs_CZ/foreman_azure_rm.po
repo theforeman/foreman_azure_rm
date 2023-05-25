@@ -4,17 +4,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
+# Lukáš Zapletal, 2020
 # mhulan <mhulan@redhat.com>, 2020
-# Lukáš Zapletal, 2021
-# Pavel Borecki <pavel.borecki@gmail.com>, 2021
+# Pavel Borecki <pavel.borecki@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2021\n"
-"Language-Team: Czech (Czech Republic) (https://www.transifex.com/foreman/teams"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2020\n"
+"Language-Team: Czech (Czech Republic) (https://app.transifex.com/foreman/teams"
 "/114/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

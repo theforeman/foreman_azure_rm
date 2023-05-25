@@ -5,15 +5,15 @@
 #
 # Translators:
 # Mikael Fridh <frimik@gmail.com>, 2020
-# johnny.westerlund <johnny.westerlund@gmail.com>, 2021
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.8\n"
+"Project-Id-Version: foreman_azure_rm 2.2.9\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2021\n"
-"Language-Team: Swedish (Sweden) (https://www.transifex.com/foreman/teams/114/s"
+"Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2020\n"
+"Language-Team: Swedish (Sweden) (https://app.transifex.com/foreman/teams/114/s"
 "v_SE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
