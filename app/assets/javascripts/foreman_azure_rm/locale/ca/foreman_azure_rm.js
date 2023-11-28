@@ -5,7 +5,6 @@
       "": {
         "Project-Id-Version": "foreman_azure_rm 2.2.9",
         "Report-Msgid-Bugs-To": "",
-        "POT-Creation-Date": "2023-06-05 16:19+0200",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2020",
         "Language-Team": "Catalan (https://app.transifex.com/foreman/teams/114/ca/)",

@@ -5,7 +5,6 @@
       "": {
         "Project-Id-Version": "foreman_azure_rm 2.2.9",
         "Report-Msgid-Bugs-To": "",
-        "POT-Creation-Date": "2023-06-05 16:19+0200",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Amit Upadhye <aupadhye@redhat.com>, 2022",
         "Language-Team": "Japanese (https://app.transifex.com/foreman/teams/114/ja/)",
