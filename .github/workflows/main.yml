@@ -1,67 +1,19 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - 'develop'
+      - 'v*'
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        ruby:
-          - '2.7'
-        foreman:
-          - 'develop'
-    services:
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_USER: foreman
-          POSTGRES_PASSWORD: foreman
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-    env:
-      BUNDLE_WITHOUT: "journald:development:mysql2:console"
-      TESTOPTS: "-v"
-      DATABASE_URL: "postgresql://foreman:foreman@localhost/test"
-      FOREMAN_PLUGIN_NAME: "foreman_azure_rm"
-    steps:
-      - name: Install package dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -yyq libsqlite3-dev zlib1g-dev libvirt-dev libcurl4-openssl-dev
-      - name: Checkout Foreman
-        uses: actions/checkout@v4
-        with:
-          repository: theforeman/foreman
-          ref: ${{ matrix.foreman }}
-      - name: Checkout Plugin
-        uses: actions/checkout@v4
-        with:
-          path: plugin
-      - name: Setup Plugin
-        run: echo "gemspec :path => './plugin'" > bundler.d/plugin.local.rb
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Set up NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: '12'
-      - name: Install NodeJS dependencies
-        run: npm install
-
-      - name: Run tests
-        run: |
-          bundle exec rake db:create RAILS_ENV=test
-          bundle exec rake webpack:compile
-          bundle exec rake db:migrate RAILS_ENV=test
-          bundle exec rake test:${FOREMAN_PLUGIN_NAME}
-          bundle exec rake "plugin:assets:precompile[${FOREMAN_PLUGIN_NAME}]" RAILS_ENV=production
+  test:
+    name: Ruby
+    uses: theforeman/actions/.github/workflows/foreman_plugin.yml@v0
+    with:
+      plugin: foreman_azure_rm
