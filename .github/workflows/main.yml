@@ -17,3 +17,6 @@ jobs:
     uses: theforeman/actions/.github/workflows/foreman_plugin.yml@v0
     with:
       plugin: foreman_azure_rm
+      # https://github.com/theforeman/foreman/pull/9989
+      foreman_repository: ofedoren/foreman
+      foreman_version: foreman-on-ruby-3-letsgooo
