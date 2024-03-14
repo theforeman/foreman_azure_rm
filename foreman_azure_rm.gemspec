@@ -4,7 +4,6 @@ require 'date'
 Gem::Specification.new do |s|
   s.name    = 'foreman_azure_rm'
   s.version = ForemanAzureRm::VERSION
-  s.date    = Date.today.to_s
   s.authors = ['Aditi Puntambekar', 'Shimon Shtein', 'Tyler Gregory']
   s.email   = ['puntambekaraditi@gmail.com', 'shteinshim@gmail.com', 'tdgregory@protonmail.com']
   s.summary = 'Azure Resource Manager as a compute resource for The Foreman'
@@ -18,6 +17,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'azure_mgmt_storage', '~> 0.23.0'
   s.add_dependency 'azure_mgmt_compute', '~> 0.22.0'
   s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.5'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'mocha', '~> 1.2', '>= 1.2.1'
 end
