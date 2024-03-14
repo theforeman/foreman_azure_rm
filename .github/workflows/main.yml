@@ -4,16 +4,21 @@ on:
   pull_request:
   push:
     branches:
-      - 'develop'
-      - 'v*'
+      - "develop"
+      - "v*"
 
 concurrency:
   group: ${{ github.ref_name }}-${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
-  test:
+  rubocop:
+    name: Rubocop
+    uses: theforeman/actions/.github/workflows/rubocop.yml@v0
+
+  test_ruby:
     name: Ruby
+    needs: rubocop
     uses: theforeman/actions/.github/workflows/foreman_plugin.yml@v0
     with:
       plugin: foreman_azure_rm
