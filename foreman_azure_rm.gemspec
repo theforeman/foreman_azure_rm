@@ -1,4 +1,4 @@
-require File.expand_path('../lib/foreman_azure_rm/version', __FILE__)
+require File.expand_path('lib/foreman_azure_rm/version', __dir__)
 require 'date'
 
 Gem::Specification.new do |s|

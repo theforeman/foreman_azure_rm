@@ -182,7 +182,7 @@ module ForemanAzureRm
             arr.each do |item|
               kv = item.split('=')
               vm.tags[kv[0].strip] = kv[1].strip
-            end            
+            end
           end
           unless vm_hash[:availability_set_id].nil?
             sub_resource = MsRestAzure::SubResource.new
