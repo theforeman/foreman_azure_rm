@@ -7,13 +7,16 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # tim123, 2020
 # Amit Upadhye <aupadhye@redhat.com>, 2022
+# Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2023
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.9\n"
+"Project-Id-Version: foreman_azure_rm 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
+"Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
+"n.nl>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/foreman/teams/114/zh"
 "_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%{vm_size} VM Size"
-msgstr "%{vm_size} 虚拟机大小"
+msgstr "虚拟机大小"
 
 msgid "Action with sub plans"
 msgstr "有子计划的操作"
@@ -32,7 +35,7 @@ msgid "Actions"
 msgstr "操作"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
-msgstr "可以根据 VM 大小添加更多数量的磁盘。有关更多详细信息，请参考 Microsoft Azure 的文档。"
+msgstr "可以根据 VM 大小添加更多数量的磁盘。有关更多详细信息，请参考 Microsoft Azure 的文档"
 
 msgid "Azure Image Name"
 msgstr "Azure 镜像名"
@@ -47,7 +50,7 @@ msgid "Azure Subnet"
 msgstr "Azure 子网"
 
 msgid "Azure Tags"
-msgstr ""
+msgstr "Azure 标签"
 
 msgid "Azure's Default"
 msgstr "Azure 的默认"
@@ -71,7 +74,7 @@ msgid "Comma seperated file URIs"
 msgstr "逗号分隔的文件 URI"
 
 msgid "Comma seperated list of name=value pairs for tags on this VM in Azure"
-msgstr ""
+msgstr "Azure 中此虚拟机上标签的 name=value 对列表（以逗号分隔）"
 
 msgid "Custom Script Command"
 msgstr "自定义脚本命令"
@@ -206,7 +209,7 @@ msgid "VM Size"
 msgstr "虚拟机大小"
 
 msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
-msgstr ""
+msgstr "无效，必须是小写，例如 'eastus'。不允许使用特殊字符。"
 
 msgid "is not valid. Valid choices are %s."
-msgstr ""
+msgstr "无效。有效选择为 %s。"

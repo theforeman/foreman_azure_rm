@@ -3,7 +3,7 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 2.2.9",
+        "Project-Id-Version": "foreman_azure_rm 3.0.0",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Amit Upadhye <aupadhye@redhat.com>, 2022",
@@ -17,194 +17,194 @@
         "domain": "foreman_azure_rm",
         "plural_forms": "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
       },
-      "Client ID for AzureRm": [
-        "ID de cliente para AzureRm"
+      "%{vm_size} VM Size": [
+        "%{vm_size} Tamaño de la máquina virtual"
       ],
-      "Client Secret for AzureRm": [
-        "Secreto de cliente para AzureRm"
+      "Action with sub plans": [
+        "Acción con subplanes"
       ],
-      "Subscription ID for AzureRm": [
-        "ID de suscripción a AzureRm"
+      "Actions": [
+        "Acciones"
       ],
-      "Cloud": [
-        "Nube"
+      "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation": [
+        "Se puede añadir un número adicional de discos en función del tamaño de la máquina virtual. Para más detalles, consulte la documentación de Microsoft Azure"
       ],
-      "The region you selected has no sizes associated with it": [
-        "La región que ha seleccionado no tiene ningún tamaño relacionado"
-      ],
-      "The selected region has no subnets": [
-        "La región seleccionada no tiene subredes"
-      ],
-      "The selected image has no associated compute resource": [
-        "La imagen seleccionada no tiene ningún recurso de cómputo relacionado"
+      "Azure Image Name": [
+        "Nombre de la imagen Azure"
       ],
       "Azure Region": [
         "Región de Azure"
       ],
+      "Azure Resource Manager as a compute resource for Foreman": [
+        "Azure Resource Manager como recurso informático para Foreman"
+      ],
+      "Azure Subnet": [
+        "Subred de Azure"
+      ],
+      "Azure Tags": [
+        ""
+      ],
+      "Azure's Default": [
+        "Valor por defecto de Azure"
+      ],
+      "Client ID": [
+        "ID de cliente"
+      ],
+      "Client ID for AzureRm": [
+        "ID de cliente para AzureRm"
+      ],
+      "Client Secret": [
+        "Secreto de cliente"
+      ],
+      "Client Secret for AzureRm": [
+        "Secreto de cliente para AzureRm"
+      ],
+      "Cloud": [
+        "Nube"
+      ],
+      "Comma seperated file URIs": [
+        "URI de archivo separado por comas"
+      ],
+      "Comma seperated list of name=value pairs for tags on this VM in Azure": [
+        ""
+      ],
+      "Custom Script Command": [
+        "Comando de script personalizado"
+      ],
+      "Data Disk Caching": [
+        "Almacenamiento en caché de disco de datos"
+      ],
+      "Default ReadWrite": [
+        "Lectura y escritura por defecto"
+      ],
+      "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)": [
+        "Implemente el controlador de GPU NVIDIA y CUDA (Extensión Azure Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
+      ],
+      "Does this image support user data input?": [
+        "¿Esta imagen admite la entrada de datos de usuario?"
+      ],
+      "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')": [
+        "Para imágenes de galería personalizadas o compartidas, utilice el prefijo 'custom://' o 'gallery://'. Para imágenes públicas y RHEL-byos, anteponga el prefijo 'marketplace://' al uuid (por ejemplo, 'marketplace://OpenLogic:CentOS:7.5:latest' o 'custom://nombre-de-imagen')."
+      ],
+      "Image": [
+        "Imagen"
+      ],
+      "Import Puppet classes": [
+        "Importar clases Puppet"
+      ],
+      "Import facts": [
+        "Importar datos"
+      ],
+      "Leave empty to use default image size": [
+        "Dejar vacío para utilizar el tamaño de imagen por defecto"
+      ],
       "Load Regions": [
         "Cargar regiones"
+      ],
+      "NVIDIA driver / CUDA": [
+        "Controlador NVIDIA / CUDA"
+      ],
+      "Name": [
+        "Nombre"
+      ],
+      "OS Disk Caching": [
+        "Almacenamiento en caché de disco de SO"
+      ],
+      "Override OS Disk Size (GB)": [
+        "Anular tamaño de disco OS (GB)"
+      ],
+      "Password": [
+        "Contraseña"
+      ],
+      "Password to authenticate with - used for SSH finish step.": [
+        "Contraseña de autenticación - usada para el paso final de SSH"
+      ],
+      "Platform": [
+        "Plataforma"
+      ],
+      "Please select a Resource Group": [
+        "Seleccione un grupo de recursos"
+      ],
+      "Please select a VM Size": [
+        "Seleccione un tamaño de máquina virtual"
+      ],
+      "Please select an image": [
+        "Seleccione una imagen"
+      ],
+      "Premium OS Disk": [
+        "Disco de SO Premium"
+      ],
+      "Properties": [
+        "Propiedades"
+      ],
+      "Public IP": [
+        "IP pública"
+      ],
+      "Region": [
+        "Región"
+      ],
+      "Reload Images, Sizes, vNets": [
+        "Recargar imágenes, tamaños, vNets"
+      ],
+      "Remote action:": [
+        "Acción remota:"
+      ],
+      "Resource Group": [
+        "Grupo de recursos"
+      ],
+      "SSH Key": [
+        "Clave SSH"
+      ],
+      "Select": [
+        "Seleccionar"
+      ],
+      "Size": [
+        "Tamaño"
+      ],
+      "Size (GB)": [
+        "Tamaño (GB)"
+      ],
+      "State": [
+        "Estado"
+      ],
+      "Static Private IP": [
+        "IP privada estática"
+      ],
+      "Subscription ID": [
+        "ID de suscripción"
+      ],
+      "Subscription ID for AzureRm": [
+        "ID de suscripción a AzureRm"
+      ],
+      "Tenant ID": [
+        "ID de inquilino"
+      ],
+      "The region you selected has no sizes associated with it": [
+        "La región que ha seleccionado no tiene ningún tamaño relacionado"
+      ],
+      "The selected image has no associated compute resource": [
+        "La imagen seleccionada no tiene ningún recurso de cómputo relacionado"
+      ],
+      "The selected region has no subnets": [
+        "La región seleccionada no tiene subredes"
+      ],
+      "The user that will be used to SSH into the VM for completion": [
+        "El usuario que será utilizado para SSH en la máquina virtual para completar"
+      ],
+      "To perform commands as root, prefix it with 'sudo'": [
+        "Para ejecutar los comandos como root, anteponga el prefijo 'sudo'"
+      ],
+      "Username": [
+        "Nombre del usuario"
+      ],
+      "VM Size": [
+        "Tamaño de la máquina virtual"
       ],
       "is not valid, must be lowercase eg. 'eastus'. No special characters allowed.": [
         ""
       ],
       "is not valid. Valid choices are %s.": [
         ""
-      ],
-      "%{vm_size} VM Size": [
-        "%{vm_size} Tamaño de la máquina virtual"
-      ],
-      "Client ID": [
-        "ID de cliente"
-      ],
-      "Client Secret": [
-        "Secreto de cliente"
-      ],
-      "Subscription ID": [
-        "ID de suscripción"
-      ],
-      "Tenant ID": [
-        "ID de inquilino"
-      ],
-      "Please select a Resource Group": [
-        "Seleccione un grupo de recursos"
-      ],
-      "Resource Group": [
-        "Grupo de recursos"
-      ],
-      "Reload Images, Sizes, vNets": [
-        "Recargar imágenes, tamaños, vNets"
-      ],
-      "Please select a VM Size": [
-        "Seleccione un tamaño de máquina virtual"
-      ],
-      "VM Size": [
-        "Tamaño de la máquina virtual"
-      ],
-      "Platform": [
-        "Plataforma"
-      ],
-      "Username": [
-        "Nombre del usuario"
-      ],
-      "Password": [
-        "Contraseña"
-      ],
-      "SSH Key": [
-        "Clave SSH"
-      ],
-      "Premium OS Disk": [
-        "Disco de SO Premium"
-      ],
-      "Override OS Disk Size (GB)": [
-        "Anular tamaño de disco OS (GB)"
-      ],
-      "Leave empty to use default image size": [
-        "Dejar vacío para utilizar el tamaño de imagen por defecto"
-      ],
-      "Azure's Default": [
-        "Valor por defecto de Azure"
-      ],
-      "OS Disk Caching": [
-        "Almacenamiento en caché de disco de SO"
-      ],
-      "Default ReadWrite": [
-        "Lectura y escritura por defecto"
-      ],
-      "Custom Script Command": [
-        "Comando de script personalizado"
-      ],
-      "To perform commands as root, prefix it with 'sudo'": [
-        "Para ejecutar los comandos como root, anteponga el prefijo 'sudo'"
-      ],
-      "Comma seperated file URIs": [
-        "URI de archivo separado por comas"
-      ],
-      "Azure Tags": [
-        ""
-      ],
-      "Comma seperated list of name=value pairs for tags on this VM in Azure": [
-        ""
-      ],
-      "NVIDIA driver / CUDA": [
-        "Controlador NVIDIA / CUDA"
-      ],
-      "Deploy NVIDIA GPU driver and CUDA (Azure Extension Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)": [
-        "Implemente el controlador de GPU NVIDIA y CUDA (Extensión Azure Microsoft.HpcCompute/NvidiaGpuDriver{Linux,Windows}/1.3)"
-      ],
-      "Please select an image": [
-        "Seleccione una imagen"
-      ],
-      "Image": [
-        "Imagen"
-      ],
-      "Select": [
-        "Seleccionar"
-      ],
-      "Azure Subnet": [
-        "Subred de Azure"
-      ],
-      "Public IP": [
-        "IP pública"
-      ],
-      "Static Private IP": [
-        "IP privada estática"
-      ],
-      "Size (GB)": [
-        "Tamaño (GB)"
-      ],
-      "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation": [
-        "Se puede añadir un número adicional de discos en función del tamaño de la máquina virtual. Para más detalles, consulte la documentación de Microsoft Azure"
-      ],
-      "Data Disk Caching": [
-        "Almacenamiento en caché de disco de datos"
-      ],
-      "Name": [
-        "Nombre"
-      ],
-      "Size": [
-        "Tamaño"
-      ],
-      "Region": [
-        "Región"
-      ],
-      "State": [
-        "Estado"
-      ],
-      "Actions": [
-        "Acciones"
-      ],
-      "Properties": [
-        "Propiedades"
-      ],
-      "The user that will be used to SSH into the VM for completion": [
-        "El usuario que será utilizado para SSH en la máquina virtual para completar"
-      ],
-      "Password to authenticate with - used for SSH finish step.": [
-        "Contraseña de autenticación - usada para el paso final de SSH"
-      ],
-      "Azure Image Name": [
-        "Nombre de la imagen Azure"
-      ],
-      "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')": [
-        "Para imágenes de galería personalizadas o compartidas, utilice el prefijo 'custom://' o 'gallery://'. Para imágenes públicas y RHEL-byos, anteponga el prefijo 'marketplace://' al uuid (por ejemplo, 'marketplace://OpenLogic:CentOS:7.5:latest' o 'custom://nombre-de-imagen')."
-      ],
-      "Does this image support user data input?": [
-        "¿Esta imagen admite la entrada de datos de usuario?"
-      ],
-      "Action with sub plans": [
-        "Acción con subplanes"
-      ],
-      "Import facts": [
-        "Importar datos"
-      ],
-      "Import Puppet classes": [
-        "Importar clases Puppet"
-      ],
-      "Remote action:": [
-        "Acción remota:"
-      ],
-      "Azure Resource Manager as a compute resource for Foreman": [
-        "Azure Resource Manager como recurso informático para Foreman"
       ]
     }
   }
