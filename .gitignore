@@ -9,3 +9,4 @@ locale/*/*.edit.po
 locale/*/*.po.time_stamp
 Gemfile.lock
 .idea/
+locale/action_names.rb
