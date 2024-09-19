@@ -4,14 +4,15 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 # Translators:
-# Giuseppe Pignataro <rogepix@gmail.com>, 2020
+# Giuseppe Pignataro (Fastbyte01) <rogepix@gmail.com>, 2020
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Andrea Perotti, 2020
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.9\n"
+"Project-Id-Version: foreman_azure_rm 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Andrea Perotti, 2020\n"

@@ -6,9 +6,10 @@
 # Translators:
 # Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 2.2.9\n"
+"Project-Id-Version: foreman_azure_rm 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023\n"
@@ -203,7 +204,7 @@ msgid "VM Size"
 msgstr "ვმ-ის ზომა"
 
 msgid "is not valid, must be lowercase eg. 'eastus'. No special characters allowed."
-msgstr ""
+msgstr "არასწორია. უნდა იყოს დაბალ რეგისტრში. მაგ 'eastus'. სპეციალური სიმბოლოები დაშვებული არაა."
 
 msgid "is not valid. Valid choices are %s."
-msgstr ""
+msgstr "არასწორია. სწორი არჩევნებია %s."
