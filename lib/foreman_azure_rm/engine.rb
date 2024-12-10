@@ -2,17 +2,19 @@ module ForemanAzureRm
   class Engine < ::Rails::Engine
     engine_name 'foreman_azure_rm'
 
-    #autoloading all files inside lib dir
-    config.eager_load_paths += Dir["#{config.root}/lib"]
-    config.eager_load_paths += Dir["#{config.root}/app/models/concerns/"]
-    config.eager_load_paths += Dir["#{config.root}/app/helpers/"]
+    lib = config.root.join('app', 'lib')
 
-    initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do
-      Foreman::Plugin.register :foreman_azure_rm do
-        requires_foreman '>= 3.13'
-        register_gettext
-        compute_resource ForemanAzureRm::AzureRm
-        parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region, :cloud
+    config.autoload_paths << lib
+    config.eager_load_paths << lib
+
+    initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do |app|
+      app.reloader.to_prepare do
+        Foreman::Plugin.register :foreman_azure_rm do
+          requires_foreman '>= 3.13'
+          register_gettext
+          compute_resource ForemanAzureRm::AzureRm
+          parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region, :cloud
+        end
       end
     end
 
@@ -26,14 +28,6 @@ module ForemanAzureRm
     initializer "foreman_azure_rm.add_rabl_view_path" do
       Rabl.configure do |config|
         config.view_paths << ForemanAzureRm::Engine.root.join('app', 'views')
-      end
-    end
-
-    initializer "foreman_azure_rm.zeitwerk" do
-      Rails.autoloaders.each do |loader|
-        loader.ignore(
-          ForemanAzureRm::Engine.root.join('lib/foreman_azure_rm/version.rb')
-        )
       end
     end
 
