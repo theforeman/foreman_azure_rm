@@ -11,7 +11,7 @@ module ForemanAzureRm
     end
 
     def resource_client
-      #resource_manager_endpoint_url
+      # resource_manager_endpoint_url
       @resource_client ||= Resources::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
     end
 
@@ -33,11 +33,12 @@ module ForemanAzureRm
 
     def azure_credentials(base_url)
       provider = MsRestAzure::ApplicationTokenProvider.new(
-      @tenant,
-      @app_ident,
-      @secret_key,
-      @ad_settings)
-      
+        @tenant,
+        @app_ident,
+        @secret_key,
+        @ad_settings
+      )
+
       credentials = MsRest::TokenCredentials.new(provider)
 
       {
@@ -46,7 +47,7 @@ module ForemanAzureRm
         client_id: @app_ident,
         client_secret: @secret_key,
         subscription_id: @sub_id,
-        base_url: base_url
+        base_url: base_url,
       }
     end
 
@@ -91,7 +92,7 @@ module ForemanAzureRm
     end
 
     def rgs
-      rgs      = resource_client.resource_groups.list
+      rgs = resource_client.resource_groups.list
       rgs.map(&:name)
     end
 
@@ -107,7 +108,7 @@ module ForemanAzureRm
       network_client.public_ipaddresses.get(rg_name, pip_name)
     end
 
-    def vm_nic(rg_name,nic_name)
+    def vm_nic(rg_name, nic_name)
       network_client.network_interfaces.get(rg_name, nic_name)
     end
 
@@ -120,14 +121,15 @@ module ForemanAzureRm
     end
 
     def list_vm_sizes(region)
-      return [] unless region.present?
+      return [] if region.blank?
+
       stripped_region = region.gsub(/\s+/, '').downcase
-      compute_client.virtual_machine_sizes.list(stripped_region).value()
+      compute_client.virtual_machine_sizes.list(stripped_region).value
     end
 
     def list_vms(region)
       # List all VMs in a resource group
-      virtual_machines = compute_client.virtual_machines.list_by_location(region)
+      compute_client.virtual_machines.list_by_location(region)
     end
 
     def get_vm(rg_name, vm_name)
@@ -166,7 +168,7 @@ module ForemanAzureRm
       compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, gallery_image_name)
     end
 
-    def get_storage_accts
+    def get_storage_accts # rubocop:disable Naming/AccessorMethodName
       result = storage_client.storage_accounts.list
       result.value
     end
@@ -177,9 +179,9 @@ module ForemanAzureRm
 
     def create_or_update_vm_extensions(rg_name, vm_name, vm_extension_name, extension_params)
       compute_client.virtual_machine_extensions.create_or_update(rg_name,
-                                                          vm_name,
-                                                          vm_extension_name,
-                                                          extension_params) 
+        vm_name,
+        vm_extension_name,
+        extension_params)
     end
 
     def create_or_update_pip(rg_name, pip_name, parameters)
@@ -207,7 +209,7 @@ module ForemanAzureRm
     end
 
     def check_vm_status(rg_name, vm_name)
-      virtual_machine = compute_client.virtual_machines.get(rg_name, vm_name, expand:'instanceView')
+      virtual_machine = compute_client.virtual_machines.get(rg_name, vm_name, expand: 'instanceView')
       get_status(virtual_machine)
     end
 
@@ -215,9 +217,7 @@ module ForemanAzureRm
       vm_statuses = virtual_machine.instance_view.statuses
       vm_status = nil
       vm_statuses.each do |status|
-        if status.code.include? 'PowerState'
-          vm_status = status.code.split('/')[1]
-        end
+        vm_status = status.code.split('/')[1] if status.code.include? 'PowerState'
       end
       vm_status
     end
@@ -238,11 +238,10 @@ module ForemanAzureRm
 
     def actual_gallery_image_id(rg_name, image_id)
       gallery_names = list_galleries.map(&:name)
-      gallery_names.each do |gallery|
-        gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
-        return gallery_image&.id
-      end
-      nil
+      return unless (gallery = gallery_names.first)
+
+      gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
+      gallery_image&.id
     end
 
     def fetch_gallery_image_id(rg_name, image_id)
