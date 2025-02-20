@@ -3,10 +3,10 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.0",
+        "Project-Id-Version": "foreman_azure_rm 3.0.2",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
-        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2023",
+        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025",
         "Language-Team": "French (https://app.transifex.com/foreman/teams/114/fr/)",
         "MIME-Version": "1.0",
         "Content-Type": "text/plain; charset=UTF-8",
@@ -18,10 +18,7 @@
         "plural_forms": "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
       },
       "%{vm_size} VM Size": [
-        "Taille de la VM"
-      ],
-      "Action with sub plans": [
-        "Action avec sous-plans"
+        "Taille de la VM %{vm_size}"
       ],
       "Actions": [
         "Actions"
@@ -89,12 +86,6 @@
       "Image": [
         "Image"
       ],
-      "Import Puppet classes": [
-        "Importer des classes Puppet"
-      ],
-      "Import facts": [
-        "Importer des faits"
-      ],
       "Leave empty to use default image size": [
         "Laissez vide pour utiliser la taille d'image par défaut"
       ],
@@ -145,9 +136,6 @@
       ],
       "Reload Images, Sizes, vNets": [
         "Recharger les images, les tailles, les vNets"
-      ],
-      "Remote action:": [
-        "Action distante :"
       ],
       "Resource Group": [
         "Groupe de ressources"

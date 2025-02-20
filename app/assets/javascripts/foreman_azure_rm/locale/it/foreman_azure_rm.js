@@ -3,7 +3,7 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.0",
+        "Project-Id-Version": "foreman_azure_rm 3.0.2",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Andrea Perotti, 2020",
@@ -18,9 +18,6 @@
         "plural_forms": "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
       },
       "%{vm_size} VM Size": [
-        ""
-      ],
-      "Action with sub plans": [
         ""
       ],
       "Actions": [
@@ -89,12 +86,6 @@
       "Image": [
         "Immagine"
       ],
-      "Import Puppet classes": [
-        "Importa classi Puppet"
-      ],
-      "Import facts": [
-        "Importa gli eventi"
-      ],
       "Leave empty to use default image size": [
         ""
       ],
@@ -145,9 +136,6 @@
       ],
       "Reload Images, Sizes, vNets": [
         ""
-      ],
-      "Remote action:": [
-        "Azione remota:"
       ],
       "Resource Group": [
         ""

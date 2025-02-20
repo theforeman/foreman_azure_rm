@@ -3,7 +3,7 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.0",
+        "Project-Id-Version": "foreman_azure_rm 3.0.2",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023",
@@ -19,9 +19,6 @@
       },
       "%{vm_size} VM Size": [
         "%{vm_size} ვმ-ის ზომა"
-      ],
-      "Action with sub plans": [
-        "ქმედება ქვე-გეგმებით"
       ],
       "Actions": [
         "ქმედებები"
@@ -89,12 +86,6 @@
       "Image": [
         "ასლი"
       ],
-      "Import Puppet classes": [
-        "Puppet-ის კლასების შემოტანა"
-      ],
-      "Import facts": [
-        "ფაქტების შემოტანა"
-      ],
       "Leave empty to use default image size": [
         "ასლის ნაგულისხმები ზომის გამოსაყენებლად ცარიელი დატოვეთ"
       ],
@@ -145,9 +136,6 @@
       ],
       "Reload Images, Sizes, vNets": [
         "ასლების, ზომებისა და ვირტქსელების გადატვირთვა"
-      ],
-      "Remote action:": [
-        "დაშორებული ქმედება:"
       ],
       "Resource Group": [
         "რესურსების ჯგუფი"

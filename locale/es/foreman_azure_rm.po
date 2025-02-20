@@ -12,10 +12,9 @@
 # francis <hackgo@gmail.com>, 2020
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.0\n"
+"Project-Id-Version: foreman_azure_rm 3.0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
@@ -29,9 +28,6 @@ msgstr ""
 
 msgid "%{vm_size} VM Size"
 msgstr "%{vm_size} Tamaño de la máquina virtual"
-
-msgid "Action with sub plans"
-msgstr "Acción con subplanes"
 
 msgid "Actions"
 msgstr "Acciones"
@@ -99,12 +95,6 @@ msgstr "Para imágenes de galería personalizadas o compartidas, utilice el pref
 msgid "Image"
 msgstr "Imagen"
 
-msgid "Import Puppet classes"
-msgstr "Importar clases Puppet"
-
-msgid "Import facts"
-msgstr "Importar datos"
-
 msgid "Leave empty to use default image size"
 msgstr "Dejar vacío para utilizar el tamaño de imagen por defecto"
 
@@ -155,9 +145,6 @@ msgstr "Región"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr "Recargar imágenes, tamaños, vNets"
-
-msgid "Remote action:"
-msgstr "Acción remota:"
 
 msgid "Resource Group"
 msgstr "Grupo de recursos"
