@@ -7,10 +7,9 @@
 # Mikael Fridh <frimik@gmail.com>, 2020
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2020
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.0\n"
+"Project-Id-Version: foreman_azure_rm 3.0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2020\n"
@@ -23,9 +22,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%{vm_size} VM Size"
-msgstr ""
-
-msgid "Action with sub plans"
 msgstr ""
 
 msgid "Actions"
@@ -94,12 +90,6 @@ msgstr ""
 msgid "Image"
 msgstr "Avbildning"
 
-msgid "Import Puppet classes"
-msgstr ""
-
-msgid "Import facts"
-msgstr ""
-
 msgid "Leave empty to use default image size"
 msgstr ""
 
@@ -149,9 +139,6 @@ msgid "Region"
 msgstr "Region"
 
 msgid "Reload Images, Sizes, vNets"
-msgstr ""
-
-msgid "Remote action:"
 msgstr ""
 
 msgid "Resource Group"

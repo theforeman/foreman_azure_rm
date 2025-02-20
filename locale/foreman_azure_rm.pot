@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-28 18:17+0100\n"
-"PO-Revision-Date: 2023-11-28 18:17+0100\n"
+"POT-Creation-Date: 2025-02-20 10:10+0100\n"
+"PO-Revision-Date: 2025-02-20 10:10+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -265,22 +265,6 @@ msgstr ""
 
 #: ../app/views/images/form/_azurerm.html.erb:6
 msgid "Does this image support user data input?"
-msgstr ""
-
-#: action_names.rb:2
-msgid "Action with sub plans"
-msgstr ""
-
-#: action_names.rb:3
-msgid "Import facts"
-msgstr ""
-
-#: action_names.rb:4
-msgid "Import Puppet classes"
-msgstr ""
-
-#: action_names.rb:5
-msgid "Remote action:"
 msgstr ""
 
 #: gemspec.rb:2

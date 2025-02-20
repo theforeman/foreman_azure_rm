@@ -9,10 +9,9 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Andrea Perotti, 2020
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.0\n"
+"Project-Id-Version: foreman_azure_rm 3.0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Andrea Perotti, 2020\n"
@@ -25,9 +24,6 @@ msgstr ""
 " 2;\n"
 
 msgid "%{vm_size} VM Size"
-msgstr ""
-
-msgid "Action with sub plans"
 msgstr ""
 
 msgid "Actions"
@@ -96,12 +92,6 @@ msgstr ""
 msgid "Image"
 msgstr "Immagine"
 
-msgid "Import Puppet classes"
-msgstr "Importa classi Puppet"
-
-msgid "Import facts"
-msgstr "Importa gli eventi"
-
 msgid "Leave empty to use default image size"
 msgstr ""
 
@@ -152,9 +142,6 @@ msgstr "Regione"
 
 msgid "Reload Images, Sizes, vNets"
 msgstr ""
-
-msgid "Remote action:"
-msgstr "Azione remota:"
 
 msgid "Resource Group"
 msgstr ""

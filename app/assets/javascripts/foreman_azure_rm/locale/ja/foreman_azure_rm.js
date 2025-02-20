@@ -3,10 +3,10 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.0",
+        "Project-Id-Version": "foreman_azure_rm 3.0.2",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
-        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2023",
+        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025",
         "Language-Team": "Japanese (https://app.transifex.com/foreman/teams/114/ja/)",
         "MIME-Version": "1.0",
         "Content-Type": "text/plain; charset=UTF-8",
@@ -18,10 +18,7 @@
         "plural_forms": "nplurals=1; plural=0;"
       },
       "%{vm_size} VM Size": [
-        "仮想マシンサイズ: %%{vm_size}"
-      ],
-      "Action with sub plans": [
-        "サブプランによるアクション"
+        "仮想マシンサイズ: %{vm_size}"
       ],
       "Actions": [
         "アクション"
@@ -89,12 +86,6 @@
       "Image": [
         "イメージ"
       ],
-      "Import Puppet classes": [
-        "Puppet クラスのインポート"
-      ],
-      "Import facts": [
-        "ファクトのインポート"
-      ],
       "Leave empty to use default image size": [
         "デフォルトのイメージサイズを使用するには空のままにします"
       ],
@@ -145,9 +136,6 @@
       ],
       "Reload Images, Sizes, vNets": [
         "イメージ、サイズ、vNet の再読み込み"
-      ],
-      "Remote action:": [
-        "リモートアクション:"
       ],
       "Resource Group": [
         "リソースグループ"

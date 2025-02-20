@@ -3,10 +3,10 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.0",
+        "Project-Id-Version": "foreman_azure_rm 3.0.2",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
-        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2023",
+        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025",
         "Language-Team": "Chinese (China) (https://app.transifex.com/foreman/teams/114/zh_CN/)",
         "MIME-Version": "1.0",
         "Content-Type": "text/plain; charset=UTF-8",
@@ -18,10 +18,7 @@
         "plural_forms": "nplurals=1; plural=0;"
       },
       "%{vm_size} VM Size": [
-        "虚拟机大小"
-      ],
-      "Action with sub plans": [
-        "有子计划的操作"
+        "%{vm_size} 虚拟机大小"
       ],
       "Actions": [
         "操作"
@@ -89,12 +86,6 @@
       "Image": [
         "镜像"
       ],
-      "Import Puppet classes": [
-        "导入 Puppet 类"
-      ],
-      "Import facts": [
-        "导入事实"
-      ],
       "Leave empty to use default image size": [
         "留空以使用默认镜像大小"
       ],
@@ -145,9 +136,6 @@
       ],
       "Reload Images, Sizes, vNets": [
         "重新加载镜像，大小，vNet"
-      ],
-      "Remote action:": [
-        "远程操作："
       ],
       "Resource Group": [
         "资源组"
