@@ -3,7 +3,7 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.2",
+        "Project-Id-Version": "foreman_azure_rm 3.0.4",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "Amit Upadhye <aupadhye@redhat.com>, 2022",
