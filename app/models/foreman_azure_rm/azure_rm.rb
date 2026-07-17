@@ -81,7 +81,7 @@ module ForemanAzureRm
     end
 
     def self.provider_friendly_name
-      'Azure Resource Manager'
+      'Microsoft Azure'
     end
 
     def capabilities
