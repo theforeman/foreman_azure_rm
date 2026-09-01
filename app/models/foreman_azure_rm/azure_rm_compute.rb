@@ -204,7 +204,8 @@ module ForemanAzureRm
         if sdk.list_custom_images.find { |custom_img| custom_img.name == image_name }
           return "custom://#{image_name}"
         elsif sdk.fetch_gallery_image_id(image_rg, image_name)
-          return "gallery://#{image_name}"
+          gallery_name = image.id.split('/')[-3]
+          return "gallery://#{gallery_name}/#{image_name}"
         end
       end
     end
