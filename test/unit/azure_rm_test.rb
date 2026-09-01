@@ -124,7 +124,7 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
 
     test "create vm with shared image gallery and password" do
       @mock_vm.stubs(:disable_password_authentication).returns(false)
-      @mock_sdk.expects(:fetch_gallery_image_id).with("rg1", "first_gallery_img").returns("/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img").times(2)
+      @mock_sdk.expects(:fetch_gallery_image_id).with("rg1", "first_gallery/first_gallery_img").returns("/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img").times(2)
       mock_gallery_image = mock('mock_gallery_image')
       mock_gallery_image.stubs(:id).returns('/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img')
       @mock_vm.storage_profile.image_reference.stubs(:id).returns('/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img')
@@ -135,7 +135,7 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
 
       refute actual_server.azure_vm.disable_password_authentication
       assert_equal "testpswd123", actual_server.password
-      assert_equal "gallery://first_gallery_img", actual_server.image_id
+      assert_equal "gallery://first_gallery/first_gallery_img", actual_server.image_id
     end
   end
 end

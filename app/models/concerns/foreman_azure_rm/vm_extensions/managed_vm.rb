@@ -62,7 +62,7 @@ module ForemanAzureRm
 
       def marketplace_image_plan(image)
         image_type, image_id = image.split('://')
-        return nil unless image_type == 'marketplace' && image_id.include?('byos')
+        return nil unless image_type == 'marketplace'
         urn = image_id.split(':')
         publisher = urn[0]
         offer     = urn[1]

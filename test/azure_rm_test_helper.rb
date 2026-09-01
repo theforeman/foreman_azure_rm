@@ -112,7 +112,7 @@ module AzureRmTestHelper
   end
 
   def with_gallery_image
-    { "image_id" => "gallery://first_gallery_img" }
+    { "image_id" => "gallery://first_gallery/first_gallery_img" }
   end
 
   def with_custom_data
