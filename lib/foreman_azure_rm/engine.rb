@@ -10,7 +10,7 @@ module ForemanAzureRm
     initializer 'foreman_azure_rm.register_plugin', :before => :finisher_hook do |app|
       app.reloader.to_prepare do
         Foreman::Plugin.register :foreman_azure_rm do
-          requires_foreman '>= 3.13'
+          requires_foreman '>= 5.1'
           register_gettext
           compute_resource ForemanAzureRm::AzureRm
           parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region, :cloud
