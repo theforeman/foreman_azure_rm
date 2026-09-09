@@ -305,10 +305,9 @@ module ForemanAzureRm
     end
 
     def setup_key_pair
-      require 'sshkey'
       name = "foreman-#{id}#{Foreman.uuid}"
-      key  = ::SSHKey.generate
-      build_key_pair :name => name, :secret => key.private_key, :public => key.ssh_public_key
+      key_pair = Foreman::Provision::SshKey.generate
+      build_key_pair :name => name, :secret => key_pair.private_key, :public => key_pair.public_key
     end
 
     def find_vm_by_uuid(uuid)
