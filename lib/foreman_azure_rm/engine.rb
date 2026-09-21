@@ -14,6 +14,15 @@ module ForemanAzureRm
           register_gettext
           compute_resource ForemanAzureRm::AzureRm
           parameter_filter ComputeResource, :azure_vm, :tenant, :app_ident, :secret_key, :sub_id, :region, :cloud
+
+          security_block :foreman_azure_rm do
+            permission :view_hosts, {
+              hosts: [:sizes, :storage_accts, :subnets, :vnets],
+            }
+            permission :view_compute_resources, {
+              'api/v2/compute_resources': [:available_resource_groups, :available_sizes, :available_subnets, :available_vnets],
+            }
+          end
         end
       end
     end
