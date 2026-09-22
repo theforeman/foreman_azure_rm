@@ -3,7 +3,7 @@
   "locale_data": {
     "foreman_azure_rm": {
       "": {
-        "Project-Id-Version": "foreman_azure_rm 3.0.4",
+        "Project-Id-Version": "foreman_azure_rm 3.1.0",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
         "Last-Translator": "pdolinic, 2021",
@@ -31,9 +31,6 @@
       ],
       "Azure Region": [
         "Azure-Region"
-      ],
-      "Azure Resource Manager as a compute resource for Foreman": [
-        "Azure Resource Manager als Computing-Ressource für Foreman"
       ],
       "Azure Subnet": [
         "Azure-Subnetz"
@@ -91,6 +88,9 @@
       ],
       "Load Regions": [
         "Lade Regionen"
+      ],
+      "Microsoft Azure plugin for Foreman": [
+        ""
       ],
       "NVIDIA driver / CUDA": [
         "NVIDIA-Treiber / CUDA"

@@ -8,10 +8,9 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2020
 # Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.4\n"
+"Project-Id-Version: foreman_azure_rm 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
@@ -37,9 +36,6 @@ msgstr "Azure 이미지 이름"
 
 msgid "Azure Region"
 msgstr "Azure 지역"
-
-msgid "Azure Resource Manager as a compute resource for Foreman"
-msgstr "Foreman의 컴퓨팅 리소스로서의 Azure Resource Manager"
 
 msgid "Azure Subnet"
 msgstr "Azure 서브넷"
@@ -97,6 +93,9 @@ msgstr "기본 이미지 크기를 사용하려면 비워두세요."
 
 msgid "Load Regions"
 msgstr "지역 로드 "
+
+msgid "Microsoft Azure plugin for Foreman"
+msgstr ""
 
 msgid "NVIDIA driver / CUDA"
 msgstr "NVIDIA 드라이버 / CUDA"

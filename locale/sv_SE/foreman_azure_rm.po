@@ -7,10 +7,9 @@
 # Mikael Fridh <frimik@gmail.com>, 2020
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2020
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.4\n"
+"Project-Id-Version: foreman_azure_rm 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: johnny.westerlund <johnny.westerlund@gmail.com>, 2020\n"
@@ -35,9 +34,6 @@ msgid "Azure Image Name"
 msgstr ""
 
 msgid "Azure Region"
-msgstr ""
-
-msgid "Azure Resource Manager as a compute resource for Foreman"
 msgstr ""
 
 msgid "Azure Subnet"
@@ -96,6 +92,9 @@ msgstr ""
 
 msgid "Load Regions"
 msgstr "Ladda Regioner"
+
+msgid "Microsoft Azure plugin for Foreman"
+msgstr ""
 
 msgid "NVIDIA driver / CUDA"
 msgstr ""
