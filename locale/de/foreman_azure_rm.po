@@ -13,10 +13,9 @@
 # Wiederoder <stefanwiederoder@googlemail.com>, 2020
 # pdolinic, 2021
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: foreman_azure_rm 3.0.4\n"
+"Project-Id-Version: foreman_azure_rm 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
 "Last-Translator: pdolinic, 2021\n"
@@ -41,9 +40,6 @@ msgstr "Azure-Image-Name"
 
 msgid "Azure Region"
 msgstr "Azure-Region"
-
-msgid "Azure Resource Manager as a compute resource for Foreman"
-msgstr "Azure Resource Manager als Computing-Ressource für Foreman"
 
 msgid "Azure Subnet"
 msgstr "Azure-Subnetz"
@@ -101,6 +97,9 @@ msgstr "Leer lassen, um die Standardbildgröße zu verwenden"
 
 msgid "Load Regions"
 msgstr "Lade Regionen"
+
+msgid "Microsoft Azure plugin for Foreman"
+msgstr ""
 
 msgid "NVIDIA driver / CUDA"
 msgstr "NVIDIA-Treiber / CUDA"
