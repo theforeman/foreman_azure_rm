@@ -4,6 +4,9 @@
     <th><%= _('Size') %></th>
     <th><%= _('Resource Group') %></th>
     <th><%= _('Region') %></th>
+    <th><%= _('Platform') %></th>
+    <th><%= _('Public IP') %></th>
+    <th><%= _('Private IP') %></th>
     <th><%= _('State') %></th>
     <th><%= _('Actions') %></th>
   </tr>
@@ -15,7 +18,10 @@
       <td><%= vm.vm_size %></td>
       <td><%= vm.resource_group %></td>
       <td><%= vm.azure_vm.location %></td>
-      <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %> </span> </td>
+      <td><%= vm.platform %></td>
+      <td><%= vm.public_ip_address %></td>
+      <td><%= vm.private_ip_address %></td>
+      <td><span <%= vm_power_class(vm.ready?) %>><%= vm_state(vm) %></span></td>
       <td>
         <%= action_buttons(
                 vm_power_action(vm, authorizer),

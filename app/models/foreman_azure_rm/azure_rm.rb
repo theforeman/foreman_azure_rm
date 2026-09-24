@@ -94,6 +94,10 @@ module ForemanAzureRm
     end
 
     def resource_groups
+      sdk.rgs.map(&:name)
+    end
+
+    def available_resource_groups
       sdk.rgs
     end
 
