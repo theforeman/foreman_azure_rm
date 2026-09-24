@@ -133,3 +133,12 @@ module AzureRmTestHelper
     }
   end
 end
+
+# Test helper for SAT-48157 - Marketplace image without BYOS
+def with_cis_marketplace_image
+  { "image_id" => "marketplace://center-for-internet-security-inc:cis-rhel:cis-redhat9-l1-gen2:latest" }
+end
+
+def with_marketplace_byos_image
+  { "image_id" => "marketplace://publisher:offer-byos:sku:latest" }
+end

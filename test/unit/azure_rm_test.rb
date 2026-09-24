@@ -138,4 +138,48 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
       assert_equal "gallery://first_gallery_img", actual_server.image_id
     end
   end
+
+  test "create vm with gallery image using gallery_name/image_name format" do
+    # Mock the SDK to return gallery image ID with proper parsing
+    gallery_image_id = "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/RHSG_1/images/RHEL77img"
+    @mock_sdk.expects(:fetch_gallery_image_id).with("rg1", "RHSG_1/RHEL77img").returns(gallery_image_id).times(2)
+
+    mock_gallery_image = mock('mock_gallery_image')
+    mock_gallery_image.stubs(:id).returns(gallery_image_id)
+    @mock_vm.storage_profile.image_reference.stubs(:id).returns(gallery_image_id)
+    @mock_sdk.stubs(:list_custom_images).returns([])
+
+    mock_create_or_update_vm_with_password
+
+    vm_args = base_vm_args.merge(with_password_auth).merge({ "image_id" => "gallery://RHSG_1/RHEL77img" })
+    actual_server = @azure_cr.create_vm(vm_args)
+
+    refute actual_server.azure_vm.disable_password_authentication
+    assert_equal "testpswd123", actual_server.password
+    assert_equal "gallery://RHSG_1/RHEL77img", actual_server.image_id
+  end
+
+  test "create vm with CIS marketplace image should include plan" do
+    @mock_vm.stubs(:disable_password_authentication).returns(false)
+    @mock_vm.os_profile.stubs(:custom_data)
+
+    # The plan should be created for non-BYOS marketplace images
+    @mock_sdk.expects(:create_or_update_vm).with do |rg, name, params|
+      # Verify plan is present
+      params.plan.present? &&
+      params.plan.publisher == "center-for-internet-security-inc" &&
+      params.plan.product == "cis-rhel" &&
+      params.plan.name == "cis-redhat9-l1-gen2"
+    end.returns(@mock_vm)
+
+    @mock_sdk.stubs(:list_custom_images).returns([])
+    @mock_vm.stubs(:vm_id).returns('12345')
+    @mock_vm.stubs(:properties).returns(mock())
+    @mock_vm.properties.stubs(:provisioning_state).returns('Succeeded')
+
+    vm_args = base_vm_args.merge(with_password_auth).merge(with_cis_marketplace_image)
+    actual_server = @azure_cr.create_vm(vm_args)
+
+    assert_equal "marketplace://center-for-internet-security-inc:cis-rhel:cis-redhat9-l1-gen2:latest", actual_server.image_id
+  end
 end
