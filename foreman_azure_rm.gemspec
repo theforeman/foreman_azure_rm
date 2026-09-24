@@ -12,9 +12,6 @@ Gem::Specification.new do |s|
   s.files   = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
   s.description = 'This gem provides Microsoft Azure as a compute resource for Foreman'
 
-  s.add_dependency 'azure_mgmt_resources', '~> 0.18.1'
-  s.add_dependency 'azure_mgmt_network', '~> 0.26.1'
-  s.add_dependency 'azure_mgmt_storage', '~> 0.23.0'
-  s.add_dependency 'azure_mgmt_compute', '~> 0.22.0'
-  s.add_dependency 'azure_mgmt_subscriptions', '~> 0.18.5'
+  # Azure SDK for Ruby was retired (Dec 2021, archived Jan 2023).
+  # This plugin now uses direct Azure REST API calls via Net::HTTP.
 end

@@ -3,6 +3,7 @@ require_relative '../azure_rm_test_helper'
 
 class ForemanAzureRmTest < ActiveSupport::TestCase
   include AzureRmTestHelper
+
   setup do
     @mock_sdk = mock('mock_sdk')
     ForemanAzureRm::AzureRm.any_instance.stubs(:sdk).returns(@mock_sdk)
@@ -26,13 +27,15 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
     cloud = %w[azure azureusgovernment azurechina azuregermancloud].sample
     ForemanAzureRm::AzureRm.any_instance.stubs(:validate_cloud?).returns(true)
     @azure_cr.cloud=(cloud)
-    assert @azure_cr.validate_cloud?
+
+    assert_predicate @azure_cr, :validate_cloud?
   end
 
   test "list all resource groups" do
     mock_resource_client = mock('mock_resource_client')
     @mock_sdk.stubs(:resource_client).returns(mock_resource_client)
     @mock_sdk.stubs(:rgs).returns(['rg1', 'rg2', 'rg3'])
+
     assert ['rg1', 'rg2', 'rg3'], @azure_cr.resource_groups
   end
 
@@ -51,10 +54,10 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
 
       assert_equal "ervin-golomb", actual_server.name
       assert_equal "rg1", actual_server.resource_group
-      assert actual_server.password.present?
+      assert_predicate actual_server.password, :present?
       assert_equal 1, actual_server.interfaces.count
-      refute actual_server.azure_vm.disable_password_authentication
-      refute actual_server.azure_vm.os_profile.custom_data.present?
+      assert_not actual_server.azure_vm.disable_password_authentication
+      assert_not actual_server.azure_vm.os_profile.custom_data.present?
     end
 
     test "create vm with password, custom data and vm extension" do
@@ -71,8 +74,8 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
       actual_server = @azure_cr.create_vm(vm_args)
 
       assert_equal "testpswd123", actual_server.password
-      assert actual_server.azure_vm.os_profile.custom_data.present?
-      refute actual_server.azure_vm.disable_password_authentication
+      assert_predicate actual_server.azure_vm.os_profile.custom_data, :present?
+      assert_not actual_server.azure_vm.disable_password_authentication
     end
 
     test "create vm with sshkey and without custom data" do
@@ -84,7 +87,7 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
       actual_server = @azure_cr.create_vm(vm_args)
 
       assert actual_server.azure_vm.disable_password_authentication
-      refute actual_server.azure_vm.os_profile.custom_data.present?
+      assert_not actual_server.azure_vm.os_profile.custom_data.present?
     end
 
     test "create vm with sshkey, custom data and vm extension" do
@@ -101,7 +104,7 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
       actual_server = @azure_cr.create_vm(vm_args)
 
       assert actual_server.azure_vm.disable_password_authentication
-      assert actual_server.azure_vm.os_profile.custom_data.present?
+      assert_predicate actual_server.azure_vm.os_profile.custom_data, :present?
     end
 
     test "create vm with custom image and sshkey" do
@@ -123,19 +126,18 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
 
 
     test "create vm with shared image gallery and password" do
+      gallery_arm_id = "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img"
       @mock_vm.stubs(:disable_password_authentication).returns(false)
-      @mock_sdk.expects(:fetch_gallery_image_id).with("rg1", "first_gallery_img").returns("/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img").times(2)
-      mock_gallery_image = mock('mock_gallery_image')
-      mock_gallery_image.stubs(:id).returns('/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img')
-      @mock_vm.storage_profile.image_reference.stubs(:id).returns('/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg1/providers/Microsoft.Compute/galleries/first_gallery/images/first_gallery_img')
+      @mock_sdk.expects(:fetch_gallery_image_id).with("rg1", "first_gallery_img").returns(gallery_arm_id)
+      @mock_vm.storage_profile.image_reference.stubs(:id).returns(gallery_arm_id)
       @mock_sdk.stubs(:list_custom_images).returns([])
       mock_create_or_update_vm_with_password
       vm_args = base_vm_args.merge(with_password_auth).merge(with_gallery_image)
       actual_server = @azure_cr.create_vm(vm_args)
 
-      refute actual_server.azure_vm.disable_password_authentication
+      assert_not actual_server.azure_vm.disable_password_authentication
       assert_equal "testpswd123", actual_server.password
-      assert_equal "gallery://first_gallery_img", actual_server.image_id
+      assert_equal "gallery://rg1/first_gallery/first_gallery_img", actual_server.image_id
     end
   end
 end

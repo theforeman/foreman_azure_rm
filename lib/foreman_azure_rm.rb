@@ -1,20 +1,31 @@
 require 'foreman_azure_rm/engine.rb'
-require 'azure_mgmt_resources'
-require 'azure_mgmt_network'
-require 'azure_mgmt_storage'
-require 'azure_mgmt_compute'
-require 'azure_mgmt_subscriptions'
 
 module ForemanAzureRm
-  Storage = Azure::Storage::Profiles::Latest::Mgmt
-  Network = Azure::Network::Profiles::Latest::Mgmt
-  Compute = Azure::Compute::Profiles::Latest::Mgmt
-  Resources = Azure::Resources::Profiles::Latest::Mgmt
-  Subscriptions = Azure::Subscriptions::Profiles::Latest::Mgmt
+  module ComputeModels
+    module CachingTypes
+      None = 'None'.freeze
+      ReadOnly = 'ReadOnly'.freeze
+      ReadWrite = 'ReadWrite'.freeze
+    end
 
-  StorageModels = Storage::Models
-  NetworkModels = Network::Models
-  ComputeModels = Compute::Models
-  ResourceModels = Resources::Models
-  SubscriptionModels = Subscriptions::Models
+    module DiskCreateOption
+      Empty = 'Empty'.freeze
+    end
+
+    module DiskCreateOptionTypes
+      FromImage = 'FromImage'.freeze
+    end
+
+    module StorageAccountTypes
+      PremiumLRS = 'Premium_LRS'.freeze
+      StandardLRS = 'Standard_LRS'.freeze
+    end
+  end
+
+  module NetworkModels
+    module IPAllocationMethod
+      Dynamic = 'Dynamic'.freeze
+      Static = 'Static'.freeze
+    end
+  end
 end

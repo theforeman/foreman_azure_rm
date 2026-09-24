@@ -7,6 +7,7 @@ module ForemanAzureRm
   class AzureRm < ComputeResource
 
     include VMExtensions::ManagedVM
+
     alias_attribute :sub_id, :user
     alias_attribute :secret_key, :password
     alias_attribute :region, :url
@@ -51,7 +52,9 @@ module ForemanAzureRm
     end
 
     def sdk
-      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, azure_environment)
+      @sdk ||= ForemanAzureRm::AzureSdkAdapter.new(tenant, app_ident, secret_key, sub_id, azure_environment,
+                                                     proxy_url: connection_options[:proxy],
+                                                     ssl_cert_store: connection_options[:ssl_cert_store])
     end
 
     def to_label
@@ -90,7 +93,7 @@ module ForemanAzureRm
 
     def regions
       return unless sub_id.present?
-      sdk.list_regions(sub_id).value.map { |loc| [loc.display_name, loc.name] }
+      (sdk.list_regions(sub_id).value || []).map { |loc| [loc.display_name, loc.name] }
     end
 
     def resource_groups
@@ -101,9 +104,7 @@ module ForemanAzureRm
       super
       errors[:user].empty? && errors[:password].empty? && errors[:uuid].empty? && errors[:app_ident].empty? && errors[:cloud].empty? && regions
     rescue StandardError => e
-      errors[:base] << e.message
-    rescue Excon::Error::Socket => e
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     end
 
     def new_vm(args = {})
@@ -111,7 +112,7 @@ module ForemanAzureRm
       opts = vm_instance_defaults.merge(args.to_h).deep_symbolize_keys
       # convert rails nested_attributes into a plain hash
       [:interfaces, :volumes].each do |collection|
-        nested_args = opts.delete("#{collection}_attributes".to_sym)
+        nested_args = opts.delete(:"#{collection}_attributes")
         opts[collection] = nested_attributes_for(collection, nested_args) if nested_args
       end
       opts.reject! { |k, v| v.nil? }
@@ -128,8 +129,8 @@ module ForemanAzureRm
                              os_disk_size_gb: opts[:os_disk_size_gb],
                              nvidia_gpu_extension: opts[:nvidia_gpu_extension],
                             )
+      ifaces = []
       if opts[:interfaces].present?
-        ifaces = []
         opts[:interfaces].each_with_index do |iface_attrs, i|
           ifaces << new_interface(iface_attrs)
         end
@@ -172,54 +173,26 @@ module ForemanAzureRm
           return false
         end
       when 'gallery'
-        # Instead of the problematic line:
-        # gallery_images_list = sdk.list_resources(filter: "resourceType eq 'Microsoft.Compute/galleries/images'")
-        #
-        # The issue occurs with azure_mgmt_resources 0.18.2, where the resources.list method
-        # signature has changed from previous versions. In prior versions, this method accepted
-        # a filter parameter directly (resources.list(filter: "...")) but in version 0.18.2,
-        # the method doesn't accept any parameters, causing the "wrong number of arguments (given 1, expected 0)"
-        # error. This change in the Ruby SDK API is likely due to Azure REST API updates.
-
         begin
-          # Extract gallery name and image name from gallery:// URL
-          gallery_parts = image_id.split('/')
+          resolved_id = sdk.fetch_gallery_image_id(nil, image_id)
+          return false unless resolved_id
 
-          if gallery_parts.length >= 2
-            gallery_name = gallery_parts[0]
-            image_name = gallery_parts[1]
+          id_parts = resolved_id.split('/')
+          rg_name = id_parts[4]
+          gallery_name = id_parts[8]
+          image_name = id_parts[-1]
 
-            # Try to find the gallery and image using dedicated SDK methods
-            galleries = sdk.list_galleries
-            gallery = galleries.find { |g| g.name == gallery_name }
+          image_versions = sdk.list_gallery_image_versions(rg_name, gallery_name, image_name)
+          target_regions = image_versions.flat_map do |image_version|
+            (image_version.publishing_profile&.target_regions || []).map(&:name)
+          end.uniq.map { |tgt_reg| tgt_reg.gsub(/\s+/, '').downcase }
 
-            if gallery
-              rg_name = gallery.id.split('/')[4] # Extract resource group name from gallery ID
-
-              # Check if the image exists in the gallery
-              begin
-                gallery_image = sdk.get_gallery_image(rg_name, gallery_name, image_name)
-
-                if gallery_image
-                  # Check versions and regions
-                  image_versions = sdk.list_gallery_image_versions(rg_name, gallery_name, image_name)
-                  target_regions = image_versions.map do |image_version|
-                    image_version.publishing_profile.target_regions.map(&:name)
-                  end.flatten.uniq.map { |tgt_reg| tgt_reg.gsub(/\s+/, '').downcase }
-
-                  return true if target_regions.include? region
-                end
-              rescue StandardError => e
-                Rails.logger.warn("Gallery image check failed: #{e.message}")
-              end
-            end
-          end
-
-          # If any problems occur, assume the image doesn't exist
-          return false
+          target_regions.include?(region)
+        rescue ArgumentError => e
+          raise e
         rescue StandardError => e
           Rails.logger.warn("Gallery check failed: #{e.message}")
-          return false
+          false
         end
       when 'custom'
         custom_image = sdk.list_custom_images.detect { |custom_img| custom_img.name == image_id && custom_img.location == region }
@@ -324,13 +297,15 @@ module ForemanAzureRm
     def create_vm(args = {})
       args = args.to_h.deep_symbolize_keys
       args[:vm_name] = args[:name].split('.')[0]
-      nics = create_nics(region, args)
+      created = create_nics(region, args)
+      nics = created[:nics]
+      pips = created[:pips]
+      vm = nil
+      user_command = args[:script_command]
 
       if args[:platform] == 'Linux'
         if args[:password].present? && !args[:ssh_key_data].present?
           if args[:script_command].present?
-            # to run the script_cmd given through form as username
-            user_command = args[:script_command]
             args[:script_command] = "su - \"#{args[:username]}\" -c \"#{user_command}\""
           end
           disable_password_auth = false
@@ -382,9 +357,11 @@ module ForemanAzureRm
         nvidia_gpu_extension: ActiveRecord::Type::Boolean.new.deserialize(args[:nvidia_gpu_extension]),
         tags: args[:tags],
       )
-    rescue RuntimeError => e
+    rescue ForemanAzureRm::AzureApiError, RuntimeError => e
       Foreman::Logging.exception('Unhandled AzureRm error', e)
-      destroy_vm vm.id if vm
+      best_effort("VM cleanup") { destroy_vm(args[:vm_name]) } if args[:vm_name]
+      nics&.each { |nic| best_effort("NIC #{nic.name}") { sdk.delete_nic(args[:resource_group], nic.name) } }
+      pips&.each { |pip| best_effort("PIP #{pip.name}") { sdk.delete_pip(args[:resource_group], pip.name) } }
       raise e
     end
 
@@ -414,6 +391,14 @@ module ForemanAzureRm
     rescue ActiveRecord::RecordNotFound
       logger.info "Could not find the selected vm."
       true
+    end
+
+    private
+
+    def best_effort(description)
+      yield
+    rescue StandardError => e
+      logger.warn("#{description} failed: #{e.message}")
     end
   end
 end
