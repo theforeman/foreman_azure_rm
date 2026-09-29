@@ -9,14 +9,14 @@
 # Bryan Kearney <bryan.kearney@gmail.com>, 2020
 # Amit Upadhye <aupadhye@redhat.com>, 2022
 # Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
+# Ondřej Gajdušek, 2026
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
-"n.nl>, 2025\n"
+"Last-Translator: Ondřej Gajdušek, 2026\n"
 "Language-Team: Japanese (https://app.transifex.com/foreman/teams/114/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgid "Actions"
 msgstr "アクション"
 
 msgid "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation"
-msgstr "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください。"
+msgstr "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください"
 
 msgid "Azure Image Name"
 msgstr "Azure イメージ名"
@@ -85,7 +85,7 @@ msgid "Does this image support user data input?"
 msgstr "このイメージはユーザーのデータ入力に対応しますか?"
 
 msgid "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')"
-msgstr "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')。"
+msgstr "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')"
 
 msgid "Image"
 msgstr "イメージ"
@@ -97,7 +97,7 @@ msgid "Load Regions"
 msgstr "リージョンのロード"
 
 msgid "Microsoft Azure plugin for Foreman"
-msgstr ""
+msgstr "Foreman 用 Microsoft Azure プラグイン"
 
 msgid "NVIDIA driver / CUDA"
 msgstr "NVIDIA ドライバー / CUDA"
@@ -109,7 +109,7 @@ msgid "OS Disk Caching"
 msgstr "OS ディスクキャッシング"
 
 msgid "Override OS Disk Size (GB)"
-msgstr "OS ディスクサイズ (GB) の上書き"
+msgstr "OS ディスクサイズ (GB) のオーバーライド"
 
 msgid "Password"
 msgstr "パスワード"
@@ -187,7 +187,7 @@ msgid "The user that will be used to SSH into the VM for completion"
 msgstr "仮想マシンで SSH 接続して完了するときに使用するユーザー"
 
 msgid "To perform commands as root, prefix it with 'sudo'"
-msgstr "root としてコマンドを実行するには、接頭辞として「sudo」を付けます"
+msgstr "root 権限でコマンドを実行するには、コマンドの前に 'sudo' を付けます"
 
 msgid "Username"
 msgstr "ユーザー名"

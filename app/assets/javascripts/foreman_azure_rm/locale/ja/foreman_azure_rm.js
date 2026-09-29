@@ -6,7 +6,7 @@
         "Project-Id-Version": "foreman_azure_rm 3.1.0",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
-        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025",
+        "Last-Translator": "Ondřej Gajdušek, 2026",
         "Language-Team": "Japanese (https://app.transifex.com/foreman/teams/114/ja/)",
         "MIME-Version": "1.0",
         "Content-Type": "text/plain; charset=UTF-8",
@@ -24,7 +24,7 @@
         "アクション"
       ],
       "Additional number of disks can be added based on VM Size. For more details, please refer to Microsoft Azure's documentation": [
-        "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください。"
+        "仮想マシンサイズに基づいて、ディスク数をさらに追加できます。詳細については、Microsoft Azure のドキュメントを参照してください"
       ],
       "Azure Image Name": [
         "Azure イメージ名"
@@ -78,7 +78,7 @@
         "このイメージはユーザーのデータ入力に対応しますか?"
       ],
       "For custom or shared gallery image, use prefix 'custom://' or 'gallery://'. For public and RHEL-byos images, prefix the uuid with 'marketplace://'. (e.g. 'marketplace://OpenLogic:CentOS:7.5:latest' or 'custom://image-name')": [
-        "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')。"
+        "カスタムイメージまたは共有ギャラリーイメージの場合は、接頭辞 'custom://' or 'gallery://' を使用します。パブリックおよび RHEL-byos イメージの場合は、uuid に接頭辞 'marketplace://' を付けます (例: 'marketplace://OpenLogic:CentOS:7.5:latest' または 'custom://image-name')"
       ],
       "Image": [
         "イメージ"
@@ -90,7 +90,7 @@
         "リージョンのロード"
       ],
       "Microsoft Azure plugin for Foreman": [
-        ""
+        "Foreman 用 Microsoft Azure プラグイン"
       ],
       "NVIDIA driver / CUDA": [
         "NVIDIA ドライバー / CUDA"
@@ -102,7 +102,7 @@
         "OS ディスクキャッシング"
       ],
       "Override OS Disk Size (GB)": [
-        "OS ディスクサイズ (GB) の上書き"
+        "OS ディスクサイズ (GB) のオーバーライド"
       ],
       "Password": [
         "パスワード"
@@ -180,7 +180,7 @@
         "仮想マシンで SSH 接続して完了するときに使用するユーザー"
       ],
       "To perform commands as root, prefix it with 'sudo'": [
-        "root としてコマンドを実行するには、接頭辞として「sudo」を付けます"
+        "root 権限でコマンドを実行するには、コマンドの前に 'sudo' を付けます"
       ],
       "Username": [
         "ユーザー名"
