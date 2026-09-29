@@ -6,7 +6,7 @@
         "Project-Id-Version": "foreman_azure_rm 3.1.0",
         "Report-Msgid-Bugs-To": "",
         "PO-Revision-Date": "2020-04-21 13:58+0000",
-        "Last-Translator": "Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025",
+        "Last-Translator": "Ondřej Gajdušek, 2026",
         "Language-Team": "Chinese (China) (https://app.transifex.com/foreman/teams/114/zh_CN/)",
         "MIME-Version": "1.0",
         "Content-Type": "text/plain; charset=UTF-8",
@@ -90,7 +90,7 @@
         "加载区"
       ],
       "Microsoft Azure plugin for Foreman": [
-        ""
+        "用于 Foreman 的 Microsoft Azure 插件"
       ],
       "NVIDIA driver / CUDA": [
         "NVIDIA 驱动程序 / CUDA"

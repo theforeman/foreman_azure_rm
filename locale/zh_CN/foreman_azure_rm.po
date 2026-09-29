@@ -8,14 +8,14 @@
 # tim123, 2020
 # Amit Upadhye <aupadhye@redhat.com>, 2021
 # Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
+# Ondřej Gajdušek, 2026
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: foreman_azure_rm 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2020-04-21 13:58+0000\n"
-"Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
-"n.nl>, 2025\n"
+"Last-Translator: Ondřej Gajdušek, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/foreman/teams/114/zh"
 "_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgid "Load Regions"
 msgstr "加载区"
 
 msgid "Microsoft Azure plugin for Foreman"
-msgstr ""
+msgstr "用于 Foreman 的 Microsoft Azure 插件"
 
 msgid "NVIDIA driver / CUDA"
 msgstr "NVIDIA 驱动程序 / CUDA"
