@@ -112,7 +112,7 @@ module AzureRmTestHelper
   end
 
   def with_gallery_image
-    { "image_id" => "gallery://first_gallery_img" }
+    { "image_id" => "gallery://first_gallery/first_gallery_img" }
   end
 
   def with_custom_data
@@ -132,4 +132,12 @@ module AzureRmTestHelper
         "ssh_key_data" => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoU+GgFexfYem02eR1cft\nCZ7O08mTfMy/m4+zd/0JAufPlsbq6MDJUzUeotkBUuSHziaOeweEX99qagsbHXEU\nO387RlG7EXFFdKH2yXKi/mEbkXvNWyemLoIrRp/4sjzJ18tnxiI+FMmEGX33cUxw\nbysTchSoSucs9JKXH2EYmt8YZ2MawJMdPG/Hx/JENwTE+HUnlud6m5PZv6DNerjU\nrouHpWMzH0fe/9UPIPJswUEC2cDyn329QV9mXCbjZyDx7dTCVVCDihZYPysxDJl0\n/qsdYSbHYpB7zaceu/8Esh1STXeHU4tk4B81kpknvETjJHo+oKVy3v4OQSxibAdy\nPwIDAQAB"
     }
   end
+end
+
+def with_cis_marketplace_image
+  { "image_id" => "marketplace://center-for-internet-security-inc:cis-rhel:cis-redhat9-l1-gen2:latest" }
+end
+
+def with_marketplace_byos_image
+  { "image_id" => "marketplace://publisher:offer-byos:sku:latest" }
 end

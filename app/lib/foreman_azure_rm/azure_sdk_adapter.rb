@@ -237,11 +237,14 @@ module ForemanAzureRm
     end
 
     def actual_gallery_image_id(rg_name, image_id)
-      gallery_names = list_galleries.map(&:name)
-      return unless (gallery = gallery_names.first)
+      gallery_name, image_name = image_id.split("/", 2)
+      return unless gallery_name && image_name
 
-      gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
+      gallery_image = list_gallery_images(rg_name, gallery_name).detect { |image| image.name == image_name }
       gallery_image&.id
+    rescue StandardError => e
+      Foreman::Logging.exception("Failed to fetch gallery image", e)
+      nil
     end
 
     def fetch_gallery_image_id(rg_name, image_id)
