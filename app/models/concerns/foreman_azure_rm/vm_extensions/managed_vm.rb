@@ -5,9 +5,9 @@ module ForemanAzureRm
       extend ActiveSupport::Concern
 
       def define_managed_storage_profile(vm_name, os_disk_caching, platform, premium_os_disk, os_disk_size_gb)
-        storage_profile = ComputeModels::StorageProfile.new
-        os_disk = ComputeModels::OSDisk.new
-        managed_disk_params = ComputeModels::ManagedDiskParameters.new
+        storage_profile = OpenStruct.new
+        os_disk = OpenStruct.new
+        managed_disk_params = OpenStruct.new
 
         # Create OS disk
         os_disk.name = "#{vm_name}-osdisk"
@@ -44,9 +44,9 @@ module ForemanAzureRm
         unless data_disks.nil?
           disks = []
           disk_count = 0
-          data_disks.each do |disk_num, attrs|
-            managed_data_disk = ComputeModels::ManagedDiskParameters.new
-            disk = ComputeModels::DataDisk.new
+          data_disks.each_value do |attrs|
+            managed_data_disk = OpenStruct.new
+            disk = OpenStruct.new
             disk.name = "#{vm_name}-data-disk#{disk_count}"
             disk.caching  = disk_caching(attrs[:data_disk_caching])
             disk.disk_size_gb = attrs[:disk_size_gb]
@@ -68,7 +68,7 @@ module ForemanAzureRm
         offer     = urn[1]
         sku       = urn[2]
         version   = urn[3]
-        image_plan = ComputeModels::PurchasePlan.new
+        image_plan = OpenStruct.new
         image_plan.publisher = publisher.downcase
         image_plan.name = sku.downcase
         image_plan.product = offer.downcase
@@ -76,7 +76,7 @@ module ForemanAzureRm
       end
 
       def marketplace_image_reference(publisher, offer, sku, version)
-        image_reference = ComputeModels::ImageReference.new
+        image_reference = OpenStruct.new
         image_reference.publisher = publisher
         image_reference.offer = offer
         image_reference.sku = sku
@@ -96,10 +96,10 @@ module ForemanAzureRm
           image_reference = marketplace_image_reference(publisher, offer, sku, version)
         when 'custom'
           custom_image = sdk.get_custom_image(rg_name, image_id)
-          image_reference = ComputeModels::ImageReference.new
+          image_reference = OpenStruct.new
           image_reference.id = custom_image.id
         when 'gallery'
-          image_reference = ComputeModels::ImageReference.new
+          image_reference = OpenStruct.new
           image_reference.id = sdk.fetch_gallery_image_id(rg_name, image_id)
         else
           image_reference = nil
@@ -110,18 +110,19 @@ module ForemanAzureRm
       def define_network_profile(network_interface_card_ids)
         network_interface_cards = []
         network_interface_card_ids.each_with_index do |id, index|
-          nic = ComputeModels::NetworkInterfaceReference.new
+          nic = OpenStruct.new
           nic.id = id
           nic.primary = true
           network_interface_cards << nic
         end
-        network_profile = ComputeModels::NetworkProfile.new
+        network_profile = OpenStruct.new
         network_profile.network_interfaces = network_interface_cards
         network_profile
       end
 
       def create_nics(region, args = {})
         nics               = []
+        pips               = []
         args[:interfaces_attributes].each do |nic, attrs|
           private_ip = ActiveRecord::Type::Boolean.new.deserialize(attrs[:private_ip])
           priv_ip_alloc       = if private_ip
@@ -140,7 +141,7 @@ module ForemanAzureRm
                                     raise RuntimeError, "Public IP value must be either 'Dynamic', 'Static' or 'None'"
                                 end
           if pub_ip_alloc.present?
-            public_ip_params = NetworkModels::PublicIPAddress.new.tap do |ip|
+            public_ip_params = OpenStruct.new.tap do |ip|
               ip.location = region
               ip.public_ipallocation_method = pub_ip_alloc
             end
@@ -148,14 +149,15 @@ module ForemanAzureRm
             pip = sdk.create_or_update_pip(args[:resource_group],
                                            "#{args[:vm_name]}-pip#{nic}",
                                            public_ip_params)
+            pips << pip
           end
           new_nic = sdk.create_or_update_nic(
             args[:resource_group],
             "#{args[:vm_name]}-nic#{nic}",
-            NetworkModels::NetworkInterface.new.tap do |interface|
+            OpenStruct.new.tap do |interface|
               interface.location = region
               interface.ip_configurations = [
-                NetworkModels::NetworkInterfaceIPConfiguration.new.tap do |nic_conf|
+                OpenStruct.new.tap do |nic_conf|
                   nic_conf.name = "#{args[:vm_name]}-nic#{nic}"
                   nic_conf.private_ipallocation_method = priv_ip_alloc
                   nic_conf.private_ipaddress = attrs[:ip] if priv_ip_alloc == "Static"
@@ -167,14 +169,14 @@ module ForemanAzureRm
           )
           nics << new_nic
         end
-        nics
+        { nics: nics, pips: pips }
       end
 
       def initialize_vm(vm_hash)
         custom_data = vm_hash[:custom_data]
         msg = "Creating Virtual Machine #{vm_hash[:name]} in Resource Group #{vm_hash[:resource_group]}."
         logger.debug msg
-        vm_create_params = ComputeModels::VirtualMachine.new.tap do |vm|
+        vm_create_params = OpenStruct.new.tap do |vm|
           vm.location = vm_hash[:location]
           vm.tags = {}
           unless vm_hash[:tags].nil?
@@ -184,31 +186,27 @@ module ForemanAzureRm
               vm.tags[kv[0].strip] = kv[1].strip
             end
           end
-          unless vm_hash[:availability_set_id].nil?
-            sub_resource = MsRestAzure::SubResource.new
-            sub_resource.id = vm_hash[:availability_set_id]
-            vm.availability_set = sub_resource
-          end
+          vm.availability_set = OpenStruct.new(id: vm_hash[:availability_set_id]) unless vm_hash[:availability_set_id].nil?
 
-          vm.os_profile = ComputeModels::OSProfile.new.tap do |os_profile|
+          vm.os_profile = OpenStruct.new.tap do |os_profile|
             os_profile.computer_name  = vm_hash[:name]
             os_profile.admin_username = vm_hash[:username]
             os_profile.admin_password = vm_hash[:password]
 
             # Adding the ssh-key support for authentication
             if vm_hash[:platform] == 'Linux'
-              os_profile.linux_configuration = ComputeModels::LinuxConfiguration.new.tap do |linux|
+              os_profile.linux_configuration = OpenStruct.new.tap do |linux|
                 linux.disable_password_authentication = vm_hash[:disable_password_authentication]
-                linux.ssh = ComputeModels::SshConfiguration.new.tap do |ssh_config|
+                linux.ssh = OpenStruct.new.tap do |ssh_config|
                   ssh_config.public_keys = [
-                    ComputeModels::SshPublicKey.new.tap do |foreman_key|
+                    OpenStruct.new.tap do |foreman_key|
                       foreman_key.key_data = key_pair.public
                       foreman_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
                     end
                   ]
                   if vm_hash[:ssh_key_data].present?
                     key_data = vm_hash[:ssh_key_data]
-                    pub_key = ComputeModels::SshPublicKey.new
+                    pub_key = OpenStruct.new
                     pub_key.key_data = key_data
                     pub_key.path = "/home/#{vm_hash[:username]}/.ssh/authorized_keys"
                     ssh_config.public_keys << pub_key
@@ -226,7 +224,7 @@ module ForemanAzureRm
                                                                 vm_hash[:premium_os_disk],
                                                                 vm_hash[:os_disk_size_gb]
                                                               )
-          vm.hardware_profile = ComputeModels::HardwareProfile.new.tap do |hw_profile|
+          vm.hardware_profile = OpenStruct.new.tap do |hw_profile|
             hw_profile.vm_size = vm_hash[:vm_size]
           end
         end
@@ -246,7 +244,7 @@ module ForemanAzureRm
       def create_vm_extension(region, args = {})
         if args[:script_command].present? || args[:script_uris].present?
           args[:script_uris] ||=  args[:script_uris].to_s
-          extension = ComputeModels::VirtualMachineExtension.new
+          extension = OpenStruct.new
 
           case args[:platform]
           # https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-linux
@@ -280,7 +278,7 @@ module ForemanAzureRm
       end
 
       def create_vm_nvidia_gpu_extension(region, args = {})
-        extension = ComputeModels::VirtualMachineExtension.new
+        extension = OpenStruct.new
         extension.publisher = 'Microsoft.HpcCompute'
         extension.type_handler_version = '1.3'
         extension.auto_upgrade_minor_version = true

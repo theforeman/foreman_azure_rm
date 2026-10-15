@@ -11,7 +11,7 @@ module ForemanAzureRm
 
     delegate :name, to: :azure_vm, allow_nil: true
 
-    def initialize(azure_vm: ComputeModels::VirtualMachine.new,
+    def initialize(azure_vm: OpenStruct.new,
                    sdk: nil,
                    resource_group: azure_vm.resource_group,
                    nics: [],
@@ -20,7 +20,6 @@ module ForemanAzureRm
                    script_uris: nil,
                    nvidia_gpu_extension: false,
                    tags: [])
-
       @azure_vm = azure_vm
       @sdk = sdk
       @resource_group ||= resource_group
@@ -30,19 +29,17 @@ module ForemanAzureRm
       @script_uris ||= script_uris
       @nvidia_gpu_extension ||= nvidia_gpu_extension
       @tags ||= tags
-      @azure_vm.hardware_profile ||= ComputeModels::HardwareProfile.new
-      @azure_vm.os_profile ||= ComputeModels::OSProfile.new
-      @azure_vm.os_profile.linux_configuration ||= ComputeModels::LinuxConfiguration.new
-      @azure_vm.os_profile.linux_configuration.ssh ||= ComputeModels::SshConfiguration.new
-      @azure_vm.os_profile.linux_configuration.ssh.public_keys ||= [ComputeModels::SshPublicKey.new]
-      @azure_vm.storage_profile ||= ComputeModels::StorageProfile.new
-      @azure_vm.storage_profile.os_disk ||= ComputeModels::OSDisk.new
-      @azure_vm.storage_profile.os_disk.managed_disk ||= ComputeModels::ManagedDiskParameters.new
+      @azure_vm.hardware_profile ||= OpenStruct.new
+      @azure_vm.os_profile ||= OpenStruct.new
+      @azure_vm.os_profile.linux_configuration ||= OpenStruct.new
+      @azure_vm.os_profile.linux_configuration.ssh ||= OpenStruct.new
+      @azure_vm.os_profile.linux_configuration.ssh.public_keys ||= [OpenStruct.new]
+      @azure_vm.storage_profile ||= OpenStruct.new
+      @azure_vm.storage_profile.os_disk ||= OpenStruct.new
+      @azure_vm.storage_profile.os_disk.managed_disk ||= OpenStruct.new
     end
 
-    def id
-      @azure_vm.id
-    end
+    delegate :id, to: :@azure_vm
 
     def persisted?
       !!identity && !!id
@@ -199,12 +196,15 @@ module ForemanAzureRm
       if image.id.nil?
         return "marketplace://#{image.publisher}:#{image.offer}:#{image.sku}:#{image.version}"
       else
-        image_rg = image.id.split('/')[4]
-        image_name = image.id.split('/')[-1]
+        parts = image.id.split('/')
+        image_rg = parts[4]
+        image_name = parts[-1]
+        if image.id.include?('/galleries/')
+          gallery_name = parts[8]
+          return "gallery://#{image_rg}/#{gallery_name}/#{image_name}"
+        end
         if sdk.list_custom_images.find { |custom_img| custom_img.name == image_name }
           return "custom://#{image_name}"
-        elsif sdk.fetch_gallery_image_id(image_rg, image_name)
-          return "gallery://#{image_name}"
         end
       end
     end
@@ -237,15 +237,14 @@ module ForemanAzureRm
 
     def script_command
       if vm_extension.present?
-        return @script_command if vm_extension.settings["commandToExecute"].ends_with?("waagent")
-        # Index is based on script_command that is being injected
-        # from the code in #create_vm. It can be partly hard-coded
-        # since the command shall no change frequently.
+        cmd = vm_extension.settings&.command_to_execute
+        return @script_command if cmd.blank? || cmd.ends_with?("waagent")
         if ssh_key_data.nil? && platform == 'Linux'
-          user_cmd_index = (vm_extension.settings["commandToExecute"].index("-c"))+ 4
-          script_command = vm_extension.settings["commandToExecute"][user_cmd_index..-2]
+          c_index = cmd.index("-c")
+          return cmd unless c_index
+          cmd[(c_index + 4)..-2]
         else
-          vm_extension.settings["commandToExecute"]
+          cmd
         end
       else
         @script_command
@@ -254,19 +253,15 @@ module ForemanAzureRm
 
     def script_uris
       if vm_extension.present?
-        return @script_uris unless vm_extension.settings["fileUris"]
-        script_uris = vm_extension.settings["fileUris"]
+        uris = vm_extension.settings&.file_uris
+        uris.presence || @script_uris
       else
         @script_uris
       end
     end
 
     def nvidia_gpu_extension
-      if vm_nvidia_gpu_extension.present?
-        true
-      else
-        @nvidia_gpu_extension
-      end
+      vm_nvidia_gpu_extension.present? || @nvidia_gpu_extension
     end
 
   end

@@ -1,251 +1,252 @@
 module ForemanAzureRm
   class AzureSdkAdapter
-    def initialize(tenant, app_ident, secret_key, sub_id, azure_environment)
-      @tenant               = tenant
-      @app_ident            = app_ident
-      @secret_key           = secret_key
-      @sub_id               = sub_id
-      @azure_environment    = azure_environment
-      @ad_settings          = ad_environment_settings(azure_environment)
-      @environment_settings = environment_settings(azure_environment)
-    end
+    API_VERSIONS = {
+      compute: '2023-03-01',
+      disks: '2023-02-02',
+      network: '2023-04-01',
+      storage: '2023-01-01',
+      resources: '2021-04-01',
+      subscriptions: '2022-12-01',
+    }.freeze
 
-    def resource_client
-      # resource_manager_endpoint_url
-      @resource_client ||= Resources::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
-    end
-
-    def compute_client
-      @compute_client ||= Compute::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
-    end
-
-    def network_client
-      @network_client ||= Network::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
-    end
-
-    def storage_client
-      @storage_client ||= Storage::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
-    end
-
-    def subscription_client
-      @subscription_client ||= Subscriptions::Client.new(azure_credentials(@environment_settings.resource_manager_endpoint_url))
-    end
-
-    def azure_credentials(base_url)
-      provider = MsRestAzure::ApplicationTokenProvider.new(
-        @tenant,
-        @app_ident,
-        @secret_key,
-        @ad_settings
+    def initialize(tenant, app_ident, secret_key, sub_id, azure_environment, proxy_url: nil, ssl_cert_store: nil)
+      @sub_id = sub_id
+      @client = AzureRestClient.new(
+        tenant: tenant,
+        client_id: app_ident,
+        client_secret: secret_key,
+        subscription_id: sub_id,
+        azure_environment: azure_environment,
+        proxy_url: proxy_url,
+        ssl_cert_store: ssl_cert_store
       )
-
-      credentials = MsRest::TokenCredentials.new(provider)
-
-      {
-        credentials: credentials,
-        tenant_id: @tenant,
-        client_id: @app_ident,
-        client_secret: @secret_key,
-        subscription_id: @sub_id,
-        base_url: base_url,
-      }
-    end
-
-    # https://github.com/Azure/azure-sdk-for-ruby/issues/850
-    # Retrieves a [MsRestAzure::ActiveDirectoryServiceSettings] object representing the settings for the given cloud.
-    # @param azure_environment [String] The Azure environment to retrieve settings for.
-    #
-    # @return [MsRestAzure::ActiveDirectoryServiceSettings] Settings to be used for subsequent requests
-    #
-    def ad_environment_settings(azure_environment)
-      case azure_environment.downcase
-      when 'azureusgovernment'
-        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_us_government_settings
-      when 'azurechina'
-        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_china_settings
-      when 'azuregermancloud'
-        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_german_settings
-      when 'azure'
-        MsRestAzure::ActiveDirectoryServiceSettings.get_azure_settings
-      end
-    end
-
-    def environment_settings(azure_environment)
-      case azure_environment.downcase
-      when 'azureusgovernment'
-        MsRestAzure::AzureEnvironments::AzureUSGovernment
-      when 'azurechina'
-        MsRestAzure::AzureEnvironments::AzureChinaCloud
-      when 'azuregermancloud'
-        MsRestAzure::AzureEnvironments::AzureGermanCloud
-      when 'azure'
-        MsRestAzure::AzureEnvironments::AzureCloud
-      end
     end
 
     def list_regions(subscription_id)
-      subscription_client.subscriptions.list_locations(subscription_id)
+      @client.get("/subscriptions/#{subscription_id}/locations", api_version: API_VERSIONS[:subscriptions])
     end
 
     def list_resources(filter)
-      resource_client.resources.list(filter)
+      @client.get_paged(sub_path('resources'), api_version: API_VERSIONS[:resources], params: { '$filter' => filter })
     end
 
     def rgs
-      rgs = resource_client.resource_groups.list
-      rgs.map(&:name)
+      @client.get_paged(sub_path('resourcegroups'), api_version: API_VERSIONS[:resources]).map(&:name)
     end
 
     def vnets
-      network_client.virtual_networks.list_all
+      @client.get_paged(provider_path('Microsoft.Network', 'virtualNetworks'), api_version: API_VERSIONS[:network])
     end
 
     def subnets(rg_name, vnet_name)
-      network_client.subnets.list(rg_name, vnet_name)
+      @client.get_paged(rg_provider_path(rg_name, 'Microsoft.Network', "virtualNetworks/#{vnet_name}/subnets"), api_version: API_VERSIONS[:network])
     end
 
     def public_ip(rg_name, pip_name)
-      network_client.public_ipaddresses.get(rg_name, pip_name)
+      network_get(rg_name, "publicIPAddresses/#{pip_name}")
     end
 
     def vm_nic(rg_name, nic_name)
-      network_client.network_interfaces.get(rg_name, nic_name)
+      network_get(rg_name, "networkInterfaces/#{nic_name}")
     end
 
     def vm_disk(rg_name, disk_name)
-      compute_client.disks.get(rg_name, disk_name)
+      @client.get(rg_provider_path(rg_name, 'Microsoft.Compute', "disks/#{disk_name}"), api_version: API_VERSIONS[:disks])
     end
 
     def get_vm_extension(rg_name, vm_name, vm_extension_name)
-      compute_client.virtual_machine_extensions.get(rg_name, vm_name, vm_extension_name)
+      compute_get(rg_name, "virtualMachines/#{vm_name}/extensions/#{vm_extension_name}")
     end
 
     def list_vm_sizes(region)
       return [] if region.blank?
-
       stripped_region = region.gsub(/\s+/, '').downcase
-      compute_client.virtual_machine_sizes.list(stripped_region).value
+      response = @client.get(provider_path('Microsoft.Compute', "locations/#{stripped_region}/vmSizes"), api_version: API_VERSIONS[:compute])
+      response.value || []
     end
 
     def list_vms(region)
-      # List all VMs in a resource group
-      compute_client.virtual_machines.list_by_location(region)
+      @client.get_paged(provider_path('Microsoft.Compute', 'virtualMachines'), api_version: API_VERSIONS[:compute], params: { '$filter' => "location eq '#{region}'" })
     end
 
     def get_vm(rg_name, vm_name)
-      compute_client.virtual_machines.get(rg_name, vm_name)
+      compute_get(rg_name, "virtualMachines/#{vm_name}")
     end
 
     def get_marketplace_image(location, publisher_name, offer, skus, version)
-      compute_client.virtual_machine_images.get(location, publisher_name, offer, skus, version)
+      @client.get(provider_path('Microsoft.Compute',
+        "locations/#{location}/publishers/#{publisher_name}/artifacttypes/vmimage/offers/#{offer}/skus/#{skus}/versions/#{version}"),
+        api_version: API_VERSIONS[:compute])
     end
 
     def list_versions(location, publisher_name, offer, skus)
-      compute_client.virtual_machine_images.list(location, publisher_name, offer, skus)
+      @client.get_paged(provider_path('Microsoft.Compute',
+        "locations/#{location}/publishers/#{publisher_name}/artifacttypes/vmimage/offers/#{offer}/skus/#{skus}/versions"),
+        api_version: API_VERSIONS[:compute])
     end
 
     def list_custom_images
-      compute_client.images.list
+      @client.get_paged(provider_path('Microsoft.Compute', 'images'), api_version: API_VERSIONS[:compute])
     end
 
     def get_custom_image(rg_name, image_name)
-      compute_client.images.get(rg_name, image_name)
+      compute_get(rg_name, "images/#{image_name}")
     end
 
     def list_galleries
-      compute_client.galleries.list
+      @client.get_paged(provider_path('Microsoft.Compute', 'galleries'), api_version: API_VERSIONS[:compute])
     end
 
     def list_gallery_images(rg_name, gallery_name)
-      compute_client.gallery_images.list_by_gallery(rg_name, gallery_name)
+      @client.get_paged(rg_provider_path(rg_name, 'Microsoft.Compute', "galleries/#{gallery_name}/images"), api_version: API_VERSIONS[:compute])
     end
 
     def get_gallery_image(rg_name, gallery_name, gallery_image_name)
-      compute_client.gallery_images.get(rg_name, gallery_name, gallery_image_name)
+      compute_get(rg_name, "galleries/#{gallery_name}/images/#{gallery_image_name}")
     end
 
     def list_gallery_image_versions(rg_name, gallery_name, gallery_image_name)
-      compute_client.gallery_image_versions.list_by_gallery_image(rg_name, gallery_name, gallery_image_name)
+      @client.get_paged(rg_provider_path(rg_name, 'Microsoft.Compute', "galleries/#{gallery_name}/images/#{gallery_image_name}/versions"), api_version: API_VERSIONS[:compute])
     end
 
-    def get_storage_accts # rubocop:disable Naming/AccessorMethodName
-      result = storage_client.storage_accounts.list
-      result.value
+    def get_storage_accts
+      response = @client.get(provider_path('Microsoft.Storage', 'storageAccounts'), api_version: API_VERSIONS[:storage])
+      response.value || []
     end
 
     def create_or_update_vm(rg_name, vm_name, parameters)
-      compute_client.virtual_machines.create_or_update(rg_name, vm_name, parameters)
+      compute_put(rg_name, "virtualMachines/#{vm_name}", parameters)
     end
 
     def create_or_update_vm_extensions(rg_name, vm_name, vm_extension_name, extension_params)
-      compute_client.virtual_machine_extensions.create_or_update(rg_name,
-        vm_name,
-        vm_extension_name,
-        extension_params)
+      compute_put(rg_name, "virtualMachines/#{vm_name}/extensions/#{vm_extension_name}", extension_params)
     end
 
     def create_or_update_pip(rg_name, pip_name, parameters)
-      network_client.public_ipaddresses.create_or_update(rg_name, pip_name, parameters)
+      network_put(rg_name, "publicIPAddresses/#{pip_name}", parameters)
     end
 
     def create_or_update_nic(rg_name, nic_name, parameters)
-      network_client.network_interfaces.create_or_update(rg_name, nic_name, parameters)
+      network_put(rg_name, "networkInterfaces/#{nic_name}", parameters)
     end
 
     def delete_pip(rg_name, pip_name)
-      network_client.public_ipaddresses.delete(rg_name, pip_name)
+      network_delete(rg_name, "publicIPAddresses/#{pip_name}")
     end
 
     def delete_nic(rg_name, nic_name)
-      network_client.network_interfaces.delete(rg_name, nic_name)
+      network_delete(rg_name, "networkInterfaces/#{nic_name}")
     end
 
     def delete_vm(rg_name, vm_name)
-      compute_client.virtual_machines.delete(rg_name, vm_name)
+      compute_delete(rg_name, "virtualMachines/#{vm_name}")
     end
 
     def delete_disk(rg_name, disk_name)
-      compute_client.disks.delete(rg_name, disk_name)
+      @client.delete(rg_provider_path(rg_name, 'Microsoft.Compute', "disks/#{disk_name}"), api_version: API_VERSIONS[:disks])
     end
 
     def check_vm_status(rg_name, vm_name)
-      virtual_machine = compute_client.virtual_machines.get(rg_name, vm_name, expand: 'instanceView')
-      get_status(virtual_machine)
+      vm = @client.get(rg_provider_path(rg_name, 'Microsoft.Compute', "virtualMachines/#{vm_name}"), api_version: API_VERSIONS[:compute], params: { '$expand' => 'instanceView' })
+      get_status(vm)
     end
 
     def get_status(virtual_machine)
-      vm_statuses = virtual_machine.instance_view.statuses
-      vm_status = nil
-      vm_statuses.each do |status|
-        vm_status = status.code.split('/')[1] if status.code.include? 'PowerState'
+      statuses = virtual_machine.instance_view&.statuses || []
+      statuses.each do |status|
+        return status.code.split('/')[1] if status.code.include?('PowerState')
       end
-      vm_status
+      nil
     end
 
     def start_vm(rg_name, vm_name)
-      compute_client.virtual_machines.start(rg_name, vm_name)
+      compute_post(rg_name, "virtualMachines/#{vm_name}/start")
     end
 
     def stop_vm(rg_name, vm_name)
-      compute_client.virtual_machines.power_off(rg_name, vm_name)
-      compute_client.virtual_machines.deallocate(rg_name, vm_name)
+      compute_post(rg_name, "virtualMachines/#{vm_name}/powerOff")
+      compute_post(rg_name, "virtualMachines/#{vm_name}/deallocate")
     end
 
-    def self.gallery_caching(rg_name)
-      @gallery_caching ||= {}
-      @gallery_caching[rg_name] ||= {}
+    MAX_GALLERY_CACHE_SIZE = 100
+
+    def self.gallery_cache(subscription_id)
+      @gallery_cache ||= {}
+      @gallery_cache[subscription_id] ||= {}
+      @gallery_cache[subscription_id].shift if @gallery_cache[subscription_id].size > MAX_GALLERY_CACHE_SIZE
+      @gallery_cache[subscription_id]
     end
 
-    def actual_gallery_image_id(rg_name, image_id)
-      gallery_names = list_galleries.map(&:name)
-      return unless (gallery = gallery_names.first)
-
-      gallery_image = list_gallery_images(rg_name, gallery).detect { |image| image.name == image_id }
-      gallery_image&.id
+    def actual_gallery_image_id(_rg_name, image_id)
+      parts = image_id.split('/')
+      case parts.length
+      when 3
+        rg, gallery_name, image_name = parts
+        gallery_image = list_gallery_images(rg, gallery_name).detect { |img| img.name == image_name }
+        gallery_image&.id
+      when 2
+        gallery_name, image_name = parts
+        matches = list_galleries.select { |g| g.name == gallery_name }.filter_map do |gallery|
+          gallery_rg = gallery.resource_group || gallery.id&.split('/')&.dig(4)
+          list_gallery_images(gallery_rg, gallery_name).detect { |img| img.name == image_name }
+        end
+        raise ArgumentError, "Gallery image '#{image_id}' is ambiguous across resource groups; use gallery://<resource_group>/#{image_id}" if matches.length > 1
+        matches.first&.id
+      when 1
+        image_name = parts[0]
+        matches = list_galleries.filter_map do |gallery|
+          gallery_rg = gallery.resource_group || gallery.id&.split('/')&.dig(4)
+          list_gallery_images(gallery_rg, gallery.name).detect { |img| img.name == image_name }
+        end
+        raise ArgumentError, "Gallery image '#{image_name}' is ambiguous; use gallery://<resource_group>/<gallery>/#{image_name}" if matches.length > 1
+        matches.first&.id
+      end
     end
 
-    def fetch_gallery_image_id(rg_name, image_id)
-      AzureSdkAdapter.gallery_caching(rg_name)[image_id] ||= actual_gallery_image_id(rg_name, image_id)
+    def fetch_gallery_image_id(_rg_name, image_id)
+      AzureSdkAdapter.gallery_cache(@sub_id)[image_id] ||= actual_gallery_image_id(nil, image_id)
+    end
+
+    private
+
+    def sub_path(resource)
+      "/subscriptions/#{@sub_id}/#{resource}"
+    end
+
+    def provider_path(provider, resource)
+      "/subscriptions/#{@sub_id}/providers/#{provider}/#{resource}"
+    end
+
+    def rg_provider_path(rg_name, provider, resource)
+      "/subscriptions/#{@sub_id}/resourceGroups/#{rg_name}/providers/#{provider}/#{resource}"
+    end
+
+    def compute_get(rg_name, resource)
+      @client.get(rg_provider_path(rg_name, 'Microsoft.Compute', resource), api_version: API_VERSIONS[:compute])
+    end
+
+    def compute_put(rg_name, resource, body)
+      @client.put(rg_provider_path(rg_name, 'Microsoft.Compute', resource), body, api_version: API_VERSIONS[:compute])
+    end
+
+    def compute_post(rg_name, resource)
+      @client.post(rg_provider_path(rg_name, 'Microsoft.Compute', resource), nil, api_version: API_VERSIONS[:compute])
+    end
+
+    def compute_delete(rg_name, resource)
+      @client.delete(rg_provider_path(rg_name, 'Microsoft.Compute', resource), api_version: API_VERSIONS[:compute])
+    end
+
+    def network_get(rg_name, resource)
+      @client.get(rg_provider_path(rg_name, 'Microsoft.Network', resource), api_version: API_VERSIONS[:network])
+    end
+
+    def network_put(rg_name, resource, body)
+      @client.put(rg_provider_path(rg_name, 'Microsoft.Network', resource), body, api_version: API_VERSIONS[:network])
+    end
+
+    def network_delete(rg_name, resource)
+      @client.delete(rg_provider_path(rg_name, 'Microsoft.Network', resource), api_version: API_VERSIONS[:network])
     end
   end
 end
