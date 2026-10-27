@@ -92,8 +92,7 @@ module ForemanAzureRm
     end
 
     def rgs
-      rgs = resource_client.resource_groups.list
-      rgs.map(&:name)
+      resource_client.resource_groups.list
     end
 
     def vnets

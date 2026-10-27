@@ -32,8 +32,13 @@ class ForemanAzureRmTest < ActiveSupport::TestCase
   test "list all resource groups" do
     mock_resource_client = mock('mock_resource_client')
     @mock_sdk.stubs(:resource_client).returns(mock_resource_client)
-    @mock_sdk.stubs(:rgs).returns(['rg1', 'rg2', 'rg3'])
-    assert ['rg1', 'rg2', 'rg3'], @azure_cr.resource_groups
+    rg1 = stub(:name => 'rg1', :id => '/subscriptions/sub/resourceGroups/rg1', :location => 'eastus')
+    rg2 = stub(:name => 'rg2', :id => '/subscriptions/sub/resourceGroups/rg2', :location => 'eastus')
+    rg3 = stub(:name => 'rg3', :id => '/subscriptions/sub/resourceGroups/rg3', :location => 'westus')
+    @mock_sdk.stubs(:rgs).returns([rg1, rg2, rg3])
+    assert_equal ['rg1', 'rg2', 'rg3'], @azure_cr.resource_groups
+    assert_equal 3, @azure_cr.available_resource_groups.size
+    assert_equal 'eastus', @azure_cr.available_resource_groups.first.location
   end
 
   context 'sdk access' do

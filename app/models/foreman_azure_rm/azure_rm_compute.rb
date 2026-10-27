@@ -154,6 +154,38 @@ module ForemanAzureRm
         _("%{vm_size} VM Size") % {:vm_size => vm_size}
     end
 
+    def network_interface_details
+      interfaces.flat_map do |nic|
+        nic.ip_configurations.map do |config|
+          public_ip = nil
+          if config.public_ipaddress.present?
+            ip_id   = config.public_ipaddress.id
+            ip_rg   = ip_id.split('/')[4]
+            ip_name = ip_id.split('/')[-1]
+            public_ip = sdk.public_ip(ip_rg, ip_name).ip_address
+          end
+          OpenStruct.new(
+            nic_name:   nic.name,
+            private_ip: config.private_ipaddress,
+            public_ip:  public_ip,
+            primary:    config.primary
+          )
+        end
+      end
+    end
+
+    def location
+      @azure_vm.location
+    end
+
+    def os_disk_name
+      @azure_vm.storage_profile.os_disk.name
+    end
+
+    def vm_tags
+      @azure_vm.tags
+    end
+
     # Following properties are for AzureRm
     # These are not part of Foreman's interface
 

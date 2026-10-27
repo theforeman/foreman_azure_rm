@@ -1,4 +1,4 @@
-<% title @vm.azure_vm.name %>
+<% title @vm.name %>
 <div class='col-md-12'>
   <table class="<%= table_css_classes %>">
     <thead>
@@ -6,25 +6,162 @@
     </thead>
     <tbody>
       <tr>
-        <td>VM Size</td>
-        <td><%=@vm.vm_size%></td>
+        <td><%= _('VM Size') %></td>
+        <td><%= @vm.vm_size %></td>
       </tr>
       <tr>
-        <td>Location</td>
-        <td><%=@vm.azure_vm.location%></td>
+        <td><%= _('Resource Group') %></td>
+        <td><%= @vm.resource_group %></td>
       </tr>
       <tr>
-        <td>Platform</td>
-        <td><%=@vm.azure_vm.storage_profile.os_disk.os_type%></td>
+        <td><%= _('Location') %></td>
+        <td><%= @vm.location %></td>
       </tr>
       <tr>
-        <td>Public IP address</td>
-        <td><%=@vm.public_ip_address%></td>
+        <td><%= _('Platform') %></td>
+        <td><%= @vm.platform %></td>
       </tr>
       <tr>
-        <td>Private IP address</td>
-        <td><%=@vm.private_ip_address%></td>
+        <td><%= _('State') %></td>
+        <td><span <%= vm_power_class(@vm.ready?) %>><%= vm_state(@vm) %></span></td>
+      </tr>
+      <tr>
+        <td><%= _('Public IP Address') %></td>
+        <td><%= @vm.public_ip_address %></td>
+      </tr>
+      <tr>
+        <td><%= _('Private IP Address') %></td>
+        <td><%= @vm.private_ip_address %></td>
+      </tr>
+      <tr>
+        <td><%= _('Image') %></td>
+        <td><%= @vm.image_uuid %></td>
       </tr>
     </tbody>
   </table>
+
+  <table class="<%= table_css_classes %>">
+    <thead>
+    <tr><th colspan="2"><%=_('OS Disk') %></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= _('OS Disk Name') %></td>
+        <td><%= @vm.os_disk_name %></td>
+      </tr>
+      <tr>
+        <td><%= _('OS Disk Size (GB)') %></td>
+        <td><%= @vm.os_disk_size_gb %></td>
+      </tr>
+      <tr>
+        <td><%= _('OS Disk Caching') %></td>
+        <td><%= @vm.os_disk_caching %></td>
+      </tr>
+      <tr>
+        <td><%= _('Storage Account Type') %></td>
+        <td><%= @vm.premium_os_disk %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <% if @vm.data_disks.present? %>
+    <table class="<%= table_css_classes %>">
+      <thead>
+      <tr>
+        <th><%= _('Data Disk Name') %></th>
+        <th><%= _('Size (GB)') %></th>
+        <th><%= _('Caching') %></th>
+        <th><%= _('LUN') %></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @vm.data_disks.each do |disk| %>
+          <tr>
+            <td><%= disk.name %></td>
+            <td><%= disk.disk_size_gb %></td>
+            <td><%= disk.caching %></td>
+            <td><%= disk.lun %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @vm.interfaces.present? %>
+    <table class="<%= table_css_classes %>">
+      <thead>
+      <tr>
+        <th><%= _('Network Interface') %></th>
+        <th><%= _('Private IP') %></th>
+        <th><%= _('Public IP') %></th>
+        <th><%= _('Primary') %></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @vm.network_interface_details.each do |detail| %>
+          <tr>
+            <td><%= detail.nic_name %></td>
+            <td><%= detail.private_ip %></td>
+            <td><%= detail.public_ip %></td>
+            <td><%= detail.primary ? _('Yes') : _('No') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @vm.vm_tags.present? %>
+    <table class="<%= table_css_classes %>">
+      <thead>
+      <tr>
+        <th><%= _('Tag') %></th>
+        <th><%= _('Value') %></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @vm.vm_tags.each do |key, value| %>
+          <tr>
+            <td><%= key %></td>
+            <td><%= value %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @vm.vm_extension.present? %>
+    <table class="<%= table_css_classes %>">
+      <thead>
+      <tr><th colspan="2"><%= _('VM Extensions') %></th></tr>
+      </thead>
+      <tbody>
+        <% if @vm.script_command.present? %>
+          <tr>
+            <td><%= _('Script Command') %></td>
+            <td><%= @vm.script_command %></td>
+          </tr>
+        <% end %>
+        <% if @vm.script_uris.present? %>
+          <tr>
+            <td><%= _('Script URIs') %></td>
+            <td><%= Array(@vm.script_uris).join(', ') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @vm.nvidia_gpu_extension %>
+    <table class="<%= table_css_classes %>">
+      <thead>
+      <tr><th colspan="2"><%= _('GPU Extension') %></th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= _('NVIDIA GPU Driver') %></td>
+          <td><%= _('Installed') %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
 </div>
